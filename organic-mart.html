@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organic Mart | Verified Organic B2B Marketplace</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .organic-green { color: #2D5A27; }
+        .bg-organic-green { background-color: #2D5A27; }
+        .border-organic-green { border-color: #2D5A27; }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold organic-green flex items-center tracking-tight">
+                        <i class="fas fa-leaf mr-2"></i> BHARAT ORGANIC MART
+                    </span>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#" class="text-gray-600 hover:text-green-700 font-medium">Browse Categories</a>
+                    <a href="#verification" class="text-gray-600 hover:text-green-700 font-medium">Verify Scope Certificate</a>
+                    <a href="#traceability" class="text-gray-600 hover:text-green-700 font-medium">Traceability Tool</a>
+                    <a href="#" class="bg-organic-green text-white px-6 py-2 rounded-full font-semibold hover:bg-green-800 transition">FPO/Farmer Login</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-green-50 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
+                The Trusted Bridge for <span class="organic-green">Bharat's Organic Harvest</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+                Empowering FPOs and Growers with Direct Industry Access. Full Compliance for NPOP, NOP, COR, EU, and JAS Standards.
+            </p>
+
+            <!-- Verification Search -->
+            <div id="verification" class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-6 border-2 border-green-100">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex-1">
+                        <label class="block text-left text-xs font-bold text-gray-400 uppercase mb-1">Search Organic Crop</label>
+                        <input type="text" placeholder="e.g. Organic Soya, Turmeric..." class="w-full border-b-2 border-gray-100 py-2 outline-none focus:border-green-500 transition">
+                    </div>
+                    <div class="flex-1">
+                        <label class="block text-left text-xs font-bold text-gray-400 uppercase mb-1">Required Certification</label>
+                        <select class="w-full border-b-2 border-gray-100 py-2 outline-none focus:border-green-500 bg-transparent">
+                            <option>All Standards</option>
+                            <option>NPOP (India)</option>
+                            <option>USDA-NOP</option>
+                            <option>EU Organic</option>
+                            <option>COR (Canada)</option>
+                            <option>JAS (Japan)</option>
+                        </select>
+                    </div>
+                    <button class="bg-organic-green text-white px-10 py-4 rounded-xl font-bold hover:bg-green-800 transition shadow-lg">
+                        FIND VERIFIED SOURCE
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tech Features Section -->
+    <section id="traceability" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">End-to-End Organic Compliance</h2>
+                <p class="text-gray-500">We don't just connect; we validate the entire chain.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="p-6 border rounded-2xl hover:border-green-500 transition">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-file-contract organic-green"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Scope Verification</h3>
+                    <p class="text-sm text-gray-500">Real-time check of FPO/Farmer group scope certificates and validity periods.</p>
+                </div>
+                <div class="p-6 border rounded-2xl hover:border-green-500 transition">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-microscope organic-green"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Pre-Loading Tests</h3>
+                    <p class="text-sm text-gray-500">Mandatory lab testing for pesticide residues before material leaves the farm.</p>
+                </div>
+                <div class="p-6 border rounded-2xl hover:border-green-500 transition">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-route organic-green"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Digital Traceability</h3>
+                    <p class="text-sm text-gray-500">Track every MT of goods from farm gate to factory with TC mapping.</p>
+                </div>
+                <div class="p-6 border rounded-2xl hover:border-green-500 transition">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-clipboard-check organic-green"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Internal Audit Support</h3>
+                    <p class="text-sm text-gray-500">Assisting new farmers and FPOs in maintaining ICS and clearing audits.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Markers -->
+    <section class="py-12 bg-white border-b">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div>
+                <i class="fas fa-certificate text-3xl organic-green mb-3"></i>
+                <h3 class="font-bold text-lg">100% Certified</h3>
+                <p class="text-gray-500 text-sm">Every seller is verified by our Food Tech team</p>
+            </div>
+            <div>
+                <i class="fas fa-shield-alt text-3xl organic-green mb-3"></i>
+                <h3 class="font-bold text-lg">Quality Guaranteed</h3>
+                <p class="text-gray-500 text-sm">Adhering to ISO 22000 & HACCP standards</p>
+            </div>
+            <div>
+                <i class="fas fa-handshake text-3xl organic-green mb-3"></i>
+                <h3 class="font-bold text-lg">Direct From Source</h3>
+                <p class="text-gray-500 text-sm">Skip the middleman, buy from the farm/factory</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="py-16 max-w-7xl mx-auto px-4">
+        <div class="flex justify-between items-end mb-8">
+            <h2 class="text-3xl font-bold text-gray-900">Trending Categories</h2>
+            <a href="#" class="organic-green font-semibold border-b-2 border-organic-green">View All</a>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <!-- Category Card -->
+            <div class="bg-white rounded-xl shadow-sm border p-4 hover:shadow-md transition cursor-pointer text-center group">
+                <div class="h-40 bg-gray-100 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+                    <i class="fas fa-seedling text-4xl text-gray-300 group-hover:scale-110 transition"></i>
+                </div>
+                <h4 class="font-bold">Organic Grains</h4>
+                <p class="text-xs text-gray-400">120+ Suppliers</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm border p-4 hover:shadow-md transition cursor-pointer text-center group">
+                <div class="h-40 bg-gray-100 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+                    <i class="fas fa-mortar-pestle text-4xl text-gray-300 group-hover:scale-110 transition"></i>
+                </div>
+                <h4 class="font-bold">Pure Spices</h4>
+                <p class="text-xs text-gray-400">85+ Suppliers</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm border p-4 hover:shadow-md transition cursor-pointer text-center group">
+                <div class="h-40 bg-gray-100 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+                    <i class="fas fa-mug-hot text-4xl text-gray-300 group-hover:scale-110 transition"></i>
+                </div>
+                <h4 class="font-bold">Organic Tea/Coffee</h4>
+                <p class="text-xs text-gray-400">50+ Suppliers</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm border p-4 hover:shadow-md transition cursor-pointer text-center group">
+                <div class="h-40 bg-gray-100 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+                    <i class="fas fa-oil-can text-4xl text-gray-300 group-hover:scale-110 transition"></i>
+                </div>
+                <h4 class="font-bold">Cold Pressed Oils</h4>
+                <p class="text-xs text-gray-400">65+ Suppliers</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expert CTA -->
+    <section class="bg-gray-900 py-20 text-white rounded-3xl mx-4 mb-20">
+        <div class="max-w-4xl mx-auto text-center px-4">
+            <h2 class="text-3xl font-bold mb-6">Are you a Certified Organic Producer?</h2>
+            <p class="text-gray-400 mb-10">Join the only platform that values your certifications as much as your products. Get discovered by premium buyers worldwide.</p>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <button class="bg-white text-black px-10 py-4 rounded-full font-bold hover:bg-gray-200 transition">Start Selling Today</button>
+                <button class="border border-white px-10 py-4 rounded-full font-bold hover:bg-white hover:text-black transition">Verify Your Brand</button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-100 py-12">
+        <div class="max-w-7xl mx-auto px-4 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 Organic Mart. Powered by Food Tech Standards.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
