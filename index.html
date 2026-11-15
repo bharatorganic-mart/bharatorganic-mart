@@ -16,16 +16,27 @@
 </head>
 <body class="bg-gray-50 font-sans text-gray-900">
 
-    <div class="flex h-screen overflow-hidden">
-        <!-- Sidebar Navigation (All 9 Modules) -->
-        <aside class="w-64 bg-white border-r flex flex-col">
-            <div class="p-4 flex justify-center">
-                <img src="Bharat Organic Farming Emblem.png" alt="BHARAT ORGANIC MART Logo" class="w-52 h-52 object-contain mx-auto">
+    <div class="flex flex-col h-screen overflow-hidden">
+        <!-- Top Brand Header (Logo + Name) -->
+        <header class="bg-white border-b px-6 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="Logo 1.png" alt="BHARAT ORGANIC MART Logo" class="w-12 h-12 object-contain">
+                <div>
+                    <h1 class="text-lg font-bold text-organic leading-tight">BHARAT ORGANIC MART</h1>
+                    <p class="text-[10px] text-gray-400 uppercase tracking-wider">Supply Marketplace</p>
+                </div>
             </div>
+            <button onclick="toggleSidebar()" class="md:hidden text-gray-600 p-2">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </header>
 
+        <div class="flex flex-1 overflow-hidden">
+        <!-- Sidebar Navigation (All 9 Modules) -->
+        <aside id="sidebar" class="w-64 bg-white border-r flex flex-col">
             <nav class="flex-1 px-4 space-y-1 overflow-y-auto pb-10">
                 <p class="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2">Navigation</p>
-                <button onclick="showModule('home')" id="btn-home" class="sidebar-link active w-full text-left px-3 py-2 rounded-lg flex items-center text-sm font-medium">
+                <button onclick="showModule('home'); closeSidebar()" id="btn-home" class="sidebar-link active w-full text-left px-3 py-2 rounded-lg flex items-center text-sm font-medium">
                     <i class="fas fa-home w-5 mr-2"></i> Home
                 </button>
 
@@ -72,6 +83,11 @@
                     <i class="fas fa-route w-5 mr-2"></i> Lot Traceability
                 </button>
 
+                <p class="text-[10px] font-bold text-gray-400 uppercase px-2 mt-6 mb-2">06 · Admit & Registration</p>
+                <button onclick="showModule('admit')" id="btn-admit" class="sidebar-link w-full text-left px-3 py-2 rounded-lg flex items-center text-sm font-medium">
+                    <i class="fas fa-ticket-alt w-5 mr-2"></i> Admit & Registration
+                </button>
+
                 <p class="text-[10px] font-bold text-gray-400 uppercase px-2 mt-6 mb-2">06 · Knowledge</p>
                 <button onclick="showModule('knowledge')" id="btn-knowledge" class="sidebar-link w-full text-left px-3 py-2 rounded-lg flex items-center text-sm font-medium">
                     <i class="fas fa-book-open w-5 mr-2"></i> Knowledge Centre
@@ -98,6 +114,10 @@
         <main class="flex-1 flex flex-col h-full bg-gray-50">
             <!-- Top Header -->
             <header class="h-16 bg-white border-b flex items-center justify-between px-8">
+                <div class="flex items-center gap-3 md:hidden mr-2">
+                    <img src="Logo 1.png" alt="BHARAT ORGANIC MART Logo" class="w-9 h-9 object-contain">
+                    <span class="font-bold text-organic text-sm">BHARAT ORGANIC MART</span>
+                </div>
                 <h1 id="module-title" class="text-lg font-bold">Supply Marketplace</h1>
                 <div class="flex items-center space-x-4">
                     <div class="relative">
@@ -491,6 +511,60 @@
                         </table>
                     </div>
                 </section>
+
+                <!-- MODULE 10: ADMIT & REGISTRATION PORTAL -->
+                <section id="module-admit" class="hidden space-y-6">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-2xl font-bold text-organic">Admit & Registration Portal</h2>
+                        <div class="flex gap-2">
+                            <button onclick="openModal('regModal')" class="bg-organic text-white px-6 py-2 rounded-lg font-bold hover:bg-green-800 transition">+ New Registration</button>
+                            <button onclick="openModal('admitModal')" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-blue-700 transition">+ Issue Admit Card</button>
+                        </div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="bg-white p-5 rounded-2xl border shadow-sm">
+                            <p class="text-[10px] text-gray-400 uppercase font-bold">Total Registered</p>
+                            <p class="text-3xl font-bold text-gray-900" id="statTotal">0</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border shadow-sm">
+                            <p class="text-[10px] text-gray-400 uppercase font-bold">Admit Cards Issued</p>
+                            <p class="text-3xl font-bold text-green-600" id="statIssued">0</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border shadow-sm">
+                            <p class="text-[10px] text-gray-400 uppercase font-bold">Pending Verification</p>
+                            <p class="text-3xl font-bold text-yellow-600" id="statPending">0</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border shadow-sm">
+                            <p class="text-[10px] text-gray-400 uppercase font-bold">Rejected</p>
+                            <p class="text-3xl font-bold text-red-600" id="statRejected">0</p>
+                        </div>
+                    </div>
+
+                    <!-- Registration Table -->
+                    <div class="bg-white rounded-3xl border overflow-hidden shadow-sm">
+                        <div class="p-4 border-b flex justify-between items-center">
+                            <h3 class="font-bold">Registration Queue</h3>
+                            <input id="regSearch" type="text" placeholder="Search name, ID, or category..." class="border rounded-lg px-3 py-2 text-sm w-64 focus:outline-none focus:ring-2 ring-green-500" oninput="filterRegTable(this.value)">
+                        </div>
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50 text-[10px] uppercase font-bold text-gray-400">
+                                <tr>
+                                    <th class="px-6 py-4">Reg ID</th>
+                                    <th class="px-6 py-4">Applicant Name</th>
+                                    <th class="px-6 py-4">Category</th>
+                                    <th class="px-6 py-4">Contact</th>
+                                    <th class="px-6 py-4">Status</th>
+                                    <th class="px-6 py-4">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="regTableBody" class="divide-y text-sm">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
             </div>
         </main>
     </div>
@@ -523,6 +597,78 @@
             <h3 class="text-xl font-bold mb-2">Connect with Producer</h3>
             <p class="text-sm text-gray-500 mb-6">Your inquiry has been sent. The producer will contact you within 24 hours.</p>
             <button onclick="closeModal('connectModal')" class="bg-organic text-white px-8 py-2 rounded-full font-bold hover:bg-green-800">Done</button>
+        </div>
+    </div>
+
+    <!-- Modal: New Registration -->
+    <div id="regModal" class="hidden fixed inset-0 bg-black/50 z-50 items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8">
+            <h3 class="text-xl font-bold mb-4">New Registration</h3>
+            <form id="regForm" class="space-y-4" onsubmit="submitRegistration(event)">
+                <div class="grid grid-cols-2 gap-4">
+                    <input id="regName" type="text" placeholder="Full Name *" class="w-full border-b-2 border-gray-100 py-2 outline-none focus:border-green-500">
+                    <input id="regMobile" type="text" placeholder="Mobile / Phone *" class="w-full border-b-2 border-gray-100 py-2 outline-none focus:border-green-500">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <input id="regEmail" type="email" placeholder="Email" class="w-full border-b-2 border-gray-100 py-2 outline-none focus:border-green-500">
+                    <select id="regCategory" class="w-full border-b-2 border-gray-100 py-2 outline-none focus:border-green-500 bg-white">
+                        <option>Farmers</option>
+                        <option>FPOs & Grower Groups</option>
+                        <option>Processors & Manufacturers</option>
+                        <option>Buyers & Importers</option>
+                        <option>Exporters</option>
+                        <option>Service Providers</option>
+                    </select>
+                </div>
+                <input id="regAddress" type="text" placeholder="Address / Farm Location" class="w-full border-b-2 border-gray-100 py-2 outline-none focus:border-green-500">
+                <div class="grid grid-cols-2 gap-4">
+                    <input id="regAcreage" type="text" placeholder="Land / Farm Size (Acres)" class="w-full border-b-2 border-gray-100 py-2 outline-none focus:border-green-500">
+                    <input id="regCert" type="text" placeholder="Certification Type (NPOP/NOP/EU)" class="w-full border-b-2 border-gray-100 py-2 outline-none focus:border-green-500">
+                </div>
+                <div class="flex justify-end gap-3 pt-4">
+                    <button type="button" onclick="closeModal('regModal')" class="px-4 py-2 text-gray-500 font-medium">Cancel</button>
+                    <button type="submit" class="bg-organic text-white px-6 py-2 rounded-lg font-bold hover:bg-green-800">Submit Registration</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Issue Admit Card -->
+    <div id="admitModal" class="hidden fixed inset-0 bg-black/50 z-50 items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8">
+            <h3 class="text-xl font-bold mb-4">Issue Admit Card</h3>
+            <form id="admitForm" class="space-y-4" onsubmit="submitAdmitCard(event)">
+                <select id="admitRegId" class="w-full border-b-2 border-gray-100 py-2 outline-none focus:border-green-500 bg-white">
+                    <option value="">Select Registered Applicant...</option>
+                </select>
+                <div class="grid grid-cols-2 gap-4">
+                    <input id="admitExamDate" type="date" class="w-full border-b-2 border-gray-100 py-2 outline-none focus:border-green-500">
+                    <input id="admitExamTime" type="time" class="w-full border-b-2 border-gray-100 py-2 outline-none focus:border-green-500">
+                </div>
+                <input id="admitVenue" type="text" placeholder="Exam / Verification Venue *" class="w-full border-b-2 border-gray-100 py-2 outline-none focus:border-green-500">
+                <input id="admitReportNo" type="text" placeholder="Lab Report / Reference No." class="w-full border-b-2 border-gray-100 py-2 outline-none focus:border-green-500">
+                <div class="flex justify-end gap-3 pt-4">
+                    <button type="button" onclick="closeModal('admitModal')" class="px-4 py-2 text-gray-500 font-medium">Cancel</button>
+                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-blue-700">Generate Admit Card</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Admit Card Preview -->
+    <div id="admitPreviewModal" class="hidden fixed inset-0 bg-black/50 z-50 items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-8">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Admit Card Preview</h3>
+                <button onclick="closeModal('admitPreviewModal')" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+            </div>
+            <div id="admitPreviewContent" class="border-2 border-dashed border-green-200 p-6 rounded-xl bg-green-50/30">
+                <!-- Populated by JS -->
+            </div>
+            <div class="flex justify-end gap-3 mt-6">
+                <button onclick="window.print()" class="bg-organic text-white px-6 py-2 rounded-lg font-bold hover:bg-green-800">Print Admit Card</button>
+                <button onclick="closeModal('admitPreviewModal')" class="px-4 py-2 text-gray-500 font-medium">Close</button>
+            </div>
         </div>
     </div>
 
@@ -660,7 +806,8 @@ function openModal(id) {
                 'lab': 'Lab Testing & Inspection',
                 'managed': 'Managed Trade',
                 'knowledge': 'Knowledge Centre',
-                'admin': 'Admin Verification Queue'
+                'admin': 'Admin Verification Queue',
+                'admit': 'Admit & Registration Portal'
             };
             document.getElementById('module-title').innerText = titles[moduleId];
 
