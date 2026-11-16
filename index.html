@@ -12,8 +12,9 @@
         .text-organic { color: var(--organic-green); }
         .border-organic { border-color: var(--organic-green); }
 
-        /* Fixed Mega Menu Positioning across viewport */
+        /* Dropdown fix: add invisible hover bridge and robust targeting */
         nav { position: relative; width: 100%; }
+
         .mega-menu {
             display: none;
             position: absolute;
@@ -25,10 +26,18 @@
             box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
             z-index: 1000;
             top: 100%;
+            padding-top: 10px; /* Bridge gap between button and menu */
         }
 
-        /* Make sure parent relative container spans full width for centering math */
-        nav > div { position: static; }
+        /* Add a pseudo-element bridge so mouse can travel to dropdown without closing */
+        .group::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -15px;
+            height: 20px;
+        }
 
         .group:hover .mega-menu { display: block; }
         .group:hover > button {
@@ -74,7 +83,7 @@
             <a href="#" class="w-full md:w-auto text-center text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2">Home</a>
 
             <!-- A. FIND ORGANIC PARTNERS -->
-            <div class="group w-full md:w-auto text-center">
+            <div class="group relative w-full md:w-auto text-center">
                 <button class="w-full md:w-auto text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center justify-center gap-1">Find Organic Partners <i class="fas fa-chevron-down text-[10px]"></i></button>
                 <div class="mega-menu py-10 px-8 text-left">
                     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -111,7 +120,7 @@
             </div>
 
             <!-- B. MARKETPLACE -->
-            <div class="group w-full md:w-auto text-center">
+            <div class="group relative w-full md:w-auto text-center">
                 <button class="w-full md:w-auto text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center justify-center gap-1">Marketplace <i class="fas fa-chevron-down text-[10px]"></i></button>
                 <div class="mega-menu py-10 px-8 text-left">
                     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -140,7 +149,7 @@
             </div>
 
             <!-- C. CERTIFICATION -->
-            <div class="group w-full md:w-auto text-center">
+            <div class="group relative w-full md:w-auto text-center">
                 <button class="w-full md:w-auto text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center justify-center gap-1">Certification <i class="fas fa-chevron-down text-[10px]"></i></button>
                 <div class="mega-menu py-10 px-8 text-left">
                     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -170,7 +179,7 @@
             </div>
 
             <!-- D. LEARNING CENTRE -->
-            <div class="group w-full md:w-auto text-center">
+            <div class="group relative w-full md:w-auto text-center">
                 <button class="w-full md:w-auto text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center justify-center gap-1">Learning Centre <i class="fas fa-chevron-down text-[10px]"></i></button>
                 <div class="mega-menu py-10 px-8 text-left">
                     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -211,7 +220,7 @@
             </div>
 
             <!-- E. SERVICES -->
-            <div class="group w-full md:w-auto text-center">
+            <div class="group relative w-full md:w-auto text-center">
                 <button class="w-full md:w-auto text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center justify-center gap-1">Services <i class="fas fa-chevron-down text-[10px]"></i></button>
                 <div class="mega-menu py-10 px-8 text-left">
                     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
