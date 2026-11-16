@@ -24,7 +24,7 @@
             display: none;
             position: absolute;
             left: 0;
-            top: 100%;
+            top: calc(100% - 1px);
             width: 100vw;
             max-width: 100%;
             box-sizing: border-box;
@@ -36,14 +36,10 @@
             padding-bottom: 30px;
         }
 
-        /* Invisible hover bridge to prevent closing when moving cursor down */
-        .group::after {
-            content: '';
-            position: absolute;
-            left: -9999px;
-            right: -9999px;
-            bottom: -15px;
-            height: 25px;
+        /* Active-state highlight is driven by JS via the 'is-open' class */
+        .group.is-open > button {
+            color: var(--organic-green) !important;
+            border-bottom-color: var(--organic-green) !important;
         }
 
         .group:hover .mega-menu { display: block; }
@@ -260,12 +256,68 @@
         </div>
     </nav>
 
-    <!-- Script for mobile toggle -->
+    <!-- Script for mobile toggle + robust hover management -->
     <script>
         function toggleMobileNav() {
             const nav = document.getElementById('mainNav');
             nav.classList.toggle('hidden');
         }
+
+        (function () {
+            var groups = document.querySelectorAll('.group');
+            var closeTimer = null;
+            var CLOSE_DELAY = 200;
+
+            function clearTimer() {
+                if (closeTimer) {
+                    clearTimeout(closeTimer);
+                    closeTimer = null;
+                }
+            }
+
+            function openMenu(group) {
+                clearTimer();
+                groups.forEach(function (g) {
+                    g.classList.remove('is-open');
+                    var m = g.querySelector('.mega-menu');
+                    if (m) m.style.display = 'none';
+                });
+                group.classList.add('is-open');
+                var menu = group.querySelector('.mega-menu');
+                if (menu) menu.style.display = 'block';
+            }
+
+            function closeMenu(group) {
+                clearTimer();
+                group.classList.remove('is-open');
+                var menu = group.querySelector('.mega-menu');
+                if (menu) menu.style.display = 'none';
+            }
+
+            groups.forEach(function (group) {
+                var trigger = group.querySelector('button, a');
+                var menu = group.querySelector('.mega-menu');
+
+                // Pointer enters the trigger or the dropdown panel -> open
+                group.addEventListener('pointerenter', function () {
+                    clearTimer();
+                    openMenu(group);
+                });
+
+                // Pointer leaves the trigger OR the panel -> schedule close
+                group.addEventListener('pointerleave', function () {
+                    clearTimer();
+                    closeTimer = setTimeout(function () {
+                        closeMenu(group);
+                    }, CLOSE_DELAY);
+                });
+            });
+
+            // Cancel pending close when pointer re-enters the whole nav area
+            document.getElementById('mainNav').addEventListener('pointerenter', function () {
+                clearTimer();
+            });
+        })();
     </script>
 
     <!-- 3. HERO -->
