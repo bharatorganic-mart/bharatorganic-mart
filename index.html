@@ -22,51 +22,62 @@
 
     <!-- 1. HEADER -->
     <header class="bg-white py-6 border-b">
-        <div class="max-w-7xl mx-auto px-6 flex items-center">
-            <div class="w-1/4">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <!-- Left: Logo -->
+            <div class="flex items-center justify-start w-full md:w-1/4">
                 <img src="Logo 1.png" alt="BHARAT ORGANIC MART Logo" class="h-16 w-auto object-contain">
             </div>
-            <div class="w-2/4 text-center">
-                <h1 class="text-3xl font-bold text-organic leading-tight uppercase tracking-tight">BHARAT ORGANIC MART</h1>
-                <p class="text-sm text-gray-500 uppercase tracking-widest mt-1">INDIA'S ORGANIC SUPPLY MARKETPLACE</p>
+            <!-- Center: Title -->
+            <div class="w-full md:w-2/4 text-center">
+                <h1 class="text-2xl md:text-3xl font-bold text-organic leading-tight uppercase tracking-tight">BHARAT ORGANIC MART</h1>
+                <p class="text-xs md:text-sm text-gray-500 uppercase tracking-widest mt-1">INDIA'S ORGANIC SUPPLY MARKETPLACE</p>
             </div>
-            <div class="w-1/4"></div>
+            <!-- Right spacer -->
+            <div class="hidden md:block w-1/4"></div>
         </div>
     </header>
 
+    <!-- Mobile Menu Toggle Button -->
+    <div class="md:hidden bg-white px-6 py-3 border-b flex justify-between items-center">
+        <span class="text-xs font-bold uppercase text-organic">Navigation Menu</span>
+        <button onclick="toggleMobileNav()" class="text-gray-700 focus:outline-none">
+            <i class="fas fa-bars text-xl"></i>
+        </button>
+    </div>
+
     <!-- 2. NAV -->
-    <nav class="bg-white border-b shadow-sm sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 flex items-center justify-center space-x-8 py-4">
-            <a href="#" class="text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2">Home</a>
+    <nav id="mainNav" class="hidden md:block bg-white border-b shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-center md:space-x-8 py-2 md:py-4">
+            <a href="#" class="w-full md:w-auto text-center text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2">Home</a>
 
             <!-- Find Organic Partners -->
-            <div class="group relative">
-                <button class="text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center gap-1">Find Organic Partners <i class="fas fa-chevron-down text-[10px]"></i></button>
-                <div class="mega-menu p-10">
-                    <div class="max-w-7xl mx-auto grid grid-cols-4 gap-10">
+            <div class="group relative w-full md:w-auto text-center">
+                <button class="w-full md:w-auto text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center justify-center gap-1">Find Organic Partners <i class="fas fa-chevron-down text-[10px]"></i></button>
+                <div class="mega-menu p-6 md:p-10 text-left">
+                    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-10">
                         <div>
-                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Farmers</h4>
+                            <h4 class="font-bold text-organic uppercase mb-3 text-xs tracking-wider border-b pb-2">Farmers</h4>
                             <ul class="space-y-2 text-sm">
                                 <li><a href="#" class="text-gray-600 hover:text-organic block py-1">Farmer Directory</a></li>
                                 <li><a href="#" class="text-gray-600 hover:text-organic block py-1">FPOs & Grower Groups</a></li>
                             </ul>
                         </div>
                         <div>
-                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Suppliers</h4>
+                            <h4 class="font-bold text-organic uppercase mb-3 text-xs tracking-wider border-b pb-2">Suppliers</h4>
                             <ul class="space-y-2 text-sm">
                                 <li><a href="#" class="text-gray-600 hover:text-organic block py-1">Processors & Manufacturers</a></li>
                                 <li><a href="#" class="text-gray-600 hover:text-organic block py-1">Raw Material Suppliers</a></li>
                             </ul>
                         </div>
                         <div>
-                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Buyers</h4>
+                            <h4 class="font-bold text-organic uppercase mb-3 text-xs tracking-wider border-b pb-2">Buyers</h4>
                             <ul class="space-y-2 text-sm">
                                 <li><a href="#" class="text-gray-600 hover:text-organic block py-1">Global Importers</a></li>
                                 <li><a href="#" class="text-gray-600 hover:text-organic block py-1">Requirement Leads</a></li>
                             </ul>
                         </div>
                         <div>
-                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Logistics</h4>
+                            <h4 class="font-bold text-organic uppercase mb-3 text-xs tracking-wider border-b pb-2">Logistics</h4>
                             <ul class="space-y-2 text-sm">
                                 <li><a href="#" class="text-gray-600 hover:text-organic block py-1">Freight Partners</a></li>
                                 <li><a href="#" class="text-gray-600 hover:text-organic block py-1">Warehousing</a></li>
@@ -77,26 +88,26 @@
             </div>
 
             <!-- Marketplace -->
-            <div class="group relative">
-                <button class="text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center gap-1">Marketplace <i class="fas fa-chevron-down text-[10px]"></i></button>
-                <div class="mega-menu p-10">
-                    <div class="max-w-7xl mx-auto grid grid-cols-3 gap-10">
+            <div class="group relative w-full md:w-auto text-center">
+                <button class="w-full md:w-auto text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center justify-center gap-1">Marketplace <i class="fas fa-chevron-down text-[10px]"></i></button>
+                <div class="mega-menu p-6 md:p-10 text-left">
+                    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10">
                         <div>
-                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Crops & Produce</h4>
+                            <h4 class="font-bold text-organic uppercase mb-3 text-xs tracking-wider border-b pb-2">Crops & Produce</h4>
                             <ul class="space-y-2 text-sm">
                                 <li><a href="#" class="text-gray-600 hover:text-organic block py-1">Organic Grains & Pulses</a></li>
                                 <li><a href="#" class="text-gray-600 hover:text-organic block py-1">Spices & Oilseeds</a></li>
                             </ul>
                         </div>
                         <div>
-                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Processed Goods</h4>
+                            <h4 class="font-bold text-organic uppercase mb-3 text-xs tracking-wider border-b pb-2">Processed Goods</h4>
                             <ul class="space-y-2 text-sm">
                                 <li><a href="#" class="text-gray-600 hover:text-organic block py-1">Edible Oils & Sweeteners</a></li>
                                 <li><a href="#" class="text-gray-600 hover:text-organic block py-1">Private Label Goods</a></li>
                             </ul>
                         </div>
                         <div>
-                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Live Trade</h4>
+                            <h4 class="font-bold text-organic uppercase mb-3 text-xs tracking-wider border-b pb-2">Live Trade</h4>
                             <ul class="space-y-2 text-sm">
                                 <li><a href="#" class="text-gray-600 hover:text-organic block py-1">Verified Stocks</a></li>
                                 <li><a href="#" class="text-gray-600 hover:text-organic block py-1">Export Requirements</a></li>
@@ -107,19 +118,19 @@
             </div>
 
             <!-- Certification -->
-            <div class="group relative">
-                <button class="text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center gap-1">Certification <i class="fas fa-chevron-down text-[10px]"></i></button>
-                <div class="mega-menu p-10">
-                    <div class="max-w-7xl mx-auto grid grid-cols-2 gap-10">
+            <div class="group relative w-full md:w-auto text-center">
+                <button class="w-full md:w-auto text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center justify-center gap-1">Certification <i class="fas fa-chevron-down text-[10px]"></i></button>
+                <div class="mega-menu p-6 md:p-10 text-left">
+                    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
                         <div>
-                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Standards</h4>
+                            <h4 class="font-bold text-organic uppercase mb-3 text-xs tracking-wider border-b pb-2">Standards</h4>
                             <ul class="space-y-2 text-sm">
                                 <li><a href="#" class="text-gray-600 hover:text-organic block py-1">NPOP (India)</a></li>
                                 <li><a href="#" class="text-gray-600 hover:text-organic block py-1">NOP (USDA) & EU Organic</a></li>
                             </ul>
                         </div>
                         <div>
-                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Verification</h4>
+                            <h4 class="font-bold text-organic uppercase mb-3 text-xs tracking-wider border-b pb-2">Verification</h4>
                             <ul class="space-y-2 text-sm">
                                 <li><a href="#" class="text-gray-600 hover:text-organic block py-1">Scope Certificate Vault</a></li>
                                 <li><a href="#" class="text-gray-600 hover:text-organic block py-1">Lab Testing & Inspection</a></li>
@@ -130,22 +141,22 @@
             </div>
 
             <!-- Learning Centre -->
-            <a href="#" class="text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2">Learning Centre</a>
+            <a href="#" class="w-full md:w-auto text-center text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2">Learning Centre</a>
 
             <!-- Services -->
-            <div class="group relative">
-                <button class="text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center gap-1">Services <i class="fas fa-chevron-down text-[10px]"></i></button>
-                <div class="mega-menu p-10">
-                    <div class="max-w-7xl mx-auto grid grid-cols-2 gap-10">
+            <div class="group relative w-full md:w-auto text-center">
+                <button class="w-full md:w-auto text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center justify-center gap-1">Services <i class="fas fa-chevron-down text-[10px]"></i></button>
+                <div class="mega-menu p-6 md:p-10 text-left">
+                    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
                         <div>
-                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Managed Trade</h4>
+                            <h4 class="font-bold text-organic uppercase mb-3 text-xs tracking-wider border-b pb-2">Managed Trade</h4>
                             <ul class="space-y-2 text-sm">
                                 <li><a href="#" class="text-gray-600 hover:text-organic block py-1">End-to-End Fulfilment</a></li>
                                 <li><a href="#" class="text-gray-600 hover:text-organic block py-1">Lot Traceability</a></li>
                             </ul>
                         </div>
                         <div>
-                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Support</h4>
+                            <h4 class="font-bold text-organic uppercase mb-3 text-xs tracking-wider border-b pb-2">Support</h4>
                             <ul class="space-y-2 text-sm">
                                 <li><a href="#" class="text-gray-600 hover:text-organic block py-1">Expert Consultation</a></li>
                                 <li><a href="#" class="text-gray-600 hover:text-organic block py-1">Customs & Logistics</a></li>
@@ -155,9 +166,17 @@
                 </div>
             </div>
 
-            <a href="#" class="text-sm font-bold uppercase text-organic border-b-2 border-organic transition py-2">Login / Register</a>
+            <a href="#" class="w-full md:w-auto text-center text-sm font-bold uppercase text-organic border-b-2 border-organic transition py-2">Login / Register</a>
         </div>
     </nav>
+
+    <!-- Script for mobile toggle -->
+    <script>
+        function toggleMobileNav() {
+            const nav = document.getElementById('mainNav');
+            nav.classList.toggle('hidden');
+        }
+    </script>
 
     <!-- 3. HERO -->
     <main>
@@ -167,13 +186,13 @@
 
             <div class="relative z-10 px-6 max-w-4xl text-white">
                 <span class="text-sm font-bold uppercase tracking-[0.3em] text-green-300 block mb-4">BHARAT ORGANIC MART</span>
-                <h1 class="text-5xl md:text-7xl font-extrabold leading-tight mb-6">
+                <h1 class="text-4xl md:text-7xl font-extrabold leading-tight mb-6">
                     Connecting Organic Farms <span class="text-green-300">to Global Markets</span>
                 </h1>
-                <p class="text-lg md:text-xl text-gray-100 mb-10 leading-relaxed max-w-2xl mx-auto">
+                <p class="text-base md:text-xl text-gray-100 mb-10 leading-relaxed max-w-2xl mx-auto">
                     BHARAT ORGANIC MART is a platform connecting India's farmers, organic producers, processors, suppliers and global buyers, making organic trade simpler, more transparent and accessible.
                 </p>
-                <div class="flex justify-center gap-4">
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
                     <button class="bg-organic text-white px-8 py-4 rounded-lg font-bold hover:bg-green-800 transition shadow-lg text-lg">Browse Marketplace</button>
                     <button class="bg-gray-800 text-white px-8 py-4 rounded-lg font-bold hover:bg-gray-900 transition shadow-lg text-lg border border-white/20">View Buyer Leads</button>
                 </div>
