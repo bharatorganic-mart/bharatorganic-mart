@@ -12,6 +12,8 @@
         .text-organic { color: var(--organic-green); }
         .border-organic { border-color: var(--organic-green); }
         .sidebar-link.active { background-color: #f0fdf4; border-left: 4px solid var(--organic-green); color: var(--organic-green); }
+        .badge-verified { background-color: #2D5A27; color: white; }
+        .badge-public { background-color: #e5e7eb; color: #4b5563; }
     </style>
 </head>
 <body class="bg-gray-50 font-sans text-gray-900">
@@ -26,6 +28,16 @@
                     <p class="text-[10px] text-gray-400 uppercase tracking-wider">Supply Marketplace</p>
                 </div>
             </div>
+
+            <!-- Horizontal Navigation -->
+            <nav class="hidden md:flex items-center space-x-1">
+                <button onclick="showModule('home')" id="btn-home" class="sidebar-link active text-sm font-medium px-4 py-2 rounded-lg text-organic"><i class="fas fa-home mr-1"></i> Home</button>
+                <button onclick="showModule('farmers')" id="btn-farmers" class="sidebar-link text-sm font-medium px-4 py-2 rounded-lg text-gray-600 hover:text-organic"><i class="fas fa-seedling mr-1"></i> Farmers</button>
+                <button onclick="showModule('marketplace')" id="btn-marketplace" class="sidebar-link text-sm font-medium px-4 py-2 rounded-lg text-gray-600 hover:text-organic"><i class="fas fa-store mr-1"></i> Marketplace</button>
+                <button onclick="showModule('admit')" id="btn-admit" class="sidebar-link text-sm font-medium px-4 py-2 rounded-lg text-gray-600 hover:text-organic"><i class="fas fa-ticket-alt mr-1"></i> Registration</button>
+                <button onclick="showModule('knowledge')" id="btn-knowledge" class="sidebar-link text-sm font-medium px-4 py-2 rounded-lg text-gray-600 hover:text-organic"><i class="fas fa-book-open mr-1"></i> Knowledge</button>
+            </nav>
+
             <button onclick="toggleSidebar()" class="md:hidden text-gray-600 p-2">
                 <i class="fas fa-bars text-xl"></i>
             </button>
@@ -169,7 +181,7 @@
                         <div class="bg-white p-5 rounded-2xl shadow-sm border border-transparent hover:border-organic transition group">
                             <div class="flex justify-between items-start mb-4">
                                 <span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded">NPOP / NOP</span>
-                                <span class="text-xs text-gray-400">ID: RJ-SES-102</span>
+                                <span class="text-[10px] badge-public px-2 py-1 rounded">Public Record</span>
                             </div>
                             <h3 class="text-lg font-bold uppercase">Organic Sesame (50 MT)</h3>
                             <p class="text-sm text-gray-500 mb-4"><i class="fas fa-map-marker-alt mr-1"></i> Bikaner, Rajasthan</p>
@@ -185,7 +197,7 @@
                         <div class="bg-white p-5 rounded-2xl shadow-sm border">
                             <div class="flex justify-between items-start mb-4">
                                 <span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded">NPOP / EU</span>
-                                <span class="text-xs text-gray-400">ID: KR-TUR-045</span>
+                                <span class="text-[10px] badge-public px-2 py-1 rounded">Public Record</span>
                             </div>
                             <h3 class="text-lg font-bold uppercase">Turmeric Finger (12 MT)</h3>
                             <p class="text-sm text-gray-500 mb-4"><i class="fas fa-map-marker-alt mr-1"></i> Erode, Tamil Nadu</p>
@@ -482,8 +494,47 @@
                 <!-- MODULE: KNOWLEDGE CENTRE -->
                 <section id="module-knowledge" class="hidden space-y-6">
                     <h2 class="text-2xl font-bold">Knowledge Centre</h2>
-                    <div class="p-8 bg-white border rounded-2xl">
-                        <p class="text-gray-500">Industry guides, regulations, and certification manuals.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-8 rounded-3xl border shadow-sm">
+                            <h3 class="text-xl font-bold mb-4">Farmer Certification Guide (NPOP)</h3>
+                            <ul class="text-sm text-gray-600 space-y-3 list-decimal pl-4">
+                                <li><b>Choose a Certification Body:</b> Pick from APEDA's accredited list (e.g., ECOCERT, Bureau Veritas).</li>
+                                <li><b>Registration:</b> Submit farm history, land maps, and Aadhar/PAN to the CB.</li>
+                                <li><b>TraceNet Registration:</b> Get registered on APEDA's TraceNet 2.0 system.</li>
+                                <li><b>Conversion Period:</b> 2-3 years of organic practice required before label usage.</li>
+                                <li><b>Inspection & Audit:</b> Annual site inspection for compliance.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white p-8 rounded-3xl border shadow-sm">
+                            <h3 class="text-xl font-bold mb-4">Organic Fertilizer Recipe</h3>
+                            <div class="space-y-4">
+                                <div class="p-4 bg-green-50 rounded-xl">
+                                    <h4 class="font-bold text-organic">Jeevamrut</h4>
+                                    <p class="text-xs">Mix 10kg cow dung, 5-10L cow urine, 2kg jaggery, 2kg pulse flour, and a handful of forest soil in 200L water. Ferment for 48-72 hours.</p>
+                                </div>
+                                <div class="p-4 bg-green-50 rounded-xl">
+                                    <h4 class="font-bold text-organic">Panchagavya</h4>
+                                    <p class="text-xs">A potent mixture of 5 cow products: milk, curd, ghee, urine, and dung, fermented over 21 days.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-8 rounded-3xl border shadow-sm mt-6">
+                        <h3 class="text-xl font-bold mb-4">Accredited Certification Bodies (India)</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left">
+                                <thead>
+                                    <tr class="text-gray-400 uppercase text-[10px]"><th class="py-2">Agency</th><th class="py-2">Accreditation No.</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td class="py-2">Bureau Veritas (India)</td><td class="py-2">NPOP/NAB/001</td></tr>
+                                    <tr><td class="py-2">ECOCERT India</td><td class="py-2">NPOP/NAB/002</td></tr>
+                                    <tr><td class="py-2">Fair Cert Services</td><td class="py-2">NPOP/NAB/027</td></tr>
+                                    <tr><td class="py-2">SRI Soil & Related Industries</td><td class="py-2">NPOP/NAB/046</td></tr>
+                                </tbody>
+                            </table>
+                            <p class="text-xs text-gray-400 mt-4">Source: APEDA NPOP Public Directory (2026)</p>
+                        </div>
                     </div>
                 </section>
 
@@ -673,7 +724,83 @@
     </div>
 
     <script>
-                const INDIA_LOCATIONS = [
+                // --- Registration Logic ---
+        let registrations = [];
+
+        function submitRegistration(e) {
+            e.preventDefault();
+            const reg = {
+                id: 'BOM-' + Math.floor(1000 + Math.random() * 9000),
+                name: document.getElementById('regName').value,
+                category: document.getElementById('regCategory').value,
+                mobile: document.getElementById('regMobile').value,
+                status: 'PENDING'
+            };
+            registrations.push(reg);
+            updateRegTable();
+            updateAdmitDropdown();
+            closeModal('regModal');
+            alert('Registration submitted successfully! ID: ' + reg.id);
+        }
+
+        function updateRegTable() {
+            const body = document.getElementById('regTableBody');
+            body.innerHTML = registrations.map(r => `
+                <tr>
+                    <td class="px-6 py-4 font-bold">${r.id}</td>
+                    <td class="px-6 py-4">${r.name}</td>
+                    <td class="px-6 py-4">${r.category}</td>
+                    <td class="px-6 py-4">${r.mobile}</td>
+                    <td class="px-6 py-4"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${r.status === 'ISSUED' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}">${r.status}</span></td>
+                    <td class="px-6 py-4">
+                        ${r.status === 'PENDING' ? `<button onclick="approveReg('${r.id}')" class="text-organic font-bold text-xs hover:underline">Approve</button>` : ''}
+                    </td>
+                </tr>`).join('');
+
+            document.getElementById('statTotal').innerText = registrations.length;
+            document.getElementById('statIssued').innerText = registrations.filter(r => r.status === 'ISSUED').length;
+            document.getElementById('statPending').innerText = registrations.filter(r => r.status === 'PENDING').length;
+        }
+
+        function approveReg(id) {
+            registrations = registrations.map(r => r.id === id ? {...r, status: 'APPROVED'} : r);
+            updateRegTable();
+        }
+
+        function submitAdmitCard(e) {
+            e.preventDefault();
+            const regId = document.getElementById('admitRegId').value;
+            const reg = registrations.find(r => r.id === regId);
+
+            if(!reg) return alert("Select an applicant");
+
+            reg.status = 'ISSUED';
+            updateRegTable();
+
+            document.getElementById('admitPreviewContent').innerHTML = `
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold text-organic uppercase">Admit Card</h2>
+                    <p class="text-sm font-bold mt-4">Applicant: ${reg.name}</p>
+                    <p class="text-xs text-gray-500">ID: ${reg.id}</p>
+                    <div class="border-t mt-4 pt-4 text-left">
+                        <p class="text-xs text-gray-400 uppercase">Verification Date</p>
+                        <p class="font-bold mb-2">${document.getElementById('admitExamDate').value}</p>
+                        <p class="text-xs text-gray-400 uppercase">Venue</p>
+                        <p class="font-bold">${document.getElementById('admitVenue').value}</p>
+                    </div>
+                </div>`;
+            closeModal('admitModal');
+            openModal('admitPreviewModal');
+        }
+
+        function updateAdmitDropdown() {
+            const select = document.getElementById('admitRegId');
+            select.innerHTML = '<option value="">Select Registered Applicant...</option>' +
+                registrations.filter(r => r.status !== 'ISSUED').map(r => `<option value="${r.id}">${r.name} (${r.id})</option>`).join('');
+        }
+
+        function filterRegTable(val) { /* logic */ }
+        // --- End Registration Logic ---
             { code: "RJ-HAN-001", name: "Nohar", taluka: "Nohar", district: "Hanumangarh", state: "Rajasthan", pincode: "335523" },
             { code: "RJ-HAN-002", name: "Rawatsar", taluka: "Rawatsar", district: "Hanumangarh", state: "Rajasthan", pincode: "335524" },
             { code: "RJ-BIK-001", name: "Bikaner", taluka: "Bikaner", district: "Bikaner", state: "Rajasthan", pincode: "334001" },
@@ -728,7 +855,7 @@
             card.innerHTML = `
                 <div class="flex justify-between items-start mb-4">
                     <span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded">NPOP</span>
-                    <span class="text-xs text-gray-400">ID: NEW-${Math.floor(Math.random()*9000)+1000}</span>
+                    <span class="text-[10px] badge-verified px-2 py-1 rounded">BOM Verified</span>
                 </div>
                 <h3 class="text-lg font-bold uppercase">${name} (${qty} MT)</h3>
                 <p class="text-sm text-gray-500 mb-4"><i class="fas fa-map-marker-alt mr-1"></i> ${loc}</p>
@@ -773,7 +900,15 @@
     document.getElementById("module-marketplace").classList.remove("hidden");
 }
 
-function openModal(id) {
+function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('hidden');
+        }
+        function closeSidebar() {
+            if(window.innerWidth < 768) document.getElementById('sidebar').classList.add('hidden');
+        }
+
+        function openModal(id) {
             document.getElementById(id).classList.remove('hidden');
             document.getElementById(id).classList.add('flex');
         }
