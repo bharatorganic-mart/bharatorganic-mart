@@ -11,6 +11,10 @@
         .bg-organic { background-color: var(--organic-green); }
         .text-organic { color: var(--organic-green); }
         .border-organic { border-color: var(--organic-green); }
+
+        /* Mega Menu Styles */
+        .group:hover .mega-menu { display: block; }
+        .mega-menu { display: none; position: absolute; left: 0; width: 100%; background: white; border-bottom: 2px solid var(--organic-green); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); z-index: 1000; }
     </style>
 </head>
 <body class="bg-gray-50 font-sans text-gray-900">
@@ -18,16 +22,13 @@
     <!-- 1. HEADER -->
     <header class="bg-white py-6 border-b">
         <div class="max-w-7xl mx-auto px-6 flex items-center">
-            <!-- Left: Logo -->
             <div class="w-1/4">
                 <img src="Logo 1.png" alt="BHARAT ORGANIC MART Logo" class="h-16 w-auto object-contain">
             </div>
-            <!-- Center: Title -->
             <div class="w-2/4 text-center">
                 <h1 class="text-3xl font-bold text-organic leading-tight uppercase tracking-tight">BHARAT ORGANIC MART</h1>
                 <p class="text-sm text-gray-500 uppercase tracking-widest mt-1">INDIA'S ORGANIC SUPPLY MARKETPLACE</p>
             </div>
-            <!-- Right: Empty spacer for centering -->
             <div class="w-1/4"></div>
         </div>
     </header>
@@ -36,7 +37,20 @@
     <nav class="bg-white border-b shadow-sm sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 flex items-center justify-center space-x-8 py-4">
             <a href="#" class="text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition">Home</a>
-            <a href="#" class="text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition">Find Organic Partners <i class="fas fa-chevron-down text-[10px] ml-1"></i></a>
+
+            <!-- Mega Menu Item -->
+            <div class="group relative">
+                <button class="text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition pb-4 pt-4">Find Organic Partners <i class="fas fa-chevron-down text-[10px] ml-1"></i></button>
+                <div class="mega-menu p-8">
+                    <div class="max-w-7xl mx-auto grid grid-cols-4 gap-8">
+                        <div><h4 class="font-bold text-organic uppercase mb-4 text-sm">Farmers</h4><ul class="space-y-2 text-sm"><li><a href="#" class="hover:text-organic">Farmer Directory</a></li><li><a href="#" class="hover:text-organic">FPOs</a></li></ul></div>
+                        <div><h4 class="font-bold text-organic uppercase mb-4 text-sm">Suppliers</h4><ul class="space-y-2 text-sm"><li><a href="#" class="hover:text-organic">Suppliers List</a></li></ul></div>
+                        <div><h4 class="font-bold text-organic uppercase mb-4 text-sm">Buyers</h4><ul class="space-y-2 text-sm"><li><a href="#" class="hover:text-organic">Importers</a></li></ul></div>
+                        <div><h4 class="font-bold text-organic uppercase mb-4 text-sm">Logistics</h4><ul class="space-y-2 text-sm"><li><a href="#" class="hover:text-organic">Partners</a></li></ul></div>
+                    </div>
+                </div>
+            </div>
+
             <a href="#" class="text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition">Marketplace <i class="fas fa-chevron-down text-[10px] ml-1"></i></a>
             <a href="#" class="text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition">Certification <i class="fas fa-chevron-down text-[10px] ml-1"></i></a>
             <a href="#" class="text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition">Learning Centre <i class="fas fa-chevron-down text-[10px] ml-1"></i></a>
@@ -66,10 +80,8 @@
             </div>
         </section>
 
-        <!-- Placeholder for content sections -->
         <section class="max-w-7xl mx-auto py-16 px-6">
             <h2 class="text-3xl font-bold mb-8">Latest Marketplace Listings</h2>
-            <!-- Additional content goes here -->
         </section>
     </main>
 
