@@ -12,31 +12,36 @@
         .text-organic { color: var(--organic-green); }
         .border-organic { border-color: var(--organic-green); }
 
-        /* Perfect Mega Menu Positioning and Alignment */
-        header { position: relative; }
-        nav { position: relative; width: 100%; }
+        /* THE DEFINITIVE MEGA MENU SOLUTION:
+         * 1. Nav container is relative.
+         * 2. Mega menu spans exactly 100% of the viewport width (100vw), anchored to the left of the screen (left: 0).
+         * 3. Inside the mega menu, a centered container (max-w-7xl mx-auto px-6) aligns columns perfectly with the rest of the site header and hero.
+         */
+        body { overflow-x: hidden; }
+        nav { position: relative; }
 
         .mega-menu {
             display: none;
             position: absolute;
             left: 0;
-            width: 100%;
+            top: 100%;
+            width: 100vw;
             background: white;
             border-bottom: 4px solid var(--organic-green);
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
             z-index: 1000;
-            top: 100%;
-            padding-top: 10px;
+            padding-top: 15px;
+            padding-bottom: 30px;
         }
 
-        /* Invisible hover bridge */
+        /* Invisible hover bridge to prevent closing when moving cursor down */
         .group::after {
             content: '';
             position: absolute;
             left: 0;
             right: 0;
             bottom: -15px;
-            height: 20px;
+            height: 25px;
         }
 
         .group:hover .mega-menu { display: block; }
@@ -44,8 +49,6 @@
             color: var(--organic-green) !important;
             border-bottom-color: var(--organic-green) !important;
         }
-
-        body { overflow-x: hidden; }
     </style>
 </head>
 <body class="bg-gray-50 font-sans text-gray-900">
@@ -85,8 +88,8 @@
             <!-- A. FIND ORGANIC PARTNERS -->
             <div class="group relative w-full md:w-auto text-center">
                 <button class="w-full md:w-auto text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center justify-center gap-1">Find Organic Partners <i class="fas fa-chevron-down text-[10px]"></i></button>
-                <div class="mega-menu py-10 px-8 text-left">
-                    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="mega-menu text-left">
+                    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
                         <div>
                             <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Farmers & Producers</h4>
                             <ul class="space-y-3 text-sm">
@@ -113,7 +116,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="max-w-7xl mx-auto border-t mt-8 pt-4 text-right">
+                    <div class="max-w-7xl mx-auto px-6 border-t mt-8 pt-4 text-right">
                         <a href="#" class="text-xs font-bold text-organic hover:underline">Explore All Farmers & Producers &rarr;</a>
                     </div>
                 </div>
@@ -122,8 +125,8 @@
             <!-- B. MARKETPLACE -->
             <div class="group relative w-full md:w-auto text-center">
                 <button class="w-full md:w-auto text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center justify-center gap-1">Marketplace <i class="fas fa-chevron-down text-[10px]"></i></button>
-                <div class="mega-menu py-10 px-8 text-left">
-                    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="mega-menu text-left">
+                    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12">
                         <div>
                             <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Buy & Sell</h4>
                             <ul class="space-y-3 text-sm">
@@ -142,7 +145,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="max-w-7xl mx-auto border-t mt-8 pt-4 text-right">
+                    <div class="max-w-7xl mx-auto px-6 border-t mt-8 pt-4 text-right">
                         <a href="#" class="text-xs font-bold text-organic hover:underline">Explore All Marketplace Categories &rarr;</a>
                     </div>
                 </div>
@@ -151,8 +154,8 @@
             <!-- C. CERTIFICATION -->
             <div class="group relative w-full md:w-auto text-center">
                 <button class="w-full md:w-auto text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center justify-center gap-1">Certification <i class="fas fa-chevron-down text-[10px]"></i></button>
-                <div class="mega-menu py-10 px-8 text-left">
-                    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="mega-menu text-left">
+                    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12">
                         <div>
                             <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Certification Database</h4>
                             <ul class="space-y-3 text-sm">
@@ -172,7 +175,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="max-w-7xl mx-auto border-t mt-8 pt-4 text-right">
+                    <div class="max-w-7xl mx-auto px-6 border-t mt-8 pt-4 text-right">
                         <a href="#" class="text-xs font-bold text-organic hover:underline">Explore Certification Resources &rarr;</a>
                     </div>
                 </div>
@@ -181,8 +184,8 @@
             <!-- D. LEARNING CENTRE -->
             <div class="group relative w-full md:w-auto text-center">
                 <button class="w-full md:w-auto text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center justify-center gap-1">Learning Centre <i class="fas fa-chevron-down text-[10px]"></i></button>
-                <div class="mega-menu py-10 px-8 text-left">
-                    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="mega-menu text-left">
+                    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
                         <div>
                             <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Organic Farming</h4>
                             <ul class="space-y-3 text-sm">
@@ -213,7 +216,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="max-w-7xl mx-auto border-t mt-8 pt-4 text-right">
+                    <div class="max-w-7xl mx-auto px-6 border-t mt-8 pt-4 text-right">
                         <a href="#" class="text-xs font-bold text-organic hover:underline">Visit Learning Centre &rarr;</a>
                     </div>
                 </div>
@@ -222,8 +225,8 @@
             <!-- E. SERVICES -->
             <div class="group relative w-full md:w-auto text-center">
                 <button class="w-full md:w-auto text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center justify-center gap-1">Services <i class="fas fa-chevron-down text-[10px]"></i></button>
-                <div class="mega-menu py-10 px-8 text-left">
-                    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="mega-menu text-left">
+                    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12">
                         <div>
                             <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Professional Services</h4>
                             <ul class="space-y-3 text-sm">
@@ -243,7 +246,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="max-w-7xl mx-auto border-t mt-8 pt-4 text-right">
+                    <div class="max-w-7xl mx-auto px-6 border-t mt-8 pt-4 text-right">
                         <a href="#" class="text-xs font-bold text-organic hover:underline">Explore All Services &rarr;</a>
                     </div>
                 </div>
