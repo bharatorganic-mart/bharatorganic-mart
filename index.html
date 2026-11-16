@@ -20,32 +20,31 @@
 
     <div class="flex flex-col h-screen overflow-hidden">
         <!-- Top Brand Header (Logo + Name) -->
-        <header class="bg-white border-b px-6 py-3 flex items-center justify-between">
+        <header class="bg-white border-b px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-3">
                 <img src="Logo 1.png" alt="BHARAT ORGANIC MART Logo" class="w-12 h-12 object-contain">
                 <div>
-                    <h1 class="text-lg font-bold text-organic leading-tight">BHARAT ORGANIC MART</h1>
-                    <p class="text-[10px] text-gray-400 uppercase tracking-wider">Supply Marketplace</p>
+                    <h1 class="text-lg md:text-xl font-bold text-organic leading-tight uppercase tracking-wider">BHARAT ORGANIC MART</h1>
+                    <p class="text-[10px] text-gray-400 uppercase tracking-widest">Global Organic Supply Marketplace</p>
                 </div>
             </div>
 
-            <!-- Horizontal Navigation -->
-            <nav class="hidden md:flex items-center space-x-1">
-                <button onclick="showModule('home')" id="btn-home" class="sidebar-link active text-sm font-medium px-4 py-2 rounded-lg text-organic"><i class="fas fa-home mr-1"></i> Home</button>
-                <button onclick="showModule('farmers')" id="btn-farmers" class="sidebar-link text-sm font-medium px-4 py-2 rounded-lg text-gray-600 hover:text-organic"><i class="fas fa-seedling mr-1"></i> Farmers</button>
-                <button onclick="showModule('marketplace')" id="btn-marketplace" class="sidebar-link text-sm font-medium px-4 py-2 rounded-lg text-gray-600 hover:text-organic"><i class="fas fa-store mr-1"></i> Marketplace</button>
-                <button onclick="showModule('admit')" id="btn-admit" class="sidebar-link text-sm font-medium px-4 py-2 rounded-lg text-gray-600 hover:text-organic"><i class="fas fa-ticket-alt mr-1"></i> Registration</button>
-                <button onclick="showModule('knowledge')" id="btn-knowledge" class="sidebar-link text-sm font-medium px-4 py-2 rounded-lg text-gray-600 hover:text-organic"><i class="fas fa-book-open mr-1"></i> Knowledge</button>
+            <!-- Horizontal Navigation (Primary) -->
+            <nav class="flex flex-wrap items-center justify-center gap-1 w-full md:w-auto">
+                <button onclick="showModule('home')" id="btn-home" class="sidebar-link active text-xs font-bold uppercase px-3 py-2 rounded-lg text-organic bg-green-50"><i class="fas fa-home mr-1"></i> Home</button>
+                <button onclick="showModule('farmers')" id="btn-farmers" class="sidebar-link text-xs font-bold uppercase px-3 py-2 rounded-lg text-gray-600 hover:text-organic"><i class="fas fa-seedling mr-1"></i> Farmers</button>
+                <button onclick="showModule('marketplace')" id="btn-marketplace" class="sidebar-link text-xs font-bold uppercase px-3 py-2 rounded-lg text-gray-600 hover:text-organic"><i class="fas fa-store mr-1"></i> Marketplace</button>
+                <button onclick="showModule('processors')" id="btn-processors" class="sidebar-link text-xs font-bold uppercase px-3 py-2 rounded-lg text-gray-600 hover:text-organic"><i class="fas fa-industry mr-1"></i> Processors</button>
+                <button onclick="showModule('global')" id="btn-global" class="sidebar-link text-xs font-bold uppercase px-3 py-2 rounded-lg text-gray-600 hover:text-organic"><i class="fas fa-globe mr-1"></i> Export</button>
+                <button onclick="showModule('admit')" id="btn-admit" class="sidebar-link text-xs font-bold uppercase px-3 py-2 rounded-lg text-gray-600 hover:text-organic"><i class="fas fa-ticket-alt mr-1"></i> Registration</button>
+                <button onclick="showModule('compliance')" id="btn-compliance" class="sidebar-link text-xs font-bold uppercase px-3 py-2 rounded-lg text-gray-600 hover:text-organic"><i class="fas fa-certificate mr-1"></i> Services</button>
+                <button onclick="showModule('knowledge')" id="btn-knowledge" class="sidebar-link text-xs font-bold uppercase px-3 py-2 rounded-lg text-gray-600 hover:text-organic"><i class="fas fa-book-open mr-1"></i> Knowledge</button>
             </nav>
-
-            <button onclick="toggleSidebar()" class="md:hidden text-gray-600 p-2">
-                <i class="fas fa-bars text-xl"></i>
-            </button>
         </header>
 
         <div class="flex flex-1 overflow-hidden">
-        <!-- Sidebar Navigation (All 9 Modules) -->
-        <aside id="sidebar" class="w-64 bg-white border-r flex flex-col">
+        <!-- Sidebar Navigation (Hidden for horizontal mode) -->
+        <aside id="sidebar" class="hidden w-64 bg-white border-r flex-col">
             <nav class="flex-1 px-4 space-y-1 overflow-y-auto pb-10">
                 <p class="text-[10px] font-bold text-gray-400 uppercase px-2 mb-2">Navigation</p>
                 <button onclick="showModule('home'); closeSidebar()" id="btn-home" class="sidebar-link active w-full text-left px-3 py-2 rounded-lg flex items-center text-sm font-medium">
