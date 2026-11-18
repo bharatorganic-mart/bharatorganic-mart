@@ -45,12 +45,7 @@
             border-bottom-color: var(--organic-green) !important;
         }
 
-        .status-badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 9999px; text-transform: uppercase; }
-        .status-active { background-color: #dcfce7; color: #166534; }
-        .status-suspension { background-color: #fee2e2; color: #991b1b; }
-        .status-pending { background-color: #f3f4f6; color: #374151; }
-        .status-expired { background-color: #fef3c7; color: #92400e; }
-    </style>
+            </style>
 </head>
 <body class="bg-gray-50 font-sans text-gray-900">
 
@@ -132,7 +127,7 @@
 
         <header class="mb-12">
             <h1 class="text-3xl md:text-5xl font-extrabold text-organic mb-4 leading-tight">NPOP Organic Certification Bodies in India</h1>
-            <p class="text-lg text-gray-600 max-w-4xl">Explore organic certification agencies listed in India's National Programme for Organic Production (NPOP) ecosystem. Review their official websites and available accreditation information before selecting a certification partner.</p>
+            <p class="text-lg text-gray-600 max-w-4xl">Explore organic certification agencies listed in India's National Programme for Organic Production (NPOP) ecosystem. Review their official websites and available information before selecting a certification partner.</p>
         </header>
 
         <!-- Search and Filters -->
@@ -152,16 +147,7 @@
                         <!-- Dynamic options -->
                     </select>
                 </div>
-                <div>
-                    <label class="block text-xs font-bold uppercase text-gray-400 mb-2">Accreditation Status</label>
-                    <select id="statusFilter" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 appearance-none bg-white">
-                        <option value="">All Statuses</option>
-                        <option value="Active">Active Accreditation</option>
-                        <option value="Suspension">Under Suspension</option>
-                        <option value="Verification Pending">Verification Pending</option>
-                        <option value="Expired">Expired / Withdrawn</option>
-                    </select>
-                </div>
+                <div></div>
             </div>
             <div class="mt-6 flex justify-between items-center">
                 <p class="text-sm text-gray-500"><span id="resultCount" class="font-bold text-organic">0</span> agencies found</p>
@@ -259,26 +245,12 @@
                 const card = document.createElement('div');
                 card.className = 'bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between hover:border-organic transition group';
 
-                const statusClass = `status-${agency.status.toLowerCase().replace(' ', '-')}`;
-
                 card.innerHTML = `
                     <div>
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="status-badge ${statusClass}">${agency.status}</span>
-                            <span class="text-[10px] text-gray-400 uppercase font-bold">Ref: ${agency.accNo}</span>
-                        </div>
                         <h3 class="font-bold text-lg mb-1 group-hover:text-organic transition leading-tight">${agency.name}</h3>
                         <p class="text-sm text-gray-500 mb-4"><i class="fas fa-map-marker-alt mr-1"></i> ${agency.state}</p>
 
                         <div class="space-y-2 mb-6">
-                            <div class="flex justify-between text-xs">
-                                <span class="text-gray-400 uppercase font-bold tracking-wider">Accreditation</span>
-                                <span class="font-bold">${agency.accNo}</span>
-                            </div>
-                            <div class="flex justify-between text-xs">
-                                <span class="text-gray-400 uppercase font-bold tracking-wider">Validity</span>
-                                <span class="text-gray-600">${agency.validity}</span>
-                            </div>
                             <div class="flex justify-between text-xs">
                                 <span class="text-gray-400 uppercase font-bold tracking-wider">Scope</span>
                                 <span class="text-gray-600">${agency.scope}</span>
@@ -289,7 +261,6 @@
                         <a href="${agency.website}" target="_blank" class="text-xs font-bold text-organic flex items-center hover:underline">
                             Official Website <i class="fas fa-external-link-alt ml-1"></i>
                         </a>
-                        <span class="text-[9px] text-gray-300 uppercase">Verified: ${agency.lastVerified}</span>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -299,13 +270,11 @@
         function filterAgencies() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             const selectedState = document.getElementById('stateFilter').value;
-            const selectedStatus = document.getElementById('statusFilter').value;
 
             const filtered = agencies.filter(agency => {
-                const matchesSearch = agency.name.toLowerCase().includes(searchTerm) || agency.accNo.toLowerCase().includes(searchTerm);
+                const matchesSearch = agency.name.toLowerCase().includes(searchTerm);
                 const matchesState = selectedState === '' || agency.state === selectedState;
-                const matchesStatus = selectedStatus === '' || agency.status === selectedStatus;
-                return matchesSearch && matchesState && matchesStatus;
+                return matchesSearch && matchesState;
             });
 
             renderAgencies(filtered);
@@ -314,7 +283,6 @@
         function resetFilters() {
             document.getElementById('searchInput').value = '';
             document.getElementById('stateFilter').value = '';
-            document.getElementById('statusFilter').value = '';
             filterAgencies();
         }
 
@@ -335,7 +303,6 @@
 
         document.getElementById('searchInput').addEventListener('input', filterAgencies);
         document.getElementById('stateFilter').addEventListener('change', filterAgencies);
-        document.getElementById('statusFilter').addEventListener('change', filterAgencies);
 
         // Mobile Nav Toggle
         function toggleMobileNav() {
