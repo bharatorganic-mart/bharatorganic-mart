@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organic Directory | BHARAT ORGANIC MART</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --organic-green: #2D5A27; --grey-green: #6B7280; }
+        .bg-organic { background-color: var(--organic-green); }
+        .text-organic { color: var(--organic-green); }
+        .border-organic { border-color: var(--organic-green); }
+        body { overflow-x: hidden; }
+        nav { position: relative; }
+        .mega-menu {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: calc(100% - 1px);
+            width: 100vw;
+            max-width: 100%;
+            box-sizing: border-box;
+            background: white;
+            border-bottom: 4px solid var(--organic-green);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding-top: 15px;
+            padding-bottom: 30px;
+        }
+        .group:hover .mega-menu { display: block; }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-900 min-h-screen flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-white py-6 border-b">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center justify-start w-full md:w-1/4">
+                <a href="../index.html"><img src="../Logo 1.png" alt="BHARAT ORGANIC MART Logo" class="h-16 w-auto object-contain"></a>
+            </div>
+            <div class="w-full md:w-2/4 text-center">
+                <a href="../index.html"><h1 class="text-2xl md:text-3xl font-bold text-organic leading-tight uppercase tracking-tight">BHARAT ORGANIC MART</h1></a>
+                <p class="text-xs md:text-sm text-gray-500 uppercase tracking-widest mt-1">INDIA'S ORGANIC SUPPLY MARKETPLACE</p>
+            </div>
+            <div class="hidden md:block w-1/4"></div>
+        </div>
+    </header>
+
+    <!-- CONTENT CONTAINER -->
+    <main class="max-w-7xl mx-auto px-6 py-8 flex-grow w-full">
+        <div class="mb-8 border-b pb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <h1 id="pageTitle" class="text-3xl font-bold text-gray-900">Organic Directory</h1>
+                <p id="pageSubtitle" class="text-gray-600 mt-1">Explore verified suppliers, producers, and businesses.</p>
+            </div>
+
+            <!-- DEMO NOTICE BANNER -->
+            <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded text-xs text-amber-800 max-w-md">
+                <div class="flex items-center gap-2 font-bold mb-1 text-amber-900">
+                    <i class="fas fa-flask"></i> DEMO / ILLUSTRATIVE DATA MODE
+                </div>
+                The records shown below are fictional demo entries for site demonstration. They do not represent active certified operator claims.
+            </div>
+        </div>
+
+        <!-- CATEGORY TABS -->
+        <div class="flex flex-wrap gap-2 mb-6 border-b pb-4">
+            <button onclick="setCategory('all')" class="cat-btn bg-organic text-white px-4 py-2 rounded-lg text-sm font-semibold transition" data-cat="all">All Categories</button>
+            <button onclick="setCategory('Individual Farmers')" class="cat-btn bg-white text-gray-700 hover:bg-gray-100 border px-4 py-2 rounded-lg text-sm font-semibold transition" data-cat="Individual Farmers">Individual Farmers</button>
+            <button onclick="setCategory('Grower Groups')" class="cat-btn bg-white text-gray-700 hover:bg-gray-100 border px-4 py-2 rounded-lg text-sm font-semibold transition" data-cat="Grower Groups">Grower Groups</button>
+            <button onclick="setCategory('Contract Farming')" class="cat-btn bg-white text-gray-700 hover:bg-gray-100 border px-4 py-2 rounded-lg text-sm font-semibold transition" data-cat="Contract Farming">Contract Farming</button>
+            <button onclick="setCategory('Processors & Manufacturers')" class="cat-btn bg-white text-gray-700 hover:bg-gray-100 border px-4 py-2 rounded-lg text-sm font-semibold transition" data-cat="Processors & Manufacturers">Processors & Manufacturers</button>
+            <button onclick="setCategory('FPOs & Cooperatives')" class="cat-btn bg-white text-gray-700 hover:bg-gray-100 border px-4 py-2 rounded-lg text-sm font-semibold transition" data-cat="FPOs & Cooperatives">FPOs & Cooperatives</button>
+            <button onclick="setCategory('Traders')" class="cat-btn bg-white text-gray-700 hover:bg-gray-100 border px-4 py-2 rounded-lg text-sm font-semibold transition" data-cat="Traders">Traders</button>
+            <button onclick="setCategory('Organic Suppliers')" class="cat-btn bg-white text-gray-700 hover:bg-gray-100 border px-4 py-2 rounded-lg text-sm font-semibold transition" data-cat="Organic Suppliers">Organic Suppliers</button>
+        </div>
+
+        <!-- SEARCH AND FILTER CONTROLS -->
+        <div class="bg-white p-4 rounded-xl border shadow-sm mb-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+                <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Search Keywords</label>
+                <div class="relative">
+                    <input type="text" id="searchInput" oninput="applyFilters()" placeholder="Search by name, crop, product, city..." class="w-full border rounded-lg pl-9 pr-4 py-2 text-sm focus:outline-none focus:border-organic">
+                    <i class="fas fa-search absolute left-3 top-3 text-gray-400 text-xs"></i>
+                </div>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Filter by State</label>
+                <select id="stateFilter" onchange="applyFilters()" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-organic">
+                    <option value="">All States</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Filter by Scope</label>
+                <select id="scopeFilter" onchange="applyFilters()" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-organic">
+                    <option value="">All Certification Scopes</option>
+                    <option value="NPOP">NPOP</option>
+                    <option value="NOP">USDA NOP</option>
+                    <option value="EU">EU Organic</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- LISTINGS GRID -->
+        <div id="listingsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Dynamic listing cards will be loaded here -->
+        </div>
+    </main>
+
+    <footer class="bg-white border-t py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-6 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 BHARAT ORGANIC MART. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        let allListings = [];
+        let currentCategory = 'all';
+
+        // Read URL param if category passed in query string ?type=...
+        const urlParams = new URLSearchParams(window.location.search);
+        const typeParam = urlParams.get('type');
+        if (typeParam) {
+            currentCategory = typeParam;
+        }
+
+        async function loadListings() {
+            try {
+                const response = await fetch('../data/clean_listings.json');
+                allListings = await response.json();
+                populateStateDropdown();
+                updateCategoryTabsUI();
+                applyFilters();
+            } catch (err) {
+                console.error("Failed to load listings data", err);
+                document.getElementById('listingsContainer').innerHTML = `<p class="text-red-500 col-span-full">Unable to load directory data.</p>`;
+            }
+        }
+
+        function populateStateDropdown() {
+            const states = [...new Set(allListings.map(item => item.state).filter(Boolean))].sort();
+            const stateSelect = document.getElementById('stateFilter');
+            states.forEach(st => {
+                const opt = document.createElement('option');
+                opt.value = st;
+                opt.textContent = st;
+                stateSelect.appendChild(opt);
+            });
+        }
+
+        function setCategory(cat) {
+            currentCategory = cat;
+            updateCategoryTabsUI();
+            applyFilters();
+        }
+
+        function updateCategoryTabsUI() {
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                if (btn.dataset.cat === currentCategory) {
+                    btn.className = "cat-btn bg-organic text-white px-4 py-2 rounded-lg text-sm font-semibold transition shadow-sm";
+                } else {
+                    btn.className = "cat-btn bg-white text-gray-700 hover:bg-gray-100 border px-4 py-2 rounded-lg text-sm font-semibold transition";
+                }
+            });
+            document.getElementById('pageTitle').textContent = currentCategory === 'all' ? 'Organic Directory' : currentCategory;
+        }
+
+        function applyFilters() {
+            const searchStr = document.getElementById('searchInput').value.toLowerCase();
+            const selectedState = document.getElementById('stateFilter').value;
+            const selectedScope = document.getElementById('scopeFilter').value;
+
+            const filtered = allListings.filter(item => {
+                const matchesCat = currentCategory === 'all' || item.operatorType === currentCategory;
+                const matchesSearch = !searchStr ||
+                    (item.name && item.name.toLowerCase().includes(searchStr)) ||
+                    (item.productName && item.productName.toLowerCase().includes(searchStr)) ||
+                    (item.organicCrops && item.organicCrops.toLowerCase().includes(searchStr)) ||
+                    (item.city && item.city.toLowerCase().includes(searchStr));
+
+                const matchesState = !selectedState || item.state === selectedState;
+                const matchesScope = !selectedScope ||
+                    item.scope1 === selectedScope || item.scope2 === selectedScope || item.scope3 === selectedScope;
+
+                return matchesCat && matchesSearch && matchesState && matchesScope;
+            });
+
+            renderListings(filtered);
+        }
+
+        function renderListings(items) {
+            const container = document.getElementById('listingsContainer');
+            if (items.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center py-12 text-gray-500 bg-white border rounded-xl">No records matching your search criteria.</div>`;
+                return;
+            }
+
+            container.innerHTML = items.map(item => `
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition p-6 flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-amber-100 text-amber-800 text-[10px] font-bold uppercase px-3 py-1 rounded-bl">
+                        Demo Record
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-organic uppercase tracking-wider mb-1">${item.operatorType}</div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">${item.name}</h3>
+                        <div class="text-sm text-gray-600 mb-4 flex items-center gap-2">
+                            <i class="fas fa-location-dot text-gray-400"></i>
+                            ${item.city ? item.city + ', ' : ''}${item.state}, ${item.country}
+                        </div>
+
+                        <div class="space-y-2 border-t pt-3 mb-4 text-xs">
+                            ${item.productName ? `<div><strong class="text-gray-700">Products/Crops:</strong> ${item.productName}</div>` : ''}
+                            ${item.certifiedLandArea ? `<div><strong class="text-gray-700">Certified Area:</strong> ${item.certifiedLandArea}</div>` : ''}
+                            ${item.certBody1 ? `<div><strong class="text-gray-700">Certifier:</strong> ${item.certBody1} (${item.scope1})</div>` : ''}
+                        </div>
+                    </div>
+
+                    <div class="border-t pt-4 flex items-center justify-between text-xs text-gray-500">
+                        <span>Contact: ${item.contactPerson || 'N/A'}</span>
+                        <a href="mailto:${item.email}" class="text-organic font-bold hover:underline">Inquire &rarr;</a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.onload = loadListings;
+    </script>
+</body>
+</html>
