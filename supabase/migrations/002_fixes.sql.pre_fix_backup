@@ -1,0 +1,103 @@
+-- =============================================================================
+-- CORRECTION MIGRATION: 002_fixes.sql
+-- Bharat Organic Mart — Minimal Fixes for 001_initial_schema.sql
+-- REVIEW ONLY — DO NOT EXECUTE WITHOUT APPROVAL
+-- =============================================================================
+
+-- =============================================================================
+-- FIX 1: Remove duplicate validate_harvest_year definition (first occurrence)
+-- =============================================================================
+-- The first definition at lines 878-898 and its triggers are redundant.
+-- The canonical definition is at lines 1332-1352 with proper section context.
+--
+-- Since both definitions use CREATE OR REPLACE, the second overwrites the first.
+-- The first trigger set (lines 892-898) is overwritten by the second trigger set.
+-- This is functionally harmless but creates confusion.
+--
+-- Action: DELETE the first definition and its triggers (lines 875-898).
+-- The canonical definition remains at lines 1332-1352 with proper section context.
+--
+-- NOTE: This is a REMOVAL operation. In a real migration, we would use a separate
+-- migration to clean up, but since 001_initial_schema.sql has not been executed yet,
+-- we are correcting the source file directly via this correction migration.
+--
+-- IMPORTANT: This migration file documents the correction. The actual fix is to
+-- edit 001_initial_schema.sql to remove lines 875-898. This correction migration
+-- documents the change for audit purposes.
+--
+-- DO NOT EXECUTE THIS SECTION - it documents the required edit to 001_initial_schema.sql
+/*
+-- DELETE THE FOLLOWING LINES FROM 001_initial_schema.sql (lines 875-898):
+
+-- =============================================================================
+-- HARVEST YEAR VALIDATION (DATABASE-SIDE SECURITY)
+-- =============================================================================
+
+CREATE OR REPLACE FUNCTION public.validate_harvest_year()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+BEGIN
+  IF NEW.harvest_year IS NOT NULL AND (NEW.harvest_year < 2000 OR NEW.harvest_year > EXTRACT(YEAR FROM CURRENT_DATE)::int + 5) THEN
+    RAISE EXCEPTION 'Invalid harvest year: %', NEW.harvest_year;
+  END IF;
+  RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER trg_validate_product_harvest
+BEFORE INSERT OR UPDATE ON public.products
+FOR EACH ROW EXECUTE FUNCTION public.validate_harvest_year();
+
+CREATE TRIGGER trg_validate_req_harvest
+BEFORE INSERT OR UPDATE ON public.buyer_requirements
+FOR EACH ROW EXECUTE FUNCTION public.validate_harvest_year();
+
+-- =============================================================================
+-- RLS POLICIES: REFERENCE TABLES (Public read, Admin write)
+-- =============================================================================
+*/
+-- END OF DELETION DOCUMENTATION
+
+-- =============================================================================
+-- FIX 2: Add CHECK constraint to certification_reminders
+-- =============================================================================
+-- Business rule: reminder_scheduled_at cannot be scheduled before source_date
+-- reminder_scheduled_at is TIMESTAMPTZ, source_date is DATE
+-- Cast reminder_scheduled_at to DATE for comparison
+ALTER TABLE public.certification_reminders
+ADD CONSTRAINT chk_cert_reminder_after_source
+CHECK (reminder_scheduled_at::date >= source_date);
+
+-- =============================================================================
+-- FIX 3: Fix incorrect comment on buyer_requirements.required_harvest_year
+-- =============================================================================
+-- Current (incorrect): 'Validated in application layer (no time-dependent CHECK)'
+-- Correct: validated by DB trigger
+COMMENT ON COLUMN public.buyer_requirements.required_harvest_year IS 'Validated via trigger public.validate_harvest_year() (2000 to current_year+5)';
+
+-- =============================================================================
+-- FIX 4: Fix incorrect comment on products.harvest_year
+-- =============================================================================
+-- Current (incorrect): 'No time-dependent CHECK; validated in application layer'
+-- Correct: validated by DB trigger
+COMMENT ON COLUMN public.products.harvest_year IS 'Validated via trigger public.validate_harvest_year() (2000 to current_year+5)';
+
+-- =============================================================================
+-- FIX 5: Add missing comment on products.harvest_year (was missing entirely)
+-- =============================================================================
+-- Already covered by FIX 4 above
+
+-- =============================================================================
+-- FIX 6: Add CHECK constraint for certification_reminders.verification_status
+-- =============================================================================
+-- Ensure verification_status only accepts valid values
+ALTER TABLE public.certification_reminders
+ADD CONSTRAINT chk_cert_reminder_verification_status
+CHECK (verification_status IN ('verified', 'pending', 'unverified'));
+
+-- =============================================================================
+-- END OF CORRECTION MIGRATION
+-- =============================================================================

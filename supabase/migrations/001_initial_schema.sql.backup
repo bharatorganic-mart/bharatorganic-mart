@@ -1,0 +1,311 @@
+-- Supabase Migration: 001_initial_schema.sql
+-- Bharat Organic Mart — Expanded Marketplace Architecture
+-- Review before execution
+
+-- =============================================================================
+-- ENUM TYPES
+-- =============================================================================
+
+-- Operator type enum
+CREATE TYPE operator_type_enum AS ENUM (
+  'Individual Farmers',
+  'Grower Groups',
+  'Contract Farming',
+  'Processors & Manufacturers',
+  'FPOs & Cooperatives',
+  'Traders',
+  'Organic Suppliers'
+);
+
+-- Certification scope enum
+CREATE TYPE certification_scope_enum AS ENUM (
+  'NPOP',
+  'NOP',
+  'EU Organic',
+  'PGS-India',
+  'FSSAI Organic'
+);
+
+-- Publication status enum
+CREATE TYPE publication_status_enum AS ENUM (
+  'draft',
+  'published',
+  'archived'
+);
+
+-- Approval status enum
+CREATE TYPE approval_status_enum AS ENUM (
+  'pending',
+  'approved',
+  'rejected',
+  'needs_revision'
+);
+
+-- Verification status enum (Bharat Organic Mart specific)
+CREATE TYPE verification_status_enum AS ENUM (
+  'Unclaimed',
+  'Claimed',
+  'Verification Pending',
+  'Verification in Progress',
+  'Verified',
+  'Verification Rejected',
+  'Reverification Required'
+);
+
+-- Notification frequency
+CREATE TYPE notification_frequency_enum AS ENUM (
+  'instant',
+  'daily',
+  'weekly',
+  'none'
+);
+
+-- =============================================================================
+-- TABLES
+-- =============================================================================
+
+-- Admin users (Supabase Auth linked)
+CREATE TABLE admin_users (
+  id UUID REFERENCES auth.users(id) ON DELETE CASCADE PRIMARY KEY,
+  email TEXT UNIQUE NOT NULL,
+  full_name TEXT,
+  role TEXT DEFAULT 'admin' CHECK (role IN ('admin', 'super_admin')),
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- User profiles (for all registered users - farmers, buyers, etc.)
+CREATE TABLE user_profiles (
+  id UUID REFERENCES auth.users(id) ON DELETE CASCADE PRIMARY KEY,
+  full_name TEXT,
+  role TEXT DEFAULT 'operator' CHECK (role IN ('operator', 'buyer', 'admin', 'super_admin')),
+  phone TEXT,
+  company_name TEXT,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Operator data sources (APEDA, USDA)
+CREATE TABLE operator_sources (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  source_name TEXT NOT NULL,
+  source_url TEXT,
+  last_collected_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Main directory listings
+CREATE TABLE directory_listings (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  operator_type operator_type_enum NOT NULL,
+  name TEXT NOT NULL,
+  slug TEXT GENERATED ALWAYS AS (lower(regexp_replace(name, '[^a-z0-9]+', '-', 'g'))) STORED,
+
+  -- Addresses
+  registered_address TEXT,
+  facility_address TEXT,
+  city TEXT,
+  state TEXT,
+  country TEXT DEFAULT 'India',
+  postal_code TEXT,
+
+  -- Contact (protected by RLS)
+  contact_person TEXT,
+  phone TEXT,
+  email TEXT,
+  website TEXT,
+
+  -- Certification details
+  scope_1 certification_scope_enum,
+  cert_body_1 TEXT,
+  scope_2 certification_scope_enum,
+  cert_body_2 TEXT,
+  scope_3 certification_scope_enum,
+  cert_body_3 TEXT,
+  certification_status TEXT,
+  certification_date DATE,
+  last_updated DATE,
+
+  -- Products & metadata
+  certified_land_area TEXT,
+  organic_crops TEXT,
+  crop_certification_status TEXT,
+  grower_group_indicator TEXT,
+  certified_area TEXT,
+  product_name TEXT,
+
+  -- Status
+  is_demo_data BOOLEAN DEFAULT true,
+  publication_status publication_status_enum DEFAULT 'draft',
+  approval_status approval_status_enum DEFAULT 'pending',
+  verification_status verification_status_enum DEFAULT 'Unclaimed',
+
+  -- Source & claims
+  source_id UUID REFERENCES operator_sources(id),
+
+  -- Admin moderation
+  approved_by UUID REFERENCES admin_users(id),
+  approved_at TIMESTAMPTZ,
+  rejection_reason TEXT,
+
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Profile claims audit
+CREATE TABLE profile_claims (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  listing_id UUID REFERENCES directory_listings(id),
+  user_id UUID REFERENCES auth.users(id),
+  status TEXT DEFAULT 'pending',
+  claimed_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Verification records
+CREATE TABLE verification_records (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  listing_id UUID REFERENCES directory_listings(id),
+  verified_by UUID REFERENCES admin_users(id),
+  verification_date TIMESTAMPTZ DEFAULT now(),
+  notes TEXT,
+  status TEXT
+);
+
+-- Marketplace products
+CREATE TABLE products (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  operator_id UUID REFERENCES directory_listings(id),
+  product_name TEXT NOT NULL,
+  category TEXT NOT NULL,
+  variety TEXT,
+  quantity NUMERIC,
+  unit TEXT,
+  price NUMERIC,
+  availability_status TEXT,
+  harvest_year INT,
+  harvest_season TEXT,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Buyer requirements (RFQs)
+CREATE TABLE buyer_requirements (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  buyer_id UUID REFERENCES auth.users(id),
+  title TEXT NOT NULL,
+  product_category TEXT NOT NULL,
+  quantity NUMERIC,
+  unit TEXT,
+  location TEXT,
+  description TEXT,
+  status TEXT DEFAULT 'open',
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Notification preferences
+CREATE TABLE notification_preferences (
+  user_id UUID REFERENCES auth.users(id) PRIMARY KEY,
+  frequency notification_frequency_enum DEFAULT 'daily',
+  subscribed_categories TEXT[] DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Certification reminders
+CREATE TABLE certification_reminders (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  operator_id UUID REFERENCES directory_listings(id),
+  reminder_type TEXT,
+  due_date DATE,
+  is_sent BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Farmer advisories (future)
+CREATE TABLE farmer_advisories (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  title TEXT NOT NULL,
+  category TEXT,
+  crop_name TEXT,
+  location TEXT,
+  content TEXT,
+  source TEXT,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- =============================================================================
+-- INDEXES
+-- =============================================================================
+
+CREATE INDEX idx_directory_listings_operator_type ON directory_listings (operator_type);
+CREATE INDEX idx_directory_listings_state ON directory_listings (state);
+CREATE INDEX idx_directory_listings_verification_status ON directory_listings (verification_status);
+CREATE INDEX idx_directory_listings_public ON directory_listings (publication_status, approval_status);
+CREATE INDEX idx_directory_listings_search ON directory_listings USING GIN (
+  to_tsvector('english', coalesce(name, '') || ' ' || coalesce(product_name, '') || ' ' || coalesce(organic_crops, ''))
+);
+
+-- =============================================================================
+-- ROW LEVEL SECURITY (RLS)
+-- =============================================================================
+
+ALTER TABLE directory_listings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE admin_users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE products ENABLE ROW LEVEL SECURITY;
+ALTER TABLE buyer_requirements ENABLE ROW LEVEL SECURITY;
+ALTER TABLE notification_preferences ENABLE ROW LEVEL SECURITY;
+
+-- PUBLIC: Only approved & published, and NOT "Unclaimed" (unclaimed profiles require public claim access)
+CREATE POLICY "Public read published approved"
+  ON directory_listings FOR SELECT TO anon, authenticated
+  USING (publication_status = 'published' AND approval_status = 'approved' AND verification_status != 'Unclaimed');
+
+-- PUBLIC: Allow viewing unclaimed profiles (but contact info hidden)
+CREATE POLICY "Public read unclaimed profiles"
+  ON directory_listings FOR SELECT TO anon, authenticated
+  USING (verification_status = 'Unclaimed');
+
+-- ADMIN: Full access for active admins
+CREATE POLICY "Admin full access" ON directory_listings
+  FOR ALL TO authenticated
+  USING (EXISTS (SELECT 1 FROM admin_users WHERE id = auth.uid() AND is_active = true))
+  WITH CHECK (EXISTS (SELECT 1 FROM admin_users WHERE id = auth.uid() AND is_active = true));
+
+-- USERS: Read own profile
+CREATE POLICY "User read own profile" ON user_profiles
+  FOR SELECT TO authenticated USING (id = auth.uid());
+
+-- USERS: Update own profile
+CREATE POLICY "User update own profile" ON user_profiles
+  FOR UPDATE TO authenticated USING (id = auth.uid());
+
+-- OPERATORS: Manage own products
+CREATE POLICY "Operator manage own products" ON products
+  FOR ALL TO authenticated
+  USING (EXISTS (SELECT 1 FROM directory_listings WHERE id = operator_id AND email = auth.email()));
+
+-- =============================================================================
+-- VIEWS
+-- =============================================================================
+
+CREATE VIEW public_directory_listings AS
+SELECT id, operator_type, name, slug, city, state, country, certified_land_area,
+       organic_crops, certified_area, product_name, scope_1, cert_body_1,
+       scope_2, cert_body_2, scope_3, cert_body_3, verification_status, is_demo_data
+FROM directory_listings
+WHERE (publication_status = 'published' AND approval_status = 'approved')
+   OR verification_status = 'Unclaimed';
+
+GRANT SELECT ON public_directory_listings TO anon, authenticated;
+
+-- =============================================================================
+-- TRIGGERS
+-- =============================================================================
+
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN NEW.updated_at = now(); RETURN NEW; END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_directory_listings_updated_at BEFORE UPDATE ON directory_listings FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();

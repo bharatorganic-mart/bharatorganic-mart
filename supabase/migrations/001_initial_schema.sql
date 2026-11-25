@@ -1284,7 +1284,7 @@ BEGIN
     INSERT INTO public.audit_log (table_name, record_id, action, new_data, changed_by)
     VALUES (TG_TABLE_NAME, NEW.id, 'INSERT', v_new, COALESCE(auth.uid(), '00000000-0000-0000-0000-000000000000'::uuid));
     RETURN NEW;
-  END IF
+  END IF;
   RETURN NULL;
 END;
 $$;
