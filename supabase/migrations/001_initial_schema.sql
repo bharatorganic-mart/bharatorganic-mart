@@ -1,0 +1,1357 @@
+-- =============================================================================
+-- SUPABASE MIGRATION: 001_initial_schema.sql
+-- Bharat Organic Mart — Complete Marketplace Architecture
+-- RESTORED FROM v7 + 3 SECURITY IMPROVEMENTS
+-- REVIEW ONLY — DO NOT EXECUTE WITHOUT EXPLICIT APPROVAL
+-- Backup saved as 001_initial_schema.sql.backup
+-- =============================================================================
+
+-- =============================================================================
+-- EXTENSIONS
+-- =============================================================================
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
+-- =============================================================================
+-- ENUM TYPES (Static — few values, rarely change)
+-- =============================================================================
+
+-- Publication workflow status
+CREATE TYPE publication_status_enum AS ENUM (
+  'draft', 'published', 'archived'
+);
+
+-- Admin moderation approval
+CREATE TYPE approval_status_enum AS ENUM (
+  'pending', 'approved', 'rejected', 'needs_revision'
+);
+
+-- Bharat Organic Mart verification workflow
+CREATE TYPE verification_status_enum AS ENUM (
+  'Unclaimed',
+  'Claimed',
+  'Verification Pending',
+  'Verification in Progress',
+  'Verified',
+  'Verification Rejected',
+  'Reverification Required'
+);
+
+-- Notification delivery frequency (GLOBAL per user)
+CREATE TYPE notification_frequency_enum AS ENUM (
+  'instant', 'daily', 'weekly'
+);
+
+-- Notification delivery channels
+CREATE TYPE notification_channel_enum AS ENUM (
+  'email', 'web', 'whatsapp'
+);
+
+-- Notification event types
+CREATE TYPE notification_event_type_enum AS ENUM (
+  'new_product', 'new_rfq', 'new_supplier',
+  'certification_reminder', 'advisory', 'marketplace_announcement'
+);
+
+-- Notification queue status
+CREATE TYPE notification_queue_status_enum AS ENUM (
+  'pending', 'sent', 'failed', 'cancelled'
+);
+
+-- Membership status
+CREATE TYPE membership_status_enum AS ENUM (
+  'active', 'expired', 'cancelled', 'past_due', 'trial'
+);
+
+-- Profile claim status
+CREATE TYPE claim_status_enum AS ENUM (
+  'pending', 'approved', 'rejected', 'more_info_needed'
+);
+
+-- Certification reminder types
+CREATE TYPE reminder_type_enum AS ENUM (
+  'renewal', 'inspection', 'expiry'
+);
+
+-- Source types
+CREATE TYPE source_type_enum AS ENUM (
+  'apeda', 'usda_nop', 'certification_body', 'manual'
+);
+
+-- Advisory seasons
+CREATE TYPE advisory_season_enum AS ENUM (
+  'kharif', 'rabi', 'zaid', 'perennial'
+);
+
+-- =============================================================================
+-- REFERENCE TABLES (Admin-managed, dynamically extensible)
+-- =============================================================================
+
+-- Operator categories (replaces hardcoded operator_type_enum)
+CREATE TABLE operator_categories (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  code TEXT UNIQUE NOT NULL,
+  name TEXT NOT NULL,
+  description TEXT,
+  display_order INT DEFAULT 0,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Insert initial 7 categories
+INSERT INTO operator_categories (code, name, display_order, is_active) VALUES
+  ('individual_farmers', 'Individual Farmers', 1, true),
+  ('grower_groups', 'Grower Groups', 2, true),
+  ('contract_farming', 'Contract Farming', 3, true),
+  ('processors_manufacturers', 'Processors & Manufacturers', 4, true),
+  ('fpos_cooperatives', 'FPOs & Cooperatives', 5, true),
+  ('traders', 'Traders', 6, true),
+  ('organic_suppliers', 'Organic Suppliers', 7, true);
+
+-- Certification programs (replaces hardcoded certification_scope_enum)
+CREATE TABLE certification_programs (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  code TEXT UNIQUE NOT NULL,
+  name TEXT NOT NULL,
+  description TEXT,
+  country TEXT DEFAULT 'India',
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+INSERT INTO certification_programs (code, name, country, is_active) VALUES
+  ('NPOP', 'NPOP (India)', 'India', true),
+  ('NOP', 'USDA NOP (USA)', 'USA', true),
+  ('EU_ORGANIC', 'EU Organic', 'EU', true),
+  ('PGS_INDIA', 'PGS-India', 'India', true),
+  ('FSSAI_ORGANIC', 'FSSAI Organic', 'India', true);
+
+-- Commodity/product categories (hierarchical)
+CREATE TABLE commodity_categories (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  code TEXT UNIQUE NOT NULL,
+  name TEXT NOT NULL,
+  parent_id UUID REFERENCES commodity_categories(id),
+  description TEXT,
+  is_active BOOLEAN DEFAULT true,
+  display_order INT DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+INSERT INTO commodity_categories (code, name, display_order, is_active) VALUES
+  ('grains_cereals', 'Grains & Cereals', 1, true),
+  ('pulses', 'Pulses', 2, true),
+  ('spices', 'Spices', 3, true),
+  ('oilseeds', 'Oilseeds', 4, true),
+  ('millets', 'Millets', 5, true),
+  ('fruits', 'Fruits', 6, true),
+  ('vegetables', 'Vegetables', 7, true),
+  ('organic_seeds', 'Organic Seeds', 8, true),
+  ('organic_fertilizers', 'Organic Fertilizers', 9, true),
+  ('organic_inputs', 'Other Organic Inputs', 10, true);
+
+-- Sub-categories (examples)
+INSERT INTO commodity_categories (code, name, parent_id, display_order, is_active)
+SELECT 'basmati_rice', 'Basmati Rice', id, 1, true FROM commodity_categories WHERE code = 'grains_cereals'
+UNION ALL SELECT 'non_basmati_rice', 'Non-Basmati Rice', id, 2, true FROM commodity_categories WHERE code = 'grains_cereals'
+UNION ALL SELECT 'wheat', 'Wheat', id, 3, true FROM commodity_categories WHERE code = 'grains_cereals'
+UNION ALL SELECT 'turmeric', 'Turmeric', id, 1, true FROM commodity_categories WHERE code = 'spices'
+UNION ALL SELECT 'cumin', 'Cumin', id, 2, true FROM commodity_categories WHERE code = 'spices';
+
+-- Quantity units (admin-managed, dynamic — replaces ENUM)
+CREATE TABLE quantity_units (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  code TEXT UNIQUE NOT NULL,
+  name TEXT NOT NULL,
+  description TEXT,
+  is_active BOOLEAN DEFAULT true,
+  display_order INT DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Seed standard quantity units (MT is the standard metric tonne; TONNES removed as duplicate)
+INSERT INTO quantity_units (code, name, description, display_order, is_active) VALUES
+  ('MT', 'Metric Tonne', 'Standard metric tonne (1000 kg)', 1, true),
+  ('KG', 'Kilogram', 'Kilogram', 2, true),
+  ('QUINTAL', 'Quintal', '100 kg (common in Indian agriculture)', 3, true),
+  ('LITRE', 'Litre', 'Litre (for liquids)', 4, true),
+  ('PIECES', 'Pieces', 'Individual pieces/count', 5, true),
+  ('BAGS', 'Bags', 'Standard bags (weight varies by commodity)', 6, true);
+
+-- Membership tiers
+CREATE TABLE membership_tiers (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name TEXT NOT NULL,
+  slug TEXT UNIQUE NOT NULL,
+  description TEXT,
+  monthly_price NUMERIC(10,2) DEFAULT 0,
+  annual_price NUMERIC(10,2) DEFAULT 0,
+  entitlements JSONB NOT NULL DEFAULT '{}',
+  is_active BOOLEAN DEFAULT true,
+  display_order INT DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+INSERT INTO membership_tiers (name, slug, monthly_price, annual_price, entitlements, display_order, is_active) VALUES
+  ('Free', 'free', 0, 0,
+   '{"view_contact": false, "view_full_products": false, "advanced_filters": false, "view_buyer_requirements": false}',
+   1, true),
+  ('Premium', 'premium', 999, 9999,
+   '{"view_contact": true, "view_full_products": true, "advanced_filters": true, "view_buyer_requirements": true}',
+   2, true),
+  ('Enterprise', 'enterprise', 4999, 49999,
+   '{"view_contact": true, "view_full_products": true, "advanced_filters": true, "view_buyer_requirements": true, "api_access": true, "bulk_export": true}',
+   3, true);
+
+-- Email templates
+CREATE TABLE email_templates (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  template_key TEXT UNIQUE NOT NULL,
+  subject TEXT NOT NULL,
+  body_html TEXT NOT NULL,
+  body_text TEXT,
+  variables JSONB DEFAULT '[]',
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- =============================================================================
+-- CORE USER & AUTH TABLES
+-- =============================================================================
+
+-- Admin users (linked to Supabase Auth)
+CREATE TABLE admin_users (
+  id UUID REFERENCES auth.users(id) ON DELETE CASCADE PRIMARY KEY,
+  email TEXT UNIQUE NOT NULL,
+  full_name TEXT,
+  role TEXT DEFAULT 'admin' CHECK (role IN ('admin', 'super_admin')),
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- User profiles (extends auth.users for all registered users)
+CREATE TABLE user_profiles (
+  id UUID REFERENCES auth.users(id) ON DELETE CASCADE PRIMARY KEY,
+  full_name TEXT,
+  role TEXT DEFAULT 'operator' CHECK (role IN ('operator', 'buyer', 'admin', 'super_admin')),
+  phone TEXT,
+  company_name TEXT,
+  -- Membership tier (managed via user_memberships; this is for quick reference)
+  membership_tier_id UUID REFERENCES membership_tiers(id),
+  -- Notification consent
+  email_consent BOOLEAN DEFAULT false,
+  marketing_consent BOOLEAN DEFAULT false,
+  -- Timezone for digest scheduling
+  timezone TEXT DEFAULT 'Asia/Kolkata',
+  -- Profile status
+  is_verified BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- User memberships (history and current — single source of truth)
+CREATE TABLE user_memberships (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  membership_tier_id UUID REFERENCES membership_tiers(id),
+  status membership_status_enum DEFAULT 'active',
+  starts_at TIMESTAMPTZ DEFAULT now(),
+  ends_at TIMESTAMPTZ,
+  payment_reference TEXT,
+  auto_renew BOOLEAN DEFAULT false,
+  metadata JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- =============================================================================
+-- OPERATOR SOURCE & IMPORT TRACKING
+-- =============================================================================
+
+-- External data sources (APEDA, USDA NOP, certification bodies)
+-- MANUAL ENTRY ONLY — no automatic scraping, fetching, or synchronization
+-- from APEDA, USDA NOP, or any certification body databases.
+CREATE TABLE operator_sources (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  source_name TEXT NOT NULL,
+  source_type source_type_enum,
+  source_url TEXT,
+  contact_person TEXT,
+  notes TEXT,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Excel import batch history
+CREATE TABLE excel_import_batches (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  filename TEXT NOT NULL,
+  imported_by UUID REFERENCES admin_users(id),
+  source_id UUID REFERENCES operator_sources(id),
+  total_rows INT DEFAULT 0,
+  successful_rows INT DEFAULT 0,
+  failed_rows INT DEFAULT 0,
+  error_details JSONB DEFAULT '[]',
+  status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'processing', 'completed', 'failed')),
+  started_at TIMESTAMPTZ,
+  completed_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- =============================================================================
+-- MAIN DIRECTORY LISTINGS
+-- =============================================================================
+
+CREATE TABLE directory_listings (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+
+  -- Categorization
+  operator_category_id UUID REFERENCES operator_categories(id) NOT NULL,
+
+  -- Basic identity
+  name TEXT NOT NULL,
+  -- Unique slug: name + short uuid suffix to prevent collisions
+  slug TEXT GENERATED ALWAYS AS (
+    lower(regexp_replace(name, '[^a-z0-9]+', '-', 'g')) || '-' || substr(id::text, 1, 8)
+  ) STORED,
+
+  -- Addresses
+  registered_address TEXT,
+  facility_address TEXT,
+  city TEXT,
+  state TEXT,
+  country TEXT DEFAULT 'India',
+  postal_code TEXT,
+
+  -- Contact (protected by RLS — see policies and public_directory_listings view)
+  contact_person TEXT,
+  phone TEXT,
+  email TEXT UNIQUE,  -- UNIQUE for ownership checks
+  website TEXT,
+
+  -- Certifications (normalized as JSONB array for flexibility)
+  -- Each element: {"program_id": uuid, "body": "Cert Body Name", "status": "Active", "date": "2024-01-15", "scope": "Crop Production", "certificate_number": "NPOP/XXX"}
+  certifications JSONB DEFAULT '[]' CHECK (jsonb_typeof(certifications) = 'array'),
+
+  -- Land & crops
+  certified_land_area TEXT,
+  organic_crops TEXT,
+  crop_certification_status TEXT,
+  grower_group_indicator TEXT,
+  certified_area TEXT,
+
+  -- Source & audit trail (MANUAL ENTRY ONLY — no auto-sync)
+  source_id UUID REFERENCES operator_sources(id),
+  source_name TEXT,
+  source_url TEXT,
+  source_reference TEXT,
+  collected_at TIMESTAMPTZ,
+  entered_by UUID REFERENCES admin_users(id),
+  reviewed_by UUID REFERENCES admin_users(id),
+  reviewed_at TIMESTAMPTZ,
+  verification_notes TEXT,
+
+  -- Internal verification workflow
+  internal_verification_status TEXT DEFAULT 'pending_review' CHECK (internal_verification_status IN ('pending_review', 'verified', 'rejected', 'needs_update')),
+  verification_date TIMESTAMPTZ,
+
+  -- Publication & moderation
+  is_demo_data BOOLEAN DEFAULT true,
+  publication_status publication_status_enum DEFAULT 'draft',
+  approval_status approval_status_enum DEFAULT 'pending',
+
+  -- Bharat Organic Mart verification workflow
+  verification_status verification_status_enum DEFAULT 'Unclaimed',
+
+  -- Premium content flag (controls visibility of contact info, full product details)
+  premium_visible BOOLEAN DEFAULT false,
+
+  -- Admin moderation
+  approved_by UUID REFERENCES admin_users(id),
+  approved_at TIMESTAMPTZ,
+  rejection_reason TEXT,
+
+  -- Timestamps
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Unique index on slug for fast lookups (generated column ensures uniqueness)
+CREATE UNIQUE INDEX idx_dir_slug ON directory_listings (slug);
+
+-- =============================================================================
+-- PROFILE CLAIMING & VERIFICATION
+-- =============================================================================
+
+-- Operator claims their profile
+CREATE TABLE profile_claims (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  listing_id UUID REFERENCES directory_listings(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  status claim_status_enum DEFAULT 'pending',
+  documents_submitted JSONB DEFAULT '[]',
+  review_notes TEXT,
+  reviewed_by UUID REFERENCES admin_users(id),
+  reviewed_at TIMESTAMPTZ,
+  claimed_at TIMESTAMPTZ DEFAULT now(),
+  UNIQUE (listing_id, user_id)
+);
+
+-- Verification records (Bharat Organic Mart verification audit trail)
+CREATE TABLE verification_records (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  listing_id UUID REFERENCES directory_listings(id) ON DELETE CASCADE,
+  verified_by UUID REFERENCES admin_users(id),
+  verification_date TIMESTAMPTZ DEFAULT now(),
+  documents_reviewed JSONB DEFAULT '[]',
+  verification_outcome TEXT CHECK (verification_outcome IN ('verified', 'rejected', 'conditional')),
+  notes TEXT,
+  next_reverification_date DATE,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- =============================================================================
+-- MARKETPLACE: PRODUCTS
+-- =============================================================================
+
+CREATE TABLE products (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  operator_id UUID REFERENCES directory_listings(id) ON DELETE CASCADE,
+  commodity_category_id UUID REFERENCES commodity_categories(id) NOT NULL,
+  quantity_unit_id UUID REFERENCES quantity_units(id) NOT NULL,  -- Dynamic reference to quantity_units
+
+  product_name TEXT NOT NULL,
+  variety TEXT,
+
+  -- Certification for THIS product (may differ from operator's overall certs)
+  certification_program_id UUID REFERENCES certification_programs(id),
+  certification_body TEXT,
+  certification_status TEXT,
+  certificate_number TEXT,
+
+  -- Availability & pricing
+  available_quantity NUMERIC,
+  min_order_qty NUMERIC,
+  price NUMERIC(12,2),
+  price_on_request BOOLEAN DEFAULT false,
+
+  -- Location & harvest
+  state TEXT,
+  country TEXT DEFAULT 'India',
+  harvest_year INT,  -- No time-dependent CHECK; validated in application layer
+  harvest_month INT CHECK (harvest_month BETWEEN 1 AND 12),
+  expected_harvest_date DATE,
+  production_location TEXT,
+
+  -- Logistics
+  storage_available BOOLEAN DEFAULT false,
+  storage_details TEXT,
+  packaging_details TEXT,
+  processing_details TEXT,
+
+  -- Documents
+  available_documents JSONB DEFAULT '[]' CHECK (jsonb_typeof(available_documents) = 'array'),
+
+  -- Status
+  listing_date DATE DEFAULT CURRENT_DATE,
+  availability_status TEXT DEFAULT 'available' CHECK (availability_status IN ('available', 'limited', 'sold_out', 'coming_soon')),
+  is_premium_only BOOLEAN DEFAULT false,
+
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- =============================================================================
+-- MARKETPLACE: BUYER REQUIREMENTS (RFQs)
+-- =============================================================================
+
+CREATE TABLE buyer_requirements (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  buyer_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  commodity_category_id UUID REFERENCES commodity_categories(id) NOT NULL,
+  quantity_unit_id UUID REFERENCES quantity_units(id) NOT NULL,  -- Dynamic reference to quantity_units
+
+  title TEXT NOT NULL,
+  required_quantity NUMERIC,
+  min_order_qty NUMERIC,
+
+  -- Certification requirements
+  certification_program_id UUID REFERENCES certification_programs(id),
+  certification_requirements TEXT,
+
+  -- Delivery & origin
+  required_country TEXT,
+  delivery_destination TEXT,
+  required_harvest_year INT,  -- No time-dependent CHECK; validated in application layer
+
+  -- Quality & packaging
+  quality_specs TEXT,
+  packaging_requirements TEXT,
+
+  -- Timeline
+  expected_delivery_date DATE,
+  expiry_date DATE,
+
+  -- Contact
+  contact_details JSONB DEFAULT '{}' CHECK (jsonb_typeof(contact_details) = 'object'),
+
+  -- Access control
+  is_premium_only BOOLEAN DEFAULT false,
+
+  -- Status
+  status TEXT DEFAULT 'open' CHECK (status IN ('open', 'matched', 'closed', 'expired')),
+
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Supplier responses to RFQs
+CREATE TABLE supplier_responses (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  requirement_id UUID REFERENCES buyer_requirements(id) ON DELETE CASCADE,
+  operator_id UUID REFERENCES directory_listings(id) ON DELETE CASCADE,
+  product_id UUID REFERENCES products(id) ON DELETE SET NULL,
+  message TEXT,
+  offered_quantity NUMERIC,
+  offered_price NUMERIC(12,2),
+  status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'accepted', 'rejected', 'negotiating')),
+  responded_at TIMESTAMPTZ DEFAULT now(),
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- =============================================================================
+-- NOTIFICATION SYSTEM (Normalized)
+-- =============================================================================
+
+-- ONE global notification profile per user
+CREATE TABLE notification_profiles (
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE PRIMARY KEY,
+  global_frequency notification_frequency_enum DEFAULT 'daily',
+  timezone TEXT DEFAULT 'Asia/Kolkata',
+  email_consent BOOLEAN DEFAULT false,
+  web_consent BOOLEAN DEFAULT true,
+  paused BOOLEAN DEFAULT false,
+  paused_until TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Per-commodity/event subscriptions (WHAT user wants)
+CREATE TABLE notification_subscriptions (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  subscription_type TEXT NOT NULL CHECK (subscription_type IN (
+    'commodity', 'event', 'certification_reminder', 'advisory'
+  )),
+  reference_id UUID,
+  reference_table TEXT CHECK (reference_table IN (
+    'commodity_categories', 'farmer_advisories', 'certification_programs', 'operator_categories'
+  )),
+  -- Advanced filters (ALL must match)
+  filters JSONB DEFAULT '{}' CHECK (jsonb_typeof(filters) = 'object'),
+  enabled BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now(),
+  UNIQUE (user_id, subscription_type, reference_id, reference_table)
+);
+
+-- Channel preferences (WHERE user wants notifications)
+CREATE TABLE notification_channels (
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  channel notification_channel_enum NOT NULL,
+  enabled BOOLEAN DEFAULT true,
+  PRIMARY KEY (user_id, channel)
+);
+
+-- Generated notification events (from marketplace actions)
+CREATE TABLE notification_events (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  event_type notification_event_type_enum NOT NULL,
+  source_table TEXT,
+  source_id UUID,
+  payload JSONB DEFAULT '{}' CHECK (jsonb_typeof(payload) = 'object'),
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Delivery queue (scheduled sends)
+CREATE TABLE notification_queue (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  event_id UUID REFERENCES notification_events(id) ON DELETE CASCADE,
+  channel notification_channel_enum NOT NULL,
+  scheduled_for TIMESTAMPTZ NOT NULL,
+  status notification_queue_status_enum DEFAULT 'pending',
+  attempts INT DEFAULT 0,
+  last_error TEXT,
+  sent_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Delivery history log
+CREATE TABLE notification_delivery_log (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  event_id UUID REFERENCES notification_events(id) ON DELETE SET NULL,
+  channel notification_channel_enum NOT NULL,
+  status TEXT NOT NULL CHECK (status IN ('sent', 'failed', 'bounced', 'unsubscribed')),
+  error_message TEXT,
+  sent_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- =============================================================================
+-- CERTIFICATION REMINDERS
+-- =============================================================================
+
+-- Certification reminders use ONLY recorded and verified certification information.
+-- Never auto-generate expiry dates or reminder dates from assumptions.
+-- Admins enter: certificate_issue_date, certificate_expiry_date, reminder_scheduled_at.
+-- reminder_scheduled_at may be earlier than certificate_expiry_date (e.g., 30 days before).
+CREATE TABLE certification_reminders (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  listing_id UUID REFERENCES directory_listings(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  certification_program_id UUID REFERENCES certification_programs(id),
+  reminder_type reminder_type_enum NOT NULL,
+
+  -- Verified certification dates from official documents
+  certificate_issue_date DATE,
+  certificate_expiry_date DATE,
+
+  -- When to send the reminder (can be before expiry_date)
+  reminder_scheduled_at TIMESTAMPTZ NOT NULL,
+
+  -- Source verification
+  source_date DATE,                         -- Date from official source document
+  verification_status TEXT DEFAULT 'pending' CHECK (verification_status IN ('verified', 'pending', 'unverified')),
+
+  -- Delivery tracking
+  is_sent BOOLEAN DEFAULT false,
+  sent_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- =============================================================================
+-- FARMER ADVISORIES
+-- =============================================================================
+
+CREATE TABLE farmer_advisories (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  commodity_category_id UUID REFERENCES commodity_categories(id),
+  crop_name TEXT,
+  location TEXT,
+  season advisory_season_enum,
+  sowing_month INT CHECK (sowing_month BETWEEN 1 AND 12),
+  title TEXT NOT NULL,
+  content TEXT NOT NULL,
+  source_reference TEXT,
+  source_url TEXT,
+  published_at TIMESTAMPTZ,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- User subscriptions to advisories
+CREATE TABLE farmer_advisory_subscriptions (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  commodity_category_id UUID REFERENCES commodity_categories(id),
+  crop_name TEXT,
+  location TEXT,
+  enabled BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  UNIQUE (user_id, commodity_category_id, crop_name, location)
+);
+
+-- =============================================================================
+-- AUDIT LOG
+-- =============================================================================
+
+CREATE TABLE audit_log (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  table_name TEXT NOT NULL,
+  record_id UUID NOT NULL,
+  action TEXT NOT NULL CHECK (action IN ('INSERT', 'UPDATE', 'DELETE', 'TRUNCATE')),
+  old_data JSONB,
+  new_data JSONB,
+  changed_by UUID,  -- nullable for system operations
+  changed_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- =============================================================================
+-- INDEXES
+-- =============================================================================
+
+-- Directory listings
+CREATE INDEX idx_dir_operator_category ON directory_listings (operator_category_id);
+CREATE INDEX idx_dir_state ON directory_listings (state);
+CREATE INDEX idx_dir_city ON directory_listings (city);
+CREATE INDEX idx_dir_verification_status ON directory_listings (verification_status);
+CREATE INDEX idx_dir_publication_approval ON directory_listings (publication_status, approval_status);
+CREATE INDEX idx_dir_source ON directory_listings (source_id);
+CREATE INDEX idx_dir_is_demo ON directory_listings (is_demo_data);
+CREATE INDEX idx_dir_premium_visible ON directory_listings (premium_visible);
+CREATE INDEX idx_dir_search ON directory_listings USING GIN (
+  to_tsvector('english',
+    coalesce(name, '') || ' ' ||
+    coalesce(city, '') || ' ' ||
+    coalesce(state, '') || ' ' ||
+    coalesce(organic_crops, '')
+  )
+);
+-- Composite indexes for common query patterns
+CREATE INDEX idx_dir_category_verif_pub ON directory_listings (operator_category_id, verification_status, publication_status);
+CREATE INDEX idx_dir_email ON directory_listings (email) WHERE email IS NOT NULL;
+
+-- Products
+CREATE INDEX idx_products_operator ON products (operator_id);
+CREATE INDEX idx_products_commodity ON products (commodity_category_id);
+CREATE INDEX idx_products_state ON products (state);
+CREATE INDEX idx_products_harvest_year ON products (harvest_year);
+CREATE INDEX idx_products_availability ON products (availability_status);
+CREATE INDEX idx_products_premium ON products (is_premium_only);
+CREATE INDEX idx_products_cert_program ON products (certification_program_id);
+CREATE INDEX idx_products_operator_avail_premium ON products (operator_id, availability_status, is_premium_only);
+
+-- Buyer requirements
+CREATE INDEX idx_buyer_req_buyer ON buyer_requirements (buyer_id);
+CREATE INDEX idx_buyer_req_commodity ON buyer_requirements (commodity_category_id);
+CREATE INDEX idx_buyer_req_status ON buyer_requirements (status);
+CREATE INDEX idx_buyer_req_premium ON buyer_requirements (is_premium_only);
+CREATE INDEX idx_buyer_req_buyer_status_expiry ON buyer_requirements (buyer_id, status, expiry_date);
+
+-- Supplier responses
+CREATE INDEX idx_supplier_resp_requirement ON supplier_responses (requirement_id);
+CREATE INDEX idx_supplier_resp_operator ON supplier_responses (operator_id);
+
+-- Profile claims
+CREATE INDEX idx_profile_claims_listing_status ON profile_claims (listing_id, status);
+
+-- Notification system
+CREATE INDEX idx_notif_queue_scheduled ON notification_queue (scheduled_for, status);
+CREATE INDEX idx_notif_queue_user ON notification_queue (user_id, status);
+CREATE INDEX idx_notif_subscriptions_user ON notification_subscriptions (user_id, enabled);
+CREATE INDEX idx_notif_events_type ON notification_events (event_type, created_at);
+CREATE INDEX idx_notif_delivery_log_user ON notification_delivery_log (user_id, sent_at);
+
+-- Certification reminders
+CREATE INDEX idx_cert_reminders_scheduled ON certification_reminders (reminder_scheduled_at, is_sent);
+CREATE INDEX idx_cert_reminders_listing ON certification_reminders (listing_id);
+CREATE INDEX idx_cert_reminders_listing_scheduled ON certification_reminders (listing_id, reminder_scheduled_at, is_sent);
+
+-- Audit log
+CREATE INDEX idx_audit_log_table_record ON audit_log (table_name, record_id);
+CREATE INDEX idx_audit_log_changed_at ON audit_log (changed_at);
+
+-- =============================================================================
+-- ROW LEVEL SECURITY (RLS)
+-- =============================================================================
+
+-- Enable RLS on all tables
+ALTER TABLE directory_listings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE operator_categories ENABLE ROW LEVEL SECURITY;
+ALTER TABLE certification_programs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE commodity_categories ENABLE ROW LEVEL SECURITY;
+ALTER TABLE quantity_units ENABLE ROW LEVEL SECURITY;
+ALTER TABLE admin_users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE user_memberships ENABLE ROW LEVEL SECURITY;
+ALTER TABLE operator_sources ENABLE ROW LEVEL SECURITY;
+ALTER TABLE excel_import_batches ENABLE ROW LEVEL SECURITY;
+ALTER TABLE profile_claims ENABLE ROW LEVEL SECURITY;
+ALTER TABLE verification_records ENABLE ROW LEVEL SECURITY;
+ALTER TABLE products ENABLE ROW LEVEL SECURITY;
+ALTER TABLE buyer_requirements ENABLE ROW LEVEL SECURITY;
+ALTER TABLE supplier_responses ENABLE ROW LEVEL SECURITY;
+ALTER TABLE notification_profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE notification_subscriptions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE notification_channels ENABLE ROW LEVEL SECURITY;
+ALTER TABLE notification_events ENABLE ROW LEVEL SECURITY;
+ALTER TABLE notification_queue ENABLE ROW LEVEL SECURITY;
+ALTER TABLE notification_delivery_log ENABLE ROW LEVEL SECURITY;
+ALTER TABLE certification_reminders ENABLE ROW LEVEL SECURITY;
+ALTER TABLE farmer_advisories ENABLE ROW LEVEL SECURITY;
+ALTER TABLE farmer_advisory_subscriptions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE audit_log ENABLE ROW LEVEL SECURITY;
+ALTER TABLE membership_tiers ENABLE ROW LEVEL SECURITY;
+ALTER TABLE email_templates ENABLE ROW LEVEL SECURITY;
+
+-- =============================================================================
+-- SECURITY DEFINER FUNCTIONS FOR PREMIUM ENTITLEMENT CHECKS (HARDENED)
+-- =============================================================================
+
+-- Check if user has specific entitlement
+CREATE OR REPLACE FUNCTION public.has_entitlement(p_user_id UUID, p_entitlement TEXT)
+RETURNS BOOLEAN
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''  -- Empty search path prevents object-shadowing attacks
+AS $$
+DECLARE
+  v_entitlements JSONB;
+BEGIN
+  SELECT mt.entitlements INTO v_entitlements
+  FROM public.user_memberships um
+  JOIN public.membership_tiers mt ON mt.id = um.membership_tier_id
+  WHERE um.user_id = p_user_id
+    AND um.status = 'active'
+    AND (um.ends_at IS NULL OR um.ends_at > now())
+    AND mt.is_active = true
+  ORDER BY mt.display_order DESC
+  LIMIT 1;
+
+  IF v_entitlements IS NULL THEN
+    -- Fallback to free tier
+    SELECT entitlements INTO v_entitlements
+    FROM public.membership_tiers
+    WHERE slug = 'free' AND is_active = true
+    LIMIT 1;
+  END IF;
+
+  RETURN COALESCE(v_entitlements->>p_entitlement, 'false')::boolean;
+END;
+$$;
+
+-- Check if user can view premium content
+CREATE OR REPLACE FUNCTION public.can_view_premium(p_user_id UUID)
+RETURNS BOOLEAN
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+BEGIN
+  RETURN public.has_entitlement(p_user_id, 'view_full_products');
+END;
+$$;
+
+-- Check if user can view contact info
+CREATE OR REPLACE FUNCTION public.can_view_contact(p_user_id UUID)
+RETURNS BOOLEAN
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+BEGIN
+  RETURN public.has_entitlement(p_user_id, 'view_contact');
+END;
+$$;
+
+-- Check if user is admin
+CREATE OR REPLACE FUNCTION public.is_admin(p_user_id UUID)
+RETURNS BOOLEAN
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+BEGIN
+  RETURN EXISTS (
+    SELECT 1 FROM public.admin_users WHERE id = p_user_id AND is_active = true
+  );
+END;
+$$;
+
+-- Check if user is super_admin
+CREATE OR REPLACE FUNCTION public.is_super_admin(p_user_id UUID)
+RETURNS BOOLEAN
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+BEGIN
+  RETURN EXISTS (
+    SELECT 1 FROM public.admin_users WHERE id = p_user_id AND is_active = true AND role = 'super_admin'
+  );
+END;
+$$;
+
+-- =============================================================================
+-- RLS POLICIES: REFERENCE TABLES (Public read, Admin write)
+-- =============================================================================
+
+-- operator_categories
+CREATE POLICY "Public read operator_categories" ON operator_categories FOR SELECT TO anon, authenticated USING (is_active = true);
+CREATE POLICY "Admin write operator_categories" ON operator_categories FOR ALL TO authenticated USING (public.is_admin(auth.uid())) WITH CHECK (public.is_admin(auth.uid()));
+
+-- certification_programs
+CREATE POLICY "Public read certification_programs" ON certification_programs FOR SELECT TO anon, authenticated USING (is_active = true);
+CREATE POLICY "Admin write certification_programs" ON certification_programs FOR ALL TO authenticated USING (public.is_admin(auth.uid())) WITH CHECK (public.is_admin(auth.uid()));
+
+-- commodity_categories
+CREATE POLICY "Public read commodity_categories" ON commodity_categories FOR SELECT TO anon, authenticated USING (is_active = true);
+CREATE POLICY "Admin write commodity_categories" ON commodity_categories FOR ALL TO authenticated USING (public.is_admin(auth.uid())) WITH CHECK (public.is_admin(auth.uid()));
+
+-- quantity_units
+CREATE POLICY "Public read quantity_units" ON quantity_units FOR SELECT TO anon, authenticated USING (is_active = true);
+CREATE POLICY "Admin write quantity_units" ON quantity_units FOR ALL TO authenticated USING (public.is_admin(auth.uid())) WITH CHECK (public.is_admin(auth.uid()));
+
+-- membership_tiers
+CREATE POLICY "Public read membership_tiers" ON membership_tiers FOR SELECT TO anon, authenticated USING (is_active = true);
+CREATE POLICY "Admin write membership_tiers" ON membership_tiers FOR ALL TO authenticated USING (public.is_admin(auth.uid())) WITH CHECK (public.is_admin(auth.uid()));
+
+-- email_templates
+CREATE POLICY "Admin read email_templates" ON email_templates FOR SELECT TO authenticated USING (public.is_admin(auth.uid()));
+CREATE POLICY "Admin write email_templates" ON email_templates FOR ALL TO authenticated USING (public.is_admin(auth.uid())) WITH CHECK (public.is_admin(auth.uid()));
+
+-- =============================================================================
+-- RLS POLICIES: DIRECTORY LISTINGS
+-- =============================================================================
+
+-- Public: Approved & published OR Unclaimed (for claim flow)
+-- Contact info hidden via view (not in public view)
+CREATE POLICY "Public read directory_listings" ON directory_listings
+  FOR SELECT TO anon, authenticated
+  USING (
+    (publication_status = 'published' AND approval_status = 'approved')
+    OR verification_status = 'Unclaimed'
+  );
+
+-- Authenticated users: Can see claimed/verified profiles they own
+CREATE POLICY "Owner read own listings" ON directory_listings
+  FOR SELECT TO authenticated
+  USING (
+    email = auth.jwt()->>'email'
+    OR EXISTS (
+      SELECT 1 FROM public.profile_claims pc
+      WHERE pc.listing_id = directory_listings.id
+        AND pc.user_id = auth.uid()
+        AND pc.status = 'approved'
+    )
+  );
+
+-- Admin: Full access
+CREATE POLICY "Admin full directory_listings" ON directory_listings
+  FOR ALL TO authenticated
+  USING (public.is_admin(auth.uid()))
+  WITH CHECK (public.is_admin(auth.uid()));
+
+-- =============================================================================
+-- RLS POLICIES: PRODUCTS
+-- =============================================================================
+
+-- Public: Non-premium products from approved listings
+CREATE POLICY "Public read products" ON products
+  FOR SELECT TO anon, authenticated
+  USING (
+    is_premium_only = false
+    AND EXISTS (
+      SELECT 1 FROM public.directory_listings dl
+      WHERE dl.id = products.operator_id
+        AND dl.publication_status = 'published'
+        AND dl.approval_status = 'approved'
+    )
+  );
+
+-- Premium users: All products from approved listings
+CREATE POLICY "Premium read products" ON products
+  FOR SELECT TO authenticated
+  USING (
+    EXISTS (
+      SELECT 1 FROM public.directory_listings dl
+      WHERE dl.id = products.operator_id
+        AND dl.publication_status = 'published'
+        AND dl.approval_status = 'approved'
+    )
+    AND (is_premium_only = false OR public.can_view_premium(auth.uid()))
+  );
+
+-- Operators: Manage their own products
+CREATE POLICY "Operator manage own products" ON products
+  FOR ALL TO authenticated
+  USING (
+    EXISTS (
+      SELECT 1 FROM public.directory_listings dl
+      WHERE dl.id = products.operator_id
+        AND dl.email = auth.jwt()->>'email'
+    )
+  )
+  WITH CHECK (
+    EXISTS (
+      SELECT 1 FROM public.directory_listings dl
+      WHERE dl.id = products.operator_id
+        AND dl.email = auth.jwt()->>'email'
+    )
+  );
+
+-- Admin: Full access
+CREATE POLICY "Admin full products" ON products
+  FOR ALL TO authenticated
+  USING (public.is_admin(auth.uid()))
+  WITH CHECK (public.is_admin(auth.uid()));
+
+-- =============================================================================
+-- RLS POLICIES: BUYER REQUIREMENTS
+-- =============================================================================
+
+-- Premium users: View open requirements
+CREATE POLICY "Premium read buyer_requirements" ON buyer_requirements
+  FOR SELECT TO authenticated
+  USING (
+    status = 'open'
+    AND (is_premium_only = false OR public.can_view_premium(auth.uid()))
+    AND (expiry_date IS NULL OR expiry_date >= CURRENT_DATE)
+  );
+
+-- Buyer: Manage own requirements
+CREATE POLICY "Buyer manage own requirements" ON buyer_requirements
+  FOR ALL TO authenticated
+  USING (buyer_id = auth.uid())
+  WITH CHECK (buyer_id = auth.uid());
+
+-- Admin: Full access
+CREATE POLICY "Admin full buyer_requirements" ON buyer_requirements
+  FOR ALL TO authenticated
+  USING (public.is_admin(auth.uid()))
+  WITH CHECK (public.is_admin(auth.uid()));
+
+-- =============================================================================
+-- RLS POLICIES: SUPPLIER RESPONSES
+-- =============================================================================
+
+CREATE POLICY "Supplier manage own responses" ON supplier_responses
+  FOR ALL TO authenticated
+  USING (operator_id IN (
+    SELECT id FROM public.directory_listings WHERE email = auth.jwt()->>'email'
+  ))
+  WITH CHECK (operator_id IN (
+    SELECT id FROM public.directory_listings WHERE email = auth.jwt()->>'email'
+  ));
+
+CREATE POLICY "Buyer read responses to own RFQs" ON supplier_responses
+  FOR SELECT TO authenticated
+  USING (requirement_id IN (
+    SELECT id FROM public.buyer_requirements WHERE buyer_id = auth.uid()
+  ));
+
+CREATE POLICY "Admin full supplier_responses" ON supplier_responses
+  FOR ALL TO authenticated
+  USING (public.is_admin(auth.uid()))
+  WITH CHECK (public.is_admin(auth.uid()));
+
+-- =============================================================================
+-- RLS POLICIES: USER PROFILES & MEMBERSHIPS
+-- =============================================================================
+
+CREATE POLICY "User read own profile" ON user_profiles
+  FOR SELECT TO authenticated USING (id = auth.uid());
+
+CREATE POLICY "User update own profile" ON user_profiles
+  FOR UPDATE TO authenticated USING (id = auth.uid()) WITH CHECK (id = auth.uid());
+
+CREATE POLICY "Admin read all profiles" ON user_profiles
+  FOR SELECT TO authenticated USING (public.is_admin(auth.uid()));
+
+CREATE POLICY "User read own memberships" ON user_memberships
+  FOR SELECT TO authenticated USING (user_id = auth.uid());
+
+CREATE POLICY "Admin full user_memberships" ON user_memberships
+  FOR ALL TO authenticated USING (public.is_admin(auth.uid())) WITH CHECK (public.is_admin(auth.uid()));
+
+-- =============================================================================
+-- RLS POLICIES: ADMIN & OPERATOR SOURCES
+-- =============================================================================
+
+CREATE POLICY "Admin read admin_users" ON admin_users
+  FOR SELECT TO authenticated USING (public.is_admin(auth.uid()));
+
+CREATE POLICY "Admin write admin_users" ON admin_users
+  FOR ALL TO authenticated USING (public.is_super_admin(auth.uid())) WITH CHECK (public.is_super_admin(auth.uid()));
+
+CREATE POLICY "Admin read operator_sources" ON operator_sources
+  FOR SELECT TO authenticated USING (public.is_admin(auth.uid()));
+
+CREATE POLICY "Admin write operator_sources" ON operator_sources
+  FOR ALL TO authenticated USING (public.is_admin(auth.uid())) WITH CHECK (public.is_admin(auth.uid()));
+
+CREATE POLICY "Admin read excel_import_batches" ON excel_import_batches
+  FOR SELECT TO authenticated USING (public.is_admin(auth.uid()));
+
+CREATE POLICY "Admin write excel_import_batches" ON excel_import_batches
+  FOR ALL TO authenticated USING (public.is_admin(auth.uid())) WITH CHECK (public.is_admin(auth.uid()));
+
+-- =============================================================================
+-- RLS POLICIES: PROFILE CLAIMS & VERIFICATION
+-- =============================================================================
+
+CREATE POLICY "User read own claims" ON profile_claims
+  FOR SELECT TO authenticated USING (user_id = auth.uid());
+
+CREATE POLICY "User insert claim" ON profile_claims
+  FOR INSERT TO authenticated WITH CHECK (user_id = auth.uid());
+
+CREATE POLICY "Admin full profile_claims" ON profile_claims
+  FOR ALL TO authenticated USING (public.is_admin(auth.uid())) WITH CHECK (public.is_admin(auth.uid()));
+
+CREATE POLICY "Admin full verification_records" ON verification_records
+  FOR ALL TO authenticated USING (public.is_admin(auth.uid())) WITH CHECK (public.is_admin(auth.uid()));
+
+-- =============================================================================
+-- RLS POLICIES: NOTIFICATION SYSTEM
+-- =============================================================================
+
+CREATE POLICY "User own notification_profile" ON notification_profiles
+  FOR ALL TO authenticated USING (user_id = auth.uid()) WITH CHECK (user_id = auth.uid());
+
+CREATE POLICY "User own notification_subscriptions" ON notification_subscriptions
+  FOR ALL TO authenticated USING (user_id = auth.uid()) WITH CHECK (user_id = auth.uid());
+
+CREATE POLICY "User own notification_channels" ON notification_channels
+  FOR ALL TO authenticated USING (user_id = auth.uid()) WITH CHECK (user_id = auth.uid());
+
+CREATE POLICY "Admin read notification_events" ON notification_events
+  FOR SELECT TO authenticated USING (public.is_admin(auth.uid()));
+
+CREATE POLICY "User read own queue" ON notification_queue
+  FOR SELECT TO authenticated USING (user_id = auth.uid());
+
+-- Only service role (Edge Functions) can write to queue
+CREATE POLICY "Service role write notification_queue" ON notification_queue
+  FOR INSERT TO authenticated
+  WITH CHECK (auth.role() = 'service_role');
+
+CREATE POLICY "Admin full notification_queue" ON notification_queue
+  FOR ALL TO authenticated USING (public.is_admin(auth.uid()));
+
+CREATE POLICY "User read own delivery_log" ON notification_delivery_log
+  FOR SELECT TO authenticated USING (user_id = auth.uid());
+
+-- Only service role can write delivery log
+CREATE POLICY "Service role write delivery_log" ON notification_delivery_log
+  FOR INSERT TO authenticated
+  WITH CHECK (auth.role() = 'service_role');
+
+-- =============================================================================
+-- RLS POLICIES: CERTIFICATION REMINDERS & ADVISORIES
+-- =============================================================================
+
+CREATE POLICY "User read own reminders" ON certification_reminders
+  FOR SELECT TO authenticated USING (user_id = auth.uid());
+
+CREATE POLICY "Admin full certification_reminders" ON certification_reminders
+  FOR ALL TO authenticated USING (public.is_admin(auth.uid())) WITH CHECK (public.is_admin(auth.uid()));
+
+CREATE POLICY "Public read active advisories" ON farmer_advisories
+  FOR SELECT TO anon, authenticated USING (is_active = true);
+
+CREATE POLICY "Admin full farmer_advisories" ON farmer_advisories
+  FOR ALL TO authenticated USING (public.is_admin(auth.uid())) WITH CHECK (public.is_admin(auth.uid()));
+
+CREATE POLICY "User own advisory_subscriptions" ON farmer_advisory_subscriptions
+  FOR ALL TO authenticated USING (user_id = auth.uid()) WITH CHECK (user_id = auth.uid());
+
+-- =============================================================================
+-- RLS POLICIES: AUDIT LOG
+-- =============================================================================
+
+CREATE POLICY "Admin read audit_log" ON audit_log
+  FOR SELECT TO authenticated USING (public.is_admin(auth.uid()));
+
+-- =============================================================================
+-- PUBLIC VIEWS (Column-level security for directory)
+-- =============================================================================
+
+-- Public directory view: NO contact info (app layer uses RPC for premium contact access)
+CREATE OR REPLACE VIEW public_directory_listings AS
+SELECT
+  dl.id,
+  dl.operator_category_id,
+  oc.name AS operator_category,
+  dl.name,
+  dl.slug,
+  dl.city,
+  dl.state,
+  dl.country,
+  dl.certified_land_area,
+  dl.organic_crops,
+  dl.certified_area,
+  dl.certifications,
+  dl.verification_status,
+  dl.is_demo_data,
+  dl.premium_visible,
+  dl.website,
+  dl.created_at,
+  dl.updated_at
+FROM public.directory_listings dl
+JOIN public.operator_categories oc ON oc.id = dl.operator_category_id
+WHERE (dl.publication_status = 'published' AND dl.approval_status = 'approved')
+   OR dl.verification_status = 'Unclaimed';
+
+GRANT SELECT ON public_directory_listings TO anon, authenticated;
+
+-- Public products view (basic info only, no premium products)
+CREATE OR REPLACE VIEW public_products AS
+SELECT
+  p.id,
+  p.operator_id,
+  p.commodity_category_id,
+  cc.name AS commodity_category,
+  p.product_name,
+  p.variety,
+  p.available_quantity,
+  p.min_order_qty,
+  qu.code AS unit,  -- Join to quantity_units for display code
+  p.state,
+  p.country,
+  p.harvest_year,
+  p.harvest_month,
+  p.availability_status,
+  p.is_premium_only
+FROM public.products p
+JOIN public.commodity_categories cc ON cc.id = p.commodity_category_id
+JOIN public.quantity_units qu ON qu.id = p.quantity_unit_id
+WHERE p.is_premium_only = false
+  AND EXISTS (
+    SELECT 1 FROM public.directory_listings dl
+    WHERE dl.id = p.operator_id
+      AND dl.publication_status = 'published'
+      AND dl.approval_status = 'approved'
+  );
+
+GRANT SELECT ON public_products TO anon, authenticated;
+
+-- =============================================================================
+-- TRIGGERS (updated_at)
+-- =============================================================================
+
+CREATE OR REPLACE FUNCTION public.update_updated_at_column()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+BEGIN
+  NEW.updated_at = now();
+  RETURN NEW;
+END;
+$$;
+
+-- Apply to all tables with updated_at
+CREATE TRIGGER trg_update_admin_users BEFORE UPDATE ON public.admin_users FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+CREATE TRIGGER trg_update_user_profiles BEFORE UPDATE ON public.user_profiles FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+CREATE TRIGGER trg_update_user_memberships BEFORE UPDATE ON public.user_memberships FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+CREATE TRIGGER trg_update_operator_categories BEFORE UPDATE ON public.operator_categories FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+CREATE TRIGGER trg_update_certification_programs BEFORE UPDATE ON public.certification_programs FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+CREATE TRIGGER trg_update_commodity_categories BEFORE UPDATE ON public.commodity_categories FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+CREATE TRIGGER trg_update_quantity_units BEFORE UPDATE ON public.quantity_units FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+CREATE TRIGGER trg_update_membership_tiers BEFORE UPDATE ON public.membership_tiers FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+CREATE TRIGGER trg_update_email_templates BEFORE UPDATE ON public.email_templates FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+CREATE TRIGGER trg_update_operator_sources BEFORE UPDATE ON public.operator_sources FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+CREATE TRIGGER trg_update_directory_listings BEFORE UPDATE ON public.directory_listings FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+CREATE TRIGGER trg_update_products BEFORE UPDATE ON public.products FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+CREATE TRIGGER trg_update_buyer_requirements BEFORE UPDATE ON public.buyer_requirements FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+CREATE TRIGGER trg_update_supplier_responses BEFORE UPDATE ON public.supplier_responses FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+CREATE TRIGGER trg_update_notification_profiles BEFORE UPDATE ON public.notification_profiles FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+CREATE TRIGGER trg_update_notification_subscriptions BEFORE UPDATE ON public.notification_subscriptions FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+CREATE TRIGGER trg_update_farmer_advisories BEFORE UPDATE ON public.farmer_advisories FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+
+-- =============================================================================
+-- AUDIT TRIGGER (Generic — with sensitive field redaction)
+-- =============================================================================
+
+CREATE OR REPLACE FUNCTION public.audit_trigger_function()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+DECLARE
+  v_old JSONB;
+  v_new JSONB;
+BEGIN
+  -- Redact sensitive fields from audit logs
+  v_old := CASE WHEN OLD IS NOT NULL THEN to_jsonb(OLD) ELSE '{}'::jsonb END;
+  v_new := CASE WHEN NEW IS NOT NULL THEN to_jsonb(NEW) ELSE '{}'::jsonb END;
+
+  -- Remove sensitive keys
+  v_old := v_old - 'payment_reference' - 'metadata' - 'contact_details' - 'documents_submitted' - 'documents_reviewed' - 'certifications' - 'available_documents' - 'filters' - 'error_details';
+  v_new := v_new - 'payment_reference' - 'metadata' - 'contact_details' - 'documents_submitted' - 'documents_reviewed' - 'certifications' - 'available_documents' - 'filters' - 'error_details';
+
+  IF TG_OP = 'DELETE' THEN
+    INSERT INTO public.audit_log (table_name, record_id, action, old_data, changed_by)
+    VALUES (TG_TABLE_NAME, OLD.id, 'DELETE', v_old, COALESCE(auth.uid(), '00000000-0000-0000-0000-000000000000'::uuid));
+    RETURN OLD;
+  ELSIF TG_OP = 'UPDATE' THEN
+    INSERT INTO public.audit_log (table_name, record_id, action, old_data, new_data, changed_by)
+    VALUES (TG_TABLE_NAME, NEW.id, 'UPDATE', v_old, v_new, COALESCE(auth.uid(), '00000000-0000-0000-0000-000000000000'::uuid));
+    RETURN NEW;
+  ELSIF TG_OP = 'INSERT' THEN
+    INSERT INTO public.audit_log (table_name, record_id, action, new_data, changed_by)
+    VALUES (TG_TABLE_NAME, NEW.id, 'INSERT', v_new, COALESCE(auth.uid(), '00000000-0000-0000-0000-000000000000'::uuid));
+    RETURN NEW;
+  END IF
+  RETURN NULL;
+END;
+$$;
+
+-- Apply audit trigger to key tables
+CREATE TRIGGER trg_audit_directory_listings AFTER INSERT OR UPDATE OR DELETE ON public.directory_listings FOR EACH ROW EXECUTE FUNCTION public.audit_trigger_function();
+CREATE TRIGGER trg_audit_products AFTER INSERT OR UPDATE OR DELETE ON public.products FOR EACH ROW EXECUTE FUNCTION public.audit_trigger_function();
+CREATE TRIGGER trg_audit_buyer_requirements AFTER INSERT OR UPDATE OR DELETE ON public.buyer_requirements FOR EACH ROW EXECUTE FUNCTION public.audit_trigger_function();
+CREATE TRIGGER trg_audit_profile_claims AFTER INSERT OR UPDATE OR DELETE ON public.profile_claims FOR EACH ROW EXECUTE FUNCTION public.audit_trigger_function();
+CREATE TRIGGER trg_audit_verification_records AFTER INSERT OR UPDATE OR DELETE ON public.verification_records FOR EACH ROW EXECUTE FUNCTION public.audit_trigger_function();
+CREATE TRIGGER trg_audit_user_profiles AFTER INSERT OR UPDATE OR DELETE ON public.user_profiles FOR EACH ROW EXECUTE FUNCTION public.audit_trigger_function();
+CREATE TRIGGER trg_audit_user_memberships AFTER INSERT OR UPDATE OR DELETE ON public.user_memberships FOR EACH ROW EXECUTE FUNCTION public.audit_trigger_function();
+CREATE TRIGGER trg_audit_excel_import_batches AFTER INSERT OR UPDATE OR DELETE ON public.excel_import_batches FOR EACH ROW EXECUTE FUNCTION public.audit_trigger_function();
+
+-- =============================================================================
+-- HARVEST YEAR VALIDATION TRIGGERS (Security Improvement #1)
+-- =============================================================================
+
+CREATE OR REPLACE FUNCTION public.validate_harvest_year()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+BEGIN
+  IF NEW.harvest_year IS NOT NULL AND (NEW.harvest_year < 2000 OR NEW.harvest_year > EXTRACT(YEAR FROM CURRENT_DATE)::int + 5) THEN
+    RAISE EXCEPTION 'Invalid harvest year: %', NEW.harvest_year;
+  END IF;
+  RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER trg_validate_product_harvest
+BEFORE INSERT OR UPDATE ON public.products
+FOR EACH ROW EXECUTE FUNCTION public.validate_harvest_year();
+
+CREATE TRIGGER trg_validate_req_harvest
+BEFORE INSERT OR UPDATE ON public.buyer_requirements
+FOR EACH ROW EXECUTE FUNCTION public.validate_harvest_year();
+
+-- =============================================================================
+-- COMMENTS
+-- =============================================================================
+
+COMMENT ON TABLE operator_categories IS 'Dynamic operator categories (replaces hardcoded enum)';
+COMMENT ON TABLE certification_programs IS 'Dynamic certification programs (NPOP, NOP, EU, etc.)';
+COMMENT ON TABLE commodity_categories IS 'Hierarchical commodity/product categories';
+COMMENT ON TABLE quantity_units IS 'Dynamic quantity units (MT, KG, QUINTAL, LITRE, PIECES, BAGS) — admin-managed, replaces ENUM';
+COMMENT ON TABLE membership_tiers IS 'Free, Premium, Enterprise plans with JSONB entitlements';
+COMMENT ON TABLE directory_listings IS 'Core operator directory with manual source audit trail';
+COMMENT ON COLUMN directory_listings.certifications IS 'JSONB array of {program_id, body, status, date, scope, certificate_number}';
+COMMENT ON COLUMN directory_listings.internal_verification_status IS 'Internal Bharat Organic Mart verification state';
+COMMENT ON COLUMN directory_listings.verification_status IS 'Public-facing claim/verification workflow';
+COMMENT ON COLUMN directory_listings.slug IS 'Unique URL slug: name + short UUID suffix';
+COMMENT ON TABLE products IS 'Marketplace product listings with full harvest, certification, logistics details';
+COMMENT ON COLUMN products.quantity_unit_id IS 'FK to quantity_units table (dynamic, admin-managed)';
+COMMENT ON TABLE buyer_requirements IS 'Registered buyer RFQs with matching criteria';
+COMMENT ON COLUMN buyer_requirements.required_harvest_year IS 'Validated via trigger public.validate_harvest_year()';
+COMMENT ON TABLE notification_profiles IS 'ONE global notification profile per user (frequency, timezone, consent)';
+COMMENT ON TABLE notification_subscriptions IS 'Per-commodity/event subscriptions with advanced filters';
+COMMENT ON TABLE notification_queue IS 'Scheduled notification deliveries (processed by Edge Function)';
+COMMENT ON TABLE certification_reminders IS 'Automated reminders based on verified source dates only';
+COMMENT ON COLUMN certification_reminders.certificate_issue_date IS 'Verified certificate issue date from official document';
+COMMENT ON COLUMN certification_reminders.certificate_expiry_date IS 'Verified certificate expiry date from official document';
+COMMENT ON COLUMN certification_reminders.reminder_scheduled_at IS 'When to send reminder (may be before expiry_date)';
+COMMENT ON TABLE audit_log IS 'Immutable audit trail for all critical data changes (sensitive fields redacted)';
+
+-- =============================================================================
+-- END OF MIGRATION
+-- =============================================================================
