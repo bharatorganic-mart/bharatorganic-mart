@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BHARAT ORGANIC MART | India's Organic Supply Marketplace</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/auth.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --organic-green: #2D5A27; --grey-green: #6B7280; }
@@ -337,8 +339,10 @@
                     BHARAT ORGANIC MART is a platform connecting India's farmers, organic producers, processors, suppliers and global buyers, making organic trade simpler, more transparent and accessible.
                 </p>
                 <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <button class="bg-organic text-white px-8 py-4 rounded-lg font-bold hover:bg-green-800 transition shadow-lg text-lg">Browse Marketplace</button>
-                    <button class="bg-gray-800 text-white px-8 py-4 rounded-lg font-bold hover:bg-gray-900 transition shadow-lg text-lg border border-white/20">View Buyer Leads</button>
+                    <a href="directory/index.html" class="bg-organic text-white px-8 py-4 rounded-lg font-bold hover:bg-green-800 transition shadow-lg text-lg block text-center">
+                        Browse Marketplace
+                    </a>
+                    <a href="rfq-post.html" class="bg-gray-800 text-white px-8 py-4 rounded-lg font-bold hover:bg-gray-900 transition shadow-lg text-lg border border-white/20 block text-center">View Buyer Leads</a>
                 </div>
             </div>
         </section>
@@ -374,11 +378,24 @@
     </main>
 
     <script>
-        // Load demo listings from JSON file
+        // Load featured listings from Supabase (same source as the directory page)
         async function loadHomepageListings() {
             try {
-                const response = await fetch('data/clean_listings.json');
-                const listings = await response.json();
+                const { data, error } = await sb
+                    .from('directory_listings')
+                    .select('id, operator_type, name, city, state, product_name')
+                    .limit(8);
+
+                if (error) throw error;
+
+                const listings = (data ?? []).map(row => ({
+                    id: row.id,
+                    operatorType: row.operator_type,
+                    name: row.name,
+                    city: row.city,
+                    state: row.state,
+                    productName: row.product_name
+                }));
 
                 const container = document.getElementById('homepageListings');
                 const loading = document.getElementById('homepageLoading');
@@ -390,10 +407,7 @@
                     return;
                 }
 
-                // Show first 8 listings on homepage
-                const featured = listings.slice(0, 8);
-
-                container.innerHTML = featured.map(item => `
+                container.innerHTML = listings.map(item => `
                     <div class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition overflow-hidden flex flex-col">
                         <div class="h-48 bg-gray-100 flex items-center justify-center text-gray-400 text-sm font-medium">
                             <i class="fas fa-store"></i> Listing Image
@@ -409,7 +423,7 @@
                                 <strong class="text-gray-700">Products:</strong> ${item.productName || '—'}
                             </div>
                             <div class="mt-auto pt-4">
-                                <a href="directory/index.html?type=${encodeURIComponent(item.operatorType)}" class="w-full bg-organic text-white text-center py-2.5 rounded-lg text-sm font-bold hover:bg-green-800 transition">
+                                <a href="listing-detail.html?id=${item.id}" class="w-full bg-organic text-white text-center py-2.5 rounded-lg text-sm font-bold hover:bg-green-800 transition">
                                     View Details &rarr;
                                 </a>
                             </div>

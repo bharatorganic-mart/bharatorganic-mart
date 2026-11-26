@@ -6,6 +6,7 @@
     <title>Organic Directory | BHARAT ORGANIC MART</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/auth.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --organic-green: #2D5A27; --grey-green: #6B7280; }
@@ -116,12 +117,7 @@
     </footer>
 
     <script>
-        // ========== SUPABASE CONFIG ==========
-        const SUPABASE_URL = 'https://syxrvkiqrvbecqdkyphs.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN5eHJ2a2lxcnZiZWNxZGt5cGhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTU1MzA2NDksImV4cCI6MjExMTEwNjY0OX0.x52zcDxXj2rtjs5fPbRKXLpRuDBXshuyBT24SEDzeo4';
-
-        // Correct initialization
-        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // `sb` is provided globally by ../js/auth.js
         let allListings = [];
         let currentCategory = 'all';
 
@@ -254,7 +250,9 @@
                     </div>
                     <div>
                         <div class="text-xs font-bold text-organic uppercase tracking-wider mb-1">${item.operatorType}</div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2">${item.name}</h3>
+                        <a href="../listing-detail.html?id=${item.id}" class="hover:underline">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">${item.name}</h3>
+                        </a>
                         <div class="text-sm text-gray-600 mb-4 flex items-center gap-2">
                             <i class="fas fa-location-dot text-gray-400"></i>
                             ${item.city ? item.city + ', ' : ''}${item.state}, ${item.country}

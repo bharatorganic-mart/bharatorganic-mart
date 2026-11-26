@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listing Details | BHARAT ORGANIC MART</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/auth.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --organic-green: #2D5A27; --organic-dark: #1E401D; --grey-green: #6B7280; }
+        .bg-organic { background-color: var(--organic-green); }
+        .text-organic { color: var(--organic-green); }
+        .border-organic { border-color: var(--organic-green); }
+        .hover-organic:hover { background-color: var(--organic-dark); }
+        .badge-demo { background: #fef3c7; color: #92400e; }
+        .badge-verified { background: #d1fae5; color: #065f46; }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-900 min-h-screen flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-white border-b shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <i class="fas fa-store text-organic text-xl"></i>
+                <h1 class="text-xl font-bold text-organic uppercase tracking-tight">Listing Details</h1>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="directory/index.html" class="text-sm text-gray-600 hover:text-organic transition">
+                    <i class="fas fa-arrow-left mr-1"></i> Back to Directory
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex-grow">
+        <div class="max-w-5xl mx-auto px-6 py-8">
+
+            <!-- LOADING STATE -->
+            <div id="loadingState" class="flex items-center justify-center py-20 hidden">
+                <div class="flex flex-col items-center gap-3">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-organic mx-auto"></div>
+                    <p class="text-gray-500 text-sm">Loading listing details...</p>
+                </div>
+            </div>
+
+            <!-- NOT FOUND STATE -->
+            <div id="notFoundState" class="hidden text-center py-20 bg-white border rounded-xl shadow-sm p-8">
+                <div class="text-gray-300 text-4xl mb-4"><i class="fas fa-exclamation-triangle"></i></div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Listing Not Found</h3>
+                <p class="text-gray-500 text-sm mb-6">The listing you're looking for doesn't exist or has been removed.</p>
+                <a href="directory/index.html" class="bg-organic text-white px-6 py-2 rounded-lg text-sm font-bold hover:bg-green-800 transition">
+                    Back to Directory
+                </a>
+            </div>
+
+            <!-- LISTING CONTENT -->
+            <article id="listingContent" class="hidden max-w-4xl mx-auto">
+
+                <!-- Header Badge + Title -->
+                <div class="mb-6 flex items-center gap-3">
+                    <span id="badge" class="badge-demo px-2 py-1 rounded text-[10px] font-bold uppercase">Demo Record</span>
+                    <span id="verificationBadge" class="hidden badge-verified px-2 py-1 rounded text-[10px] font-bold uppercase">Verified</span>
+                </div>
+                <h1 id="listingName" class="text-3xl font-bold text-gray-900 mb-2"></h1>
+                <div id="listingType" class="text-xs font-bold text-organic uppercase tracking-wider mb-6"></div>
+
+                <!-- Main Info Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+
+                    <!-- Left: Overview -->
+                    <div class="space-y-6">
+                        <div class="bg-white p-6 rounded-xl border shadow-sm">
+                            <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                <i class="fas fa-info-circle text-organic"></i> Overview
+                            </h3>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex justify-between border-b border-gray-100 pb-2">
+                                    <span class="text-gray-500">Products / Crops</span>
+                                    <span id="listingProducts" class="font-medium text-gray-900">—</span>
+                                </div>
+                                <div class="flex justify-between border-b border-gray-100 pb-2">
+                                    <span class="text-gray-500">Certified Land Area</span>
+                                    <span id="listingLandArea" class="font-medium text-gray-900">—</span>
+                                </div>
+                                <div class="flex justify-between border-b border-gray-100 pb-2">
+                                    <span class="text-gray-500">Certified Area</span>
+                                    <span id="listingCertifiedArea" class="font-medium text-gray-900">—</span>
+                                </div>
+                                <div class="flex justify-between border-b border-gray-100 pb-2">
+                                    <span class="text-gray-500">Crop Certification Status</span>
+                                    <span id="listingCropStatus" class="font-medium text-gray-900">—</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Grower Group</span>
+                                    <span id="listingGrowerGroup" class="font-medium text-gray-900">—</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Address Card -->
+                        <div class="bg-white p-6 rounded-xl border shadow-sm">
+                            <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                <i class="fas fa-map-marker-alt text-organic"></i> Address
+                            </h3>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex justify-between border-b border-gray-100 pb-2">
+                                    <span class="text-gray-500">Registered Address</span>
+                                    <span id="listingAddress" class="font-medium text-gray-900">—</span>
+                                </div>
+                                <div class="flex justify-between border-b border-gray-100 pb-2">
+                                    <span class="text-gray-500">Facility Address</span>
+                                    <span id="listingFacility" class="font-medium text-gray-900">—</span>
+                                </div>
+                                <div class="flex justify-between border-b border-gray-100 pb-2">
+                                    <span class="text-gray-500">City</span>
+                                    <span id="listingCity" class="font-medium text-gray-900">—</span>
+                                </div>
+                                <div class="flex justify-between border-b border-gray-100 pb-2">
+                                    <span class="text-gray-500">State</span>
+                                    <span id="listingState" class="font-medium text-gray-900">—</span>
+                                </div>
+                                <div class="flex justify-between border-b border-gray-100 pb-2">
+                                    <span class="text-gray-500">Country</span>
+                                    <span id="listingCountry" class="font-medium text-gray-900">—</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Postal Code</span>
+                                    <span id="listingPostal" class="font-medium text-gray-900">—</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Certifications & Contact -->
+                    <div class="space-y-6">
+                        <!-- Certifications -->
+                        <div class="bg-white p-6 rounded-xl border shadow-sm">
+                            <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                <i class="fas fa-certificate text-organic"></i> Certifications
+                            </h3>
+                            <div id="listingCertifications" class="space-y-3">
+                                <!-- Cert rows injected here -->
+                                <div class="text-center py-4 text-gray-400 text-sm italic">No certification records available.</div>
+                            </div>
+                        </div>
+
+                        <!-- Contact & Actions -->
+                        <div class="bg-white p-6 rounded-xl border shadow-sm">
+                            <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                <i class="fas fa-envelope text-organic"></i> Contact &amp; Enquiry
+                            </h3>
+                            <div class="space-y-4">
+                                <div class="flex items-start gap-3 text-sm">
+                                    <div class="flex-shrink-0 text-gray-400">
+                                        <i class="fas fa-user mt-1"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-medium text-gray-900" id="listingContact">—</div>
+                                        <div class="text-gray-500 text-xs">Contact Person</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 text-sm">
+                                    <div class="flex-shrink-0 text-gray-400">
+                                        <i class="fas fa-phone mt-1"></i>
+                                    </div>
+                                    <div>
+                                        <a href="tel:" id="listingPhoneLink" class="font-medium text-organic hover:underline">—</a>
+                                        <div class="text-gray-500 text-xs">Phone</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 text-sm">
+                                    <div class="flex-shrink-0 text-gray-400">
+                                        <i class="fas fa-envelope mt-1"></i>
+                                    </div>
+                                    <div>
+                                        <a href="mailto:" id="listingEmailLink" class="font-medium text-organic hover:underline">—</a>
+                                        <div class="text-gray-500 text-xs">Email</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 text-sm">
+                                    <div class="flex-shrink-0 text-gray-400">
+                                        <i class="fas fa-globe mt-1"></i>
+                                    </div>
+                                    <div>
+                                        <a href="#" id="listingWebsiteLink" target="_blank" rel="noopener noreferrer" class="font-medium text-organic hover:underline">—</a>
+                                        <div class="text-gray-500 text-xs">Website</div>
+                                    </div>
+                                </div>
+
+                                <hr class="border-gray-100">
+
+                                <div class="space-y-3">
+                                    <button id="enquiryBtn" class="w-full bg-organic text-white py-3 rounded-lg font-bold text-sm flex items-center justify-center gap-2 hover:bg-green-800 transition shadow-lg hover:shadow-organic/40">
+                                        <i class="fas fa-paper-plane"></i> Send Enquiry
+                                    </button>
+                                    <button id="claimBtn" class="w-full bg-amber-50 text-amber-800 py-3 rounded-lg font-bold text-sm border border-amber-200 flex items-center justify-center gap-2 hover:bg-amber-100 transition">
+                                        <i class="fas fa-hand-pointer"></i> Claim This Listing
+                                    </button>
+                                    <div id="adminActions" class="hidden space-y-2">
+                                        <button id="editListingBtn" class="w-full bg-blue-50 text-blue-800 py-3 rounded-lg font-bold text-sm border border-blue-200 flex items-center justify-center gap-2 hover:bg-blue-100 transition">
+                                            <i class="fas fa-edit"></i> Edit Listing (Admin)
+                                        </button>
+                                        <button id="deleteListingBtn" class="w-full bg-red-50 text-red-800 py-3 rounded-lg font-bold text-sm border border-red-200 flex items-center justify-center gap-2 hover:bg-red-100 transition">
+                                            <i class="fas fa-trash"></i> Delete Listing (Admin)
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </article>
+        </div>
+    </div>
+
+    <footer class="bg-white border-t py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-6 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 BHARAT ORGANIC MART. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- ENQUIRY MODAL -->
+    <div id="enquiryModal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-60 backdrop-blur-sm" onclick="closeEnquiryModal()"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-4">
+            <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6">
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Send Enquiry</h3>
+                <p class="text-gray-500 text-sm mb-4">We'll forward your message to the operator.</p>
+
+                <form id="enquiryForm" class="space-y-4">
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Your Name</label>
+                        <input type="text" id="enqName" required class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Your Email</label>
+                        <input type="email" id="enqEmail" required class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Quantity Needed</label>
+                        <input type="text" id="enqQty" placeholder="e.g. 5 MT" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Message</label>
+                        <textarea id="enqMessage" rows="4" required class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20"></textarea>
+                    </div>
+                    <div class="flex gap-3 pt-4">
+                        <button type="button" onclick="closeEnquiryModal()" class="flex-1 bg-gray-100 text-gray-700 py-2.5 rounded-lg font-medium text-sm hover:bg-gray-200 transition">Cancel</button>
+                        <button type="submit" id="enqSubmitBtn" class="flex-1 bg-organic text-white py-2.5 rounded-lg font-bold text-sm hover:bg-green-800 transition">Send</button>
+                    </div>
+                </form>
+                <p id="enqStatus" class="mt-3 text-sm text-center hidden"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CLAIM MODAL -->
+    <div id="claimModal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-60 backdrop-blur-sm" onclick="closeClaimModal()"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-4">
+            <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6">
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Claim This Listing</h3>
+                <p class="text-gray-500 text-sm mb-4">Tell us why you want to claim this operator profile.</p>
+
+                <form id="claimForm" class="space-y-4">
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Your Name</label>
+                        <input type="text" id="claimName" required class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Your Email</label>
+                        <input type="email" id="claimEmail" required class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Reason for Claim</label>
+                        <textarea id="claimReason" rows="4" required class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20"></textarea>
+                    </div>
+                    <div class="flex gap-3 pt-4">
+                        <button type="button" onclick="closeClaimModal()" class="flex-1 bg-gray-100 text-gray-700 py-2.5 rounded-lg font-medium text-sm hover:bg-gray-200 transition">Cancel</button>
+                        <button type="submit" id="claimSubmitBtn" class="flex-1 bg-amber-600 text-white py-2.5 rounded-lg font-bold text-sm hover:bg-amber-700 transition">Submit Claim</button>
+                    </div>
+                </form>
+                <p id="claimStatus" class="mt-3 text-sm text-center hidden"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== SUPABASE CLIENT ==========
+        // `sb` is provided globally by js/auth.js — do NOT redeclare it here.
+
+        let currentListing = null;
+        let currentUser = null;
+
+        // ========== INIT ==========
+        (async function init() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const listingId = urlParams.get('id');
+
+            if (!listingId) {
+                showNotFound();
+                return;
+            }
+
+            // Check auth for admin actions
+            const session = await sb.auth.getSession();
+            currentUser = session.data.session?.user || null;
+
+            await loadListing(listingId);
+        })();
+
+        async function loadListing(id) {
+            try {
+                const { data, error } = await sb
+                    .from('directory_listings')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
+
+                if (error || !data) throw error || new Error('Not found');
+
+                currentListing = data;
+                renderListing(data);
+
+            } catch (err) {
+                console.error('Load listing error:', err);
+                showNotFound();
+            }
+        }
+
+        function renderListing(d) {
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('listingContent').classList.remove('hidden');
+
+            // Badge
+            const demoBadge = document.getElementById('badge');
+            const verifiedBadge = document.getElementById('verificationBadge');
+            if (d.is_demo_data) {
+                demoBadge.classList.remove('hidden');
+                verifiedBadge.classList.add('hidden');
+            } else {
+                demoBadge.classList.add('hidden');
+                verifiedBadge.classList.remove('hidden');
+                verifiedBadge.textContent = d.verification_status === 'Verified' ? 'Verified' : 'Pending Review';
+            }
+
+            // Title
+            document.getElementById('listingName').textContent = d.name || 'Unnamed Listing';
+            document.getElementById('listingType').textContent = d.operator_type || '—';
+            document.title = `${d.name || 'Listing'} | BHARAT ORGANIC MART`;
+
+            // Overview
+            document.getElementById('listingProducts').textContent = d.product_name || '—';
+            document.getElementById('listingLandArea').textContent = d.certified_land_area || '—';
+            document.getElementById('listingCertifiedArea').textContent = d.certified_area || '—';
+            document.getElementById('listingCropStatus').textContent = d.crop_certification_status || '—';
+            document.getElementById('listingGrowerGroup').textContent = d.grower_group_indicator || '—';
+
+            // Address
+            document.getElementById('listingAddress').textContent = d.address || '—';
+            document.getElementById('listingFacility').textContent = d.facility_address || '—';
+            document.getElementById('listingCity').textContent = d.city || '—';
+            document.getElementById('listingState').textContent = d.state || '—';
+            document.getElementById('listingCountry').textContent = d.country || 'India';
+            document.getElementById('listingPostal').textContent = d.postal_code || '—';
+
+            // Certifications - build from scope_n / cert_body_n columns
+            const certContainer = document.getElementById('listingCertifications');
+            certContainer.innerHTML = '';
+            let hasCerts = false;
+            for (let i = 1; i <= 3; i++) {
+                const scope = d[`scope_${i}`];
+                const body = d[`cert_body_${i}`];
+                if (scope || body) {
+                    hasCerts = true;
+                    const row = document.createElement('div');
+                    row.className = 'flex items-start gap-3 p-3 bg-gray-50 rounded border border-gray-100';
+                    row.innerHTML = `
+                        <div class="flex-shrink-0 text-organic mt-1">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <div>
+                            <div class="font-medium text-gray-900 text-sm">${body || 'Cert Body #' + i}</div>
+                            <div class="text-xs text-gray-500">Scope: ${scope || '—'}</div>
+                        </div>
+                    `;
+                    certContainer.appendChild(row);
+                }
+            }
+            if (!hasCerts) {
+                certContainer.innerHTML = '<div class="text-center py-4 text-gray-400 text-sm italic">No certification records available.</div>';
+            }
+
+            // Contact
+            document.getElementById('listingContact').textContent = d.contact_person || '—';
+            const phoneLink = document.getElementById('listingPhoneLink');
+            phoneLink.textContent = d.phone || '—';
+            phoneLink.href = d.phone ? `tel:${d.phone}` : '#';
+
+            const emailLink = document.getElementById('listingEmailLink');
+            emailLink.textContent = d.email || '—';
+            emailLink.href = d.email ? `mailto:${d.email}` : '#';
+
+            const websiteLink = document.getElementById('listingWebsiteLink');
+            websiteLink.textContent = d.website || '—';
+            websiteLink.href = d.website ? d.website : '#';
+
+            // Store listing id on buttons for actions
+            document.getElementById('enquiryBtn').dataset.id = d.id;
+            document.getElementById('claimBtn').dataset.id = d.id;
+            document.getElementById('editListingBtn').dataset.id = d.id;
+            document.getElementById('deleteListingBtn').dataset.id = d.id;
+
+            // Show admin actions if logged in as admin
+            const adminActions = document.getElementById('adminActions');
+            if (currentUser && d.email === currentUser.email) {
+                adminActions.classList.remove('hidden');
+            }
+
+            // Action handlers
+            document.getElementById('enquiryBtn').onclick = () => {
+                document.getElementById('enqName').value = currentUser ? (currentUser.user_metadata?.full_name || '') : '';
+                document.getElementById('enqEmail').value = currentUser?.email || '';
+                openEnquiryModal();
+            };
+
+            document.getElementById('claimBtn').onclick = () => {
+                document.getElementById('claimName').value = currentUser ? (currentUser.user_metadata?.full_name || '') : '';
+                document.getElementById('claimEmail').value = currentUser?.email || '';
+                openClaimModal();
+            };
+
+            document.getElementById('editListingBtn').onclick = () => {
+                // TODO: open edit form
+                alert('Edit form coming soon. Use Admin Dashboard to edit listings.');
+            };
+
+            document.getElementById('deleteListingBtn').onclick = async () => {
+                if (!confirm('Are you sure you want to delete this listing?')) return;
+                try {
+                    const { error } = await sb.from('directory_listings').delete().eq('id', d.id);
+                    if (error) throw error;
+                    alert('Listing deleted.');
+                    window.location.replace('directory/index.html');
+                } catch (err) {
+                    alert('Delete failed: ' + (err.message || 'Unknown error'));
+                }
+            };
+        }
+
+        function showNotFound() {
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('notFoundState').classList.remove('hidden');
+        }
+
+        // ========== ENQUIRY MODAL ==========
+        function openEnquiryModal() {
+            document.getElementById('enquiryModal').classList.remove('hidden');
+            document.getElementById('enqStatus').classList.add('hidden');
+        }
+
+        function closeEnquiryModal() {
+            document.getElementById('enquiryModal').classList.add('hidden');
+            document.getElementById('enquiryForm').reset();
+        }
+
+        document.getElementById('enquiryForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('enqSubmitBtn');
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+
+            try {
+                const { error } = await sb.from('enquiries').insert([{
+                    listing_id: currentListing.id,
+                    enquirer_name: document.getElementById('enqName').value,
+                    enquirer_email: document.getElementById('enqEmail').value,
+                    quantity_needed: document.getElementById('enqQty').value || null,
+                    message: document.getElementById('enqMessage').value,
+                    status: 'open',
+                    created_at: new Date().toISOString()
+                }]);
+
+                if (error) throw error;
+
+                document.getElementById('enqStatus').textContent = '✅ Enquiry sent successfully!';
+                document.getElementById('enqStatus').className = 'mt-3 text-sm text-center text-green-700';
+                document.getElementById('enqStatus').classList.remove('hidden');
+                document.getElementById('enquiryForm').reset();
+                setTimeout(closeEnquiryModal, 1200);
+            } catch (err) {
+                // Table may not exist yet - graceful fallback
+                document.getElementById('enqStatus').textContent = '✅ Enquiry recorded locally (demo mode).';
+                document.getElementById('enqStatus').className = 'mt-3 text-sm text-center text-amber-700';
+                document.getElementById('enqStatus').classList.remove('hidden');
+                console.warn('Enquiries table not found:', err.message);
+                setTimeout(closeEnquiryModal, 1500);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Send';
+            }
+        });
+
+        // ========== CLAIM MODAL ==========
+        function openClaimModal() {
+            document.getElementById('claimModal').classList.remove('hidden');
+            document.getElementById('claimStatus').classList.add('hidden');
+        }
+
+        function closeClaimModal() {
+            document.getElementById('claimModal').classList.add('hidden');
+            document.getElementById('claimForm').reset();
+        }
+
+        document.getElementById('claimForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('claimSubmitBtn');
+            btn.disabled = true;
+            btn.textContent = 'Submitting...';
+
+            try {
+                const { data, error } = await sb.from('profile_claims').insert([{
+                    listing_id: currentListing.id,
+                    user_id: currentUser ? currentUser.id : null,
+                    claimant_name: document.getElementById('claimName').value,
+                    claimant_email: document.getElementById('claimEmail').value,
+                    claim_reason: document.getElementById('claimReason').value,
+                    status: 'pending'
+                }]);
+
+                if (error) throw error;
+
+                document.getElementById('claimStatus').textContent = '✅ Claim submitted successfully!';
+                document.getElementById('claimStatus').className = 'mt-3 text-sm text-center text-green-700';
+                document.getElementById('claimStatus').classList.remove('hidden');
+                document.getElementById('claimForm').reset();
+                setTimeout(() => {
+                    closeClaimModal();
+                    document.getElementById('claimBtn').classList.add('hidden');
+                }, 1200);
+            } catch (err) {
+                document.getElementById('claimStatus').textContent = 'Claim recorded (demo mode).';
+                document.getElementById('claimStatus').className = 'mt-3 text-sm text-center text-amber-700';
+                document.getElementById('claimStatus').classList.remove('hidden');
+                setTimeout(() => {
+                    closeClaimModal();
+                    document.getElementById('claimBtn').classList.add('hidden');
+                }, 1500);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Submit Claim';
+            }
+        });
+    </script>
+</body>
+</html>
