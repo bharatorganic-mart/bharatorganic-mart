@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Organic Directory | BHARAT ORGANIC MART</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --organic-green: #2D5A27; --grey-green: #6B7280; }
@@ -65,15 +66,15 @@
         </div>
 
         <!-- CATEGORY TABS -->
-        <div class="flex flex-wrap gap-2 mb-6 border-b pb-4">
-            <button onclick="setCategory('all')" class="cat-btn bg-organic text-white px-4 py-2 rounded-lg text-sm font-semibold transition" data-cat="all">All Categories</button>
-            <button onclick="setCategory('Individual Farmers')" class="cat-btn bg-white text-gray-700 hover:bg-gray-100 border px-4 py-2 rounded-lg text-sm font-semibold transition" data-cat="Individual Farmers">Individual Farmers</button>
-            <button onclick="setCategory('Grower Groups')" class="cat-btn bg-white text-gray-700 hover:bg-gray-100 border px-4 py-2 rounded-lg text-sm font-semibold transition" data-cat="Grower Groups">Grower Groups</button>
-            <button onclick="setCategory('Contract Farming')" class="cat-btn bg-white text-gray-700 hover:bg-gray-100 border px-4 py-2 rounded-lg text-sm font-semibold transition" data-cat="Contract Farming">Contract Farming</button>
-            <button onclick="setCategory('Processors & Manufacturers')" class="cat-btn bg-white text-gray-700 hover:bg-gray-100 border px-4 py-2 rounded-lg text-sm font-semibold transition" data-cat="Processors & Manufacturers">Processors & Manufacturers</button>
-            <button onclick="setCategory('FPOs & Cooperatives')" class="cat-btn bg-white text-gray-700 hover:bg-gray-100 border px-4 py-2 rounded-lg text-sm font-semibold transition" data-cat="FPOs & Cooperatives">FPOs & Cooperatives</button>
-            <button onclick="setCategory('Traders')" class="cat-btn bg-white text-gray-700 hover:bg-gray-100 border px-4 py-2 rounded-lg text-sm font-semibold transition" data-cat="Traders">Traders</button>
-            <button onclick="setCategory('Organic Suppliers')" class="cat-btn bg-white text-gray-700 hover:bg-gray-100 border px-4 py-2 rounded-lg text-sm font-semibold transition" data-cat="Organic Suppliers">Organic Suppliers</button>
+        <div role="tablist" aria-label="Filter by operator category" class="flex flex-wrap gap-2 mb-6 border-b pb-4">
+            <button role="tab" aria-selected="true" type="button" onclick="setCategory('all')" onkeydown="handleTabKeydown(event, 'all')" class="cat-btn bg-organic text-white px-4 py-2 rounded-lg text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-organic focus:ring-offset-2" data-cat="all" id="tab-all">All Categories</button>
+            <button role="tab" aria-selected="false" type="button" onclick="setCategory('Individual Farmers')" onkeydown="handleTabKeydown(event, 'Individual Farmers')" class="cat-btn bg-white text-gray-700 hover:bg-gray-100 border px-4 py-2 rounded-lg text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-organic focus:ring-offset-2" data-cat="Individual Farmers" id="tab-Individual Farmers">Individual Farmers</button>
+            <button role="tab" aria-selected="false" type="button" onclick="setCategory('Grower Groups')" onkeydown="handleTabKeydown(event, 'Grower Groups')" class="cat-btn bg-white text-gray-700 hover:bg-gray-100 border px-4 py-2 rounded-lg text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-organic focus:ring-offset-2" data-cat="Grower Groups" id="tab-Grower Groups">Grower Groups</button>
+            <button role="tab" aria-selected="false" type="button" onclick="setCategory('Contract Farming')" onkeydown="handleTabKeydown(event, 'Contract Farming')" class="cat-btn bg-white text-gray-700 hover:bg-gray-100 border px-4 py-2 rounded-lg text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-organic focus:ring-offset-2" data-cat="Contract Farming" id="tab-Contract Farming">Contract Farming</button>
+            <button role="tab" aria-selected="false" type="button" onclick="setCategory('Processors & Manufacturers')" onkeydown="handleTabKeydown(event, 'Processors & Manufacturers')" class="cat-btn bg-white text-gray-700 hover:bg-gray-100 border px-4 py-2 rounded-lg text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-organic focus:ring-offset-2" data-cat="Processors & Manufacturers" id="tab-Processors & Manufacturers">Processors & Manufacturers</button>
+            <button role="tab" aria-selected="false" type="button" onclick="setCategory('FPOs & Cooperatives')" onkeydown="handleTabKeydown(event, 'FPOs & Cooperatives')" class="cat-btn bg-white text-gray-700 hover:bg-gray-100 border px-4 py-2 rounded-lg text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-organic focus:ring-offset-2" data-cat="FPOs & Cooperatives" id="tab-FPOs & Cooperatives">FPOs & Cooperatives</button>
+            <button role="tab" aria-selected="false" type="button" onclick="setCategory('Traders')" onkeydown="handleTabKeydown(event, 'Traders')" class="cat-btn bg-white text-gray-700 hover:bg-gray-100 border px-4 py-2 rounded-lg text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-organic focus:ring-offset-2" data-cat="Traders" id="tab-Traders">Traders</button>
+            <button role="tab" aria-selected="false" type="button" onclick="setCategory('Organic Suppliers')" onkeydown="handleTabKeydown(event, 'Organic Suppliers')" class="cat-btn bg-white text-gray-700 hover:bg-gray-100 border px-4 py-2 rounded-lg text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-organic focus:ring-offset-2" data-cat="Organic Suppliers" id="tab-Organic Suppliers">Organic Suppliers</button>
         </div>
 
         <!-- SEARCH AND FILTER CONTROLS -->
@@ -115,6 +116,12 @@
     </footer>
 
     <script>
+        // ========== SUPABASE CONFIG ==========
+        const SUPABASE_URL = 'https://syxrvkiqrvbecqdkyphs.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN5eHJ2a2lxcnZiZWNxZGt5cGhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTU1MzA2NDksImV4cCI6MjExMTEwNjY0OX0.x52zcDxXj2rtjs5fPbRKXLpRuDBXshuyBT24SEDzeo4';
+
+        // Correct initialization
+        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         let allListings = [];
         let currentCategory = 'all';
 
@@ -127,14 +134,50 @@
 
         async function loadListings() {
             try {
-                const response = await fetch('../data/clean_listings.json');
-                allListings = await response.json();
+                const { data, error } = await sb
+                    .from('directory_listings')
+                    .select('*')
+                    .eq('is_demo_data', true);
+
+                if (error) throw error;
+
+                // Map snake_case DB columns → camelCase expected by the render code
+                allListings = (data ?? []).map(row => ({
+                    operatorType: row.operator_type,
+                    name: row.name,
+                    address: row.address,
+                    scope1: row.scope_1,
+                    certBody1: row.cert_body_1,
+                    scope2: row.scope_2,
+                    certBody2: row.cert_body_2,
+                    scope3: row.scope_3,
+                    certBody3: row.cert_body_3,
+                    country: row.country,
+                    state: row.state,
+                    city: row.city,
+                    facilityAddress: row.facility_address,
+                    postalCode: row.postal_code,
+                    contactPerson: row.contact_person,
+                    phone: row.phone,
+                    email: row.email,
+                    website: row.website,
+                    productName: row.product_name,
+                    certificationStatus: row.certification_status,
+                    certificationDate: row.certification_date,
+                    lastUpdated: row.last_updated,
+                    certifiedLandArea: row.certified_land_area,
+                    organicCrops: row.organic_crops,
+                    cropCertificationStatus: row.crop_certification_status,
+                    growerGroupIndicator: row.grower_group_indicator,
+                    certifiedArea: row.certified_area,
+                    isDemoData: row.is_demo_data
+                }));
                 populateStateDropdown();
                 updateCategoryTabsUI();
                 applyFilters();
             } catch (err) {
-                console.error("Failed to load listings data", err);
-                document.getElementById('listingsContainer').innerHTML = `<p class="text-red-500 col-span-full">Unable to load directory data.</p>`;
+                console.error("Failed to load listings from Supabase", err);
+                document.getElementById('listingsContainer').innerHTML = `<p class="text-red-500 col-span-full">Unable to load directory data from Supabase. Check console for details.</p>`;
             }
         }
 
@@ -153,6 +196,13 @@
             currentCategory = cat;
             updateCategoryTabsUI();
             applyFilters();
+        }
+
+        function handleTabKeydown(event, cat) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                setCategory(cat);
+            }
         }
 
         function updateCategoryTabsUI() {

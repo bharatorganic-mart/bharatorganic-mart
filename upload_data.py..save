@@ -1,0 +1,48 @@
+ # Convert datetime objects to strings
+    from datetime import datetime
+    for row in data:
+        for key, value in row.items():
+            # Check for both pandas Timestamp and standard datetime
+            if isinstance(value, (pd.Timestamp, datetime)):
+                row[key] = value.strftime('%Y-%m-%d')
+
+Here is the complete code to paste into nano upload_data.py:
+
+import pandas as pd
+import numpy as np
+from supabase import create_client
+from datetime import datetime
+
+# 1. Your Project URL
+SUPABASE_URL = 'https://syxrvkiqrvbecqdkyphs.supabase.co'
+# 2. Your Secret Service Role Key
+SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN5eHJ2aWlxcnZiZWNxZGt5cGhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTU1MzA2NDksImV4cCI6MjExMTEwNjY0OX0.x52zcDxXj2rtjs5fPbRKXLpRuDBXshuyBT24SEDzeo4'
+
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+def upload_data(file_path):
+    # Read the Excel file
+    df = pd.read_excel(file_path)
+
+    # Clean: Replace NaN with None (JSON null)
+    df = df.replace({np.nan: None})
+
+    # Convert dataframe to a list of dictionaries
+    data = df.to_dict(orient='records')
+
+    # Convert all date-like objects to strings
+    for row in data:
+        for key, value in row.items():
+            if isinstance(value, (pd.Timestamp, datetime)):
+                row[key] = value.strftime('%Y-%m-%d')
+
+    # Push to Supabase
+    try:
+        response = supabase.table('directory_listings').insert(data).execute()
+        print(f"Successfully uploaded {len(data)} records!")
+    except Exception as e:
+        print(f"Error: {e}")
+
+# Run it
+if __name__ == "__main__":
+    upload_data('/Users/garry/Documents/GitHub/bharatorganic-mart/listings_data.xlsx')
