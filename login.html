@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Register | BHARAT ORGANIC MART</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --organic-green: #2D5A27; --organic-dark: #1E401D; }
+        .bg-organic { background-color: var(--organic-green); }
+        .text-organic { color: var(--organic-green); }
+        .border-organic { border-color: var(--organic-green); }
+        .hover-organic:hover { background-color: var(--organic-dark); }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-900 min-h-screen flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-white border-b">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2">
+                <i class="fas fa-leaf text-organic text-xl"></i>
+                <span class="text-xl font-bold text-organic uppercase tracking-tight">BHARAT ORGANIC MART</span>
+            </a>
+            <a href="index.html" class="text-sm text-gray-600 hover:text-organic">
+                <i class="fas fa-arrow-left mr-1"></i> Back to Home
+            </a>
+        </div>
+    </header>
+
+    <div class="flex-grow">
+        <div class="max-w-4xl mx-auto px-6 py-12">
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+
+                <!-- Tab Navigation -->
+                <div class="grid grid-cols-2 border-b">
+                    <button id="tabLogin" onclick="switchTab('login')" class="py-5 text-center text-sm font-bold text-organic bg-white border-b-2 border-organic">Login</button>
+                    <button id="tabRegister" onclick="switchTab('register')" class="py-5 text-center text-sm font-bold text-gray-400 hover:text-gray-600 transition bg-gray-50">Register</button>
+                </div>
+
+                <!-- Login Form -->
+                <div id="loginForm" class="p-8 space-y-6">
+                    <div class="text-center">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2">Welcome back</h2>
+                        <p class="text-gray-500 text-sm">Sign in to your organic marketplace account</p>
+                    </div>
+
+                    <form id="formLogin" onsubmit="handleLogin(event)" class="space-y-5">
+                        <div class="space-y-2">
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Email Address</label>
+                            <input type="email" id="loginEmail" placeholder="you@example.com" required
+                                class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Password</label>
+                            <input type="password" id="loginPassword" placeholder="••••••••" required
+                                class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20">
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <label class="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
+                                <input type="checkbox" class="rounded text-organic focus:ring-organic"> Remember me
+                            </label>
+                            <a href="#" class="text-sm text-organic font-medium hover:underline">Forgot password?</a>
+                        </div>
+                        <button type="submit" class="w-full bg-organic text-white py-3.5 rounded-lg font-bold text-sm hover:shadow-lg hover:shadow-organic/30 transition">
+                            Sign In
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Register Form -->
+                <div id="registerForm" class="hidden p-8 space-y-6">
+                    <div class="text-center">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2">Join the marketplace</h2>
+                        <p class="text-gray-500 text-sm">Create your free organic supplier account</p>
+                    </div>
+
+                    <form id="formRegister" onsubmit="handleRegister(event)" class="space-y-5">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div class="space-y-2">
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Full Name</label>
+                                <input type="text" id="regName" placeholder="Rajesh Kumar" required
+                                    class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Email Address</label>
+                                <input type="email" id="regEmail" placeholder="you@example.com" required
+                                    class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20">
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Password</label>
+                            <input type="password" id="regPassword" placeholder="••••••••" required
+                                class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Account Type</label>
+                            <select id="regAccountType" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20">
+                                <option value="farmer">Individual Farmer</option>
+                                <option value="group">Grower Group / FPO</option>
+                                <option value="processor">Processor / Manufacturer</option>
+                                <option value="trader">Trader / Supplier</option>
+                                <option value="buyer">Buyer / Importer</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" id="regTerms" required class="rounded text-organic focus:ring-organic">
+                            <label for="regTerms" class="text-sm text-gray-600">
+                                I agree to the <a href="#" class="text-organic font-medium hover:underline">Terms of Service</a>
+                            </label>
+                        </div>
+                        <button type="submit" class="w-full bg-organic text-white py-3.5 rounded-lg font-bold text-sm hover:shadow-lg hover:shadow-organic/30 transition">
+                            Create Account
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Divider -->
+                <div class="px-8 my-6 relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <span class="w-full border-t border-gray-200"></span>
+                    </div>
+                    <span class="relative text-xs font-bold text-gray-400 uppercase px-3 bg-white">Or continue with</span>
+                </div>
+
+                <!-- Social Login -->
+                <div class="px-8 pb-8 space-y-4">
+                    <button class="w-full flex items-center justify-center gap-3 py-3 border border-gray-200 rounded-lg text-gray-700 font-medium text-sm hover:bg-gray-50 transition flex-col md:flex-row">
+                        <i class="fab fa-google text-red-500"></i>
+                        <span>Continue with Google</span>
+                    </button>
+                    <button class="w-full flex items-center justify-center gap-3 py-3 border border-gray-200 rounded-lg text-gray-700 font-medium text-sm hover:bg-gray-50 transition flex-col md:flex-row">
+                        <i class="fab fa-facebook text-blue-600"></i>
+                        <span>Continue with Facebook</span>
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="mt-8 text-center text-sm text-gray-500">
+                Don't have an account? <a href="#" onclick="switchTab('register')" class="text-organic font-medium hover:underline">Sign up</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-white border-t py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-6 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 BHARAT ORGANIC MART. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function switchTab(tab) {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const tabLogin = document.getElementById('tabLogin');
+            const tabRegister = document.getElementById('tabRegister');
+
+            if (tab === 'login') {
+                loginForm.classList.remove('hidden');
+                registerForm.classList.add('hidden');
+                tabLogin.className = 'py-5 text-center text-sm font-bold text-organic bg-white border-b-2 border-organic';
+                tabRegister.className = 'py-5 text-center text-sm font-bold text-gray-400 hover:text-gray-600 transition bg-gray-50';
+            } else {
+                registerForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+                tabRegister.className = 'py-5 text-center text-sm font-bold text-organic bg-white border-b-2 border-organic';
+                tabLogin.className = 'py-5 text-center text-sm font-bold text-gray-400 hover:text-gray-600 transition bg-gray-50';
+            }
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // Demo login — connect Supabase Auth later
+            alert('Demo mode: Login would connect to Supabase Auth.\nEmail: ' + email);
+            // After Supabase Auth is set up:
+            // await sb.auth.signInWithPassword({ email, password });
+        }
+
+        function handleRegister(event) {
+            event.preventDefault();
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const accountType = document.getElementById('regAccountType').value;
+
+            // Demo register — connect Supabase Auth later
+            alert('Demo mode: Registration would connect to Supabase Auth.\nName: ' + name + '\nAccount: ' + accountType);
+            // After Supabase Auth is set up:
+            // await sb.auth.signUp({ email, password });
+        }
+    </script>
+</body>
+</html>

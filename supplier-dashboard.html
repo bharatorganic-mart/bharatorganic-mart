@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier Dashboard | BHARAT ORGANIC MART</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --organic-green: #2D5A27; --organic-dark: #1E401D; }
+        .bg-organic { background-color: var(--organic-green); }
+        .text-organic { color: var(--organic-green); }
+        .border-organic { border-color: var(--organic-green); }
+        .hover-organic:hover { background-color: var(--organic-dark); }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-900 min-h-screen flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-white border-b shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <i class="fas fa-store text-organic text-xl"></i>
+                <h1 class="text-xl font-bold text-organic uppercase tracking-tight">Supplier Dashboard</h1>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="directory/index.html" class="text-sm text-gray-600 hover:text-organic">
+                    <i class="fas fa-arrow-left mr-1"></i> View Directory
+                </a>
+                <button class="bg-organic text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-800 transition">
+                    <i class="fas fa-user mr-2"></i> Supplier Profile
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex-grow">
+        <div class="max-w-7xl mx-auto px-6 py-8">
+
+            <!-- WELCOME -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-900">Welcome back, Supplier 👋</h2>
+                <p class="text-gray-500 text-sm mt-1">Manage your organic product listings and buyer enquiries</p>
+            </div>
+
+            <!-- STATS -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-xl border shadow-sm">
+                    <div class="text-gray-500 text-xs font-bold uppercase mb-1">Active Listings</div>
+                    <div id="statListings" class="text-3xl font-bold text-gray-900">0</div>
+                </div>
+                <div class="bg-white p-6 rounded-xl border shadow-sm">
+                    <div class="text-gray-500 text-xs font-bold uppercase mb-1">New Enquiries</div>
+                    <div id="statEnquiries" class="text-3xl font-bold text-gray-900">0</div>
+                </div>
+                <div class="bg-white p-6 rounded-xl border shadow-sm">
+                    <div class="text-gray-500 text-xs font-bold uppercase mb-1">Pending Claims</div>
+                    <div id="statClaims" class="text-3xl font-bold text-gray-900">0</div>
+                </div>
+                <div class="bg-white p-6 rounded-xl border shadow-sm">
+                    <div class="text-gray-500 text-xs font-bold uppercase mb-1">Verified</div>
+                    <div class="text-3xl font-bold text-green-600">Yes</div>
+                </div>
+            </div>
+
+            <!-- QUICK ACTIONS -->
+            <div class="bg-white p-6 rounded-xl border shadow-sm mb-8">
+                <h3 class="text-lg font-bold text-gray-900 mb-6">Quick Actions</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <button onclick="addListing()" class="bg-organic text-white px-6 py-4 rounded-lg font-semibold text-sm hover:bg-green-800 transition flex items-center gap-3">
+                        <i class="fas fa-plus"></i> Add New Listing
+                    </button>
+                    <button onclick="viewEnquiries()" class="border border-gray-200 text-gray-700 px-6 py-4 rounded-lg font-semibold text-sm hover:bg-gray-50 transition flex items-center gap-3">
+                        <i class="fas fa-envelope"></i> View Enquiries
+                    </button>
+                    <button onclick="updateProfile()" class="border border-gray-200 text-gray-700 px-6 py-4 rounded-lg font-semibold text-sm hover:bg-gray-50 transition flex items-center gap-3">
+                        <i class="fas fa-user-edit"></i> Update Profile
+                    </button>
+                </div>
+            </div>
+
+            <!-- MY LISTINGS TABLE -->
+            <div class="bg-white rounded-xl border shadow-sm overflow-hidden">
+                <div class="p-6 border-b">
+                    <h3 class="text-lg font-bold text-gray-900">Your Product Listings</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase">Product</th>
+                                <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase">Category</th>
+                                <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase">Location</th>
+                                <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase">Status</th>
+                                <th class="px-6 py-3 text-xs font-bold text-gray-500 uppercase text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="supplierTableBody" class="divide-y divide-gray-100">
+                            <tr>
+                                <td colspan="5" class="px-6 py-8 text-center text-gray-500">
+                                    <i class="fas fa-inbox text-3xl mb-3 text-gray-300"></i>
+                                    <p>No listings yet. Click "Add New Listing" to get started.</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="bg-white border-t py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-6 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 BHARAT ORGANIC MART. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Demo functions — connect to Supabase later
+        function addListing() {
+            alert('Feature coming soon: Add your organic product listing to the directory.');
+        }
+
+        function viewEnquiries() {
+            alert('Feature coming soon: View buyer enquiries for your products.');
+        }
+
+        function updateProfile() {
+            alert('Feature coming soon: Update your supplier profile details.');
+        }
+    </script>
+</body>
+</html>

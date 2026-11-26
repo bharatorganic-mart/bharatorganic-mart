@@ -343,10 +343,92 @@
             </div>
         </section>
 
+        <!-- 4. LATEST LISTINGS FROM JSON -->
         <section class="max-w-7xl mx-auto py-16 px-6">
-            <h2 class="text-3xl font-bold mb-8">Latest Marketplace Listings</h2>
+            <div class="flex justify-between items-end mb-8">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900">Latest Marketplace Listings</h2>
+                    <p class="text-gray-500 text-sm mt-1">Verified organic suppliers and producers</p>
+                </div>
+                <a href="directory/index.html?type=all" class="text-sm font-bold text-organic hover:underline flex items-center gap-1">
+                    View All <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div id="homepageListings" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Listing cards loaded from JSON -->
+            </div>
+
+            <!-- Loading state -->
+            <div id="homepageLoading" class="col-span-full text-center py-12 hidden">
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-organic mx-auto mb-4"></div>
+                <p class="text-gray-500 text-sm">Loading listings...</p>
+            </div>
+
+            <!-- Empty state -->
+            <div id="homepageEmpty" class="col-span-full text-center py-12 hidden">
+                <i class="fas fa-inbox text-gray-300 text-4xl mb-4"></i>
+                <p class="text-gray-500 text-lg">No listings available right now.</p>
+            </div>
         </section>
     </main>
+
+    <script>
+        // Load demo listings from JSON file
+        async function loadHomepageListings() {
+            try {
+                const response = await fetch('data/clean_listings.json');
+                const listings = await response.json();
+
+                const container = document.getElementById('homepageListings');
+                const loading = document.getElementById('homepageLoading');
+
+                loading.classList.add('hidden');
+
+                if (!listings || listings.length === 0) {
+                    document.getElementById('homepageEmpty').classList.remove('hidden');
+                    return;
+                }
+
+                // Show first 8 listings on homepage
+                const featured = listings.slice(0, 8);
+
+                container.innerHTML = featured.map(item => `
+                    <div class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition overflow-hidden flex flex-col">
+                        <div class="h-48 bg-gray-100 flex items-center justify-center text-gray-400 text-sm font-medium">
+                            <i class="fas fa-store"></i> Listing Image
+                        </div>
+                        <div class="p-5 flex flex-col flex-grow">
+                            <div class="text-xs font-bold text-organic uppercase tracking-wider mb-1">${item.operatorType}</div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">${item.name}</h3>
+                            <div class="text-sm text-gray-600 mb-3 flex items-center gap-1">
+                                <i class="fas fa-map-marker-alt"></i>
+                                ${item.city || '—'}, ${item.state || '—'}
+                            </div>
+                            <div class="text-xs text-gray-500 mb-3 border-t border-gray-100 pt-3">
+                                <strong class="text-gray-700">Products:</strong> ${item.productName || '—'}
+                            </div>
+                            <div class="mt-auto pt-4">
+                                <a href="directory/index.html?type=${encodeURIComponent(item.operatorType)}" class="w-full bg-organic text-white text-center py-2.5 rounded-lg text-sm font-bold hover:bg-green-800 transition">
+                                    View Details &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error('Failed to load homepage listings:', err);
+                document.getElementById('homepageLoading').classList.add('hidden');
+                document.getElementById('homepageEmpty').classList.remove('hidden');
+                document.getElementById('homepageEmpty').innerHTML = `
+                    <i class="fas fa-exclamation-triangle text-gray-300 text-3xl mb-4"></i>
+                    <p class="text-gray-500 text-lg">Unable to load listings.</p>
+                `;
+            }
+        }
+
+        window.onload = loadHomepageListings;
+    </script>
 
     <footer class="bg-gray-100 border-t py-12">
         <div class="max-w-7xl mx-auto px-6 text-center text-gray-500">
