@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supplier Dashboard | BHARAT ORGANIC MART</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --organic-green: #2D5A27; --organic-dark: #1E401D; }
@@ -116,8 +117,33 @@
         </div>
     </footer>
 
+    <script src="../js/auth.js"></script>
     <script>
+        // ========================================================================
+        // Auth Guard for Supplier Dashboard
+        // ========================================================================
+        async function requireSupplierAuth() {
+            const session = await BOMAuth.session();
+            if (!session) {
+                window.location.replace('login.html');
+                return false;
+            }
+
+            // Only allow operators (farmers, processors, suppliers)
+            const role = session.user.user_metadata?.role || 'operator';
+            if (role === 'operator') {
+                return true;
+            }
+
+            alert('Only suppliers and farmers can access this dashboard.');
+            return false;
+        }
+
+        window.onload = requireSupplierAuth;
+
+        // ========================================================================
         // Demo functions — connect to Supabase later
+        // ========================================================================
         function addListing() {
             alert('Feature coming soon: Add your organic product listing to the directory.');
         }

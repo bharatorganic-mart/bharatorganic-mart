@@ -102,7 +102,32 @@
         </div>
     </footer>
 
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/auth.js"></script>
     <script>
+        // ========================================================================
+        // Auth Guard for Buyer Dashboard
+        // ========================================================================
+        async function requireBuyerAuth() {
+            const session = await BOMAuth.session();
+            if (!session) {
+                window.location.replace('login.html');
+                return false;
+            }
+
+            // Only allow buyers (and admins for testing)
+            const role = session.user.user_metadata?.role || 'operator';
+            if (['buyer', 'admin', 'super_admin'].includes(role)) {
+                return true;
+            }
+
+            alert('Only buyers can access this dashboard.');
+            return false;
+        }
+
+        window.onload = requireBuyerAuth;
+
         function postRfq() {
             alert('Feature coming soon: Post your Request for Quotation (RFQ) for organic products.');
         }

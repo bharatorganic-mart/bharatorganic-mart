@@ -61,12 +61,31 @@
                             <label class="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
                                 <input type="checkbox" class="rounded text-organic focus:ring-organic"> Remember me
                             </label>
-                            <a href="#" class="text-sm text-organic font-medium hover:underline">Forgot password?</a>
+                            <a href="#" class="text-sm text-organic font-medium hover:underline" onclick="document.getElementById('loginForm').classList.add('hidden'); document.getElementById('resetForm').classList.remove('hidden')">Forgot password?</a>
                         </div>
-                        <button type="submit" class="w-full bg-organic text-white py-3.5 rounded-lg font-bold text-sm hover:shadow-lg hover:shadow-organic/30 transition">
+                        <button type="submit" id="btnLogin" class="w-full bg-organic text-white py-3.5 rounded-lg font-bold text-sm hover:shadow-lg hover:shadow-organic/30 transition">
                             Sign In
                         </button>
                     </form>
+
+                    <!-- Login error -->
+                    <p id="loginError" class="text-red-500 text-sm error-msg hidden" role="alert"></p>
+                </div>
+
+                <!-- Email confirmation needed (shown after login if not confirmed) -->
+                <div id="confirmNeeded" class="hidden p-8 space-y-6 text-center">
+                    <div class="text-center">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Check your email</h3>
+                        <p class="text-gray-500 text-sm mb-4">
+                            We sent a confirmation link to <span id="confirmEmail" class="font-medium"></span>. Please open it and click the link, then come back here to log in.
+                        </p>
+                    </div>
+                    <button onclick="handleResend()" class="bg-gray-100 text-gray-700 py-3.5 rounded-lg font-bold text-sm w-full hover:bg-gray-200 transition">
+                        Resend Confirmation Email
+                    </button>
+                    <p class="mt-3 text-sm text-gray-500">
+                        Already confirmed? <a href="#" class="text-organic font-medium hover:underline" onclick="document.getElementById('confirmNeeded').classList.add('hidden'); document.getElementById('loginForm').classList.remove('hidden')">Return to login</a>
+                    </p>
                 </div>
 
                 <!-- Register Form -->
@@ -110,13 +129,49 @@
                                 I agree to the <a href="#" class="text-organic font-medium hover:underline">Terms of Service</a>
                             </label>
                         </div>
-                        <button type="submit" class="w-full bg-organic text-white py-3.5 rounded-lg font-bold text-sm hover:shadow-lg hover:shadow-organic/30 transition">
+                        <button type="submit" id="btnRegister" class="w-full bg-organic text-white py-3.5 rounded-lg font-bold text-sm hover:shadow-lg hover:shadow-organic/30 transition">
                             Create Account
                         </button>
                     </form>
+
+                    <!-- Register error -->
+                    <p id="registerError" class="text-red-500 text-sm error-msg hidden" role="alert"></p>
                 </div>
 
-                <!-- Divider -->
+                <!-- Password reset form -->
+                <div id="resetForm" class="hidden p-8 space-y-6 text-center">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Reset Password</h3>
+                    <p class="text-gray-500 text-sm mb-6">Enter your email and we'll send a reset link</p>
+
+                    <form onsubmit="handleReset(event)" class="space-y-5">
+                        <div class="space-y-2">
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Email Address</label>
+                            <input type="email" id="resetEmail" placeholder="you@example.com" required
+                                class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20">
+                        </div>
+                        <button type="submit" id="btnReset" class="w-full bg-organic text-white py-3.5 rounded-lg font-bold text-sm hover:shadow-lg hover:shadow-organic/30 transition">
+                            Send Reset Link
+                        </button>
+                    </form>
+
+                    <p id="resetError" class="text-red-500 text-sm error-msg hidden" role="alert"></p>
+                    <p class="mt-3 text-sm text-gray-500">
+                        Remember your password? <a href="#" class="text-organic font-medium hover:underline" onclick="switchTab('login')">Go back to login</a>
+                    </p>
+                </div>
+
+                <!-- Reset confirmation -->
+                <div id="resetSent" class="hidden p-8 space-y-6 text-center">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Email Sent</h3>
+                    <p class="text-gray-500 text-sm mb-4">
+                        Check your inbox for a link to reset your password.
+                    </p>
+                    <button onclick="switchTab('login')" class="bg-organic text-white py-3.5 rounded-lg font-bold text-sm w-full hover:bg-green-800 transition">
+                        Back to Login
+                    </button>
+                </div>
+
+                <div class="px-8 my-6 relative">
                 <div class="px-8 my-6 relative">
                     <div class="absolute inset-0 flex items-center">
                         <span class="w-full border-t border-gray-200"></span>
@@ -126,12 +181,13 @@
 
                 <!-- Social Login -->
                 <div class="px-8 pb-8 space-y-4">
-                    <button class="w-full flex items-center justify-center gap-3 py-3 border border-gray-200 rounded-lg text-gray-700 font-medium text-sm hover:bg-gray-50 transition flex-col md:flex-row">
-                        <i class="fab fa-google text-red-500"></i>
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider px-3">Coming soon</p>
+                    <button class="w-full flex items-center justify-center gap-3 py-3 border border-gray-200 rounded-lg text-gray-400 font-medium text-sm hover:bg-gray-50 transition flex-col md:flex-row" disabled>
+                        <i class="fab fa-google text-gray-300"></i>
                         <span>Continue with Google</span>
                     </button>
-                    <button class="w-full flex items-center justify-center gap-3 py-3 border border-gray-200 rounded-lg text-gray-700 font-medium text-sm hover:bg-gray-50 transition flex-col md:flex-row">
-                        <i class="fab fa-facebook text-blue-600"></i>
+                    <button class="w-full flex items-center justify-center gap-3 py-3 border border-gray-200 rounded-lg text-gray-400 font-medium text-sm hover:bg-gray-50 transition flex-col md:flex-row" disabled>
+                        <i class="fab fa-facebook text-gray-300"></i>
                         <span>Continue with Facebook</span>
                     </button>
                 </div>
@@ -150,7 +206,13 @@
         </div>
     </footer>
 
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/auth.js"></script>
     <script>
+        // ========================================================================
+        // Auth tab switching (UI only)
+        // ========================================================================
         function switchTab(tab) {
             const loginForm = document.getElementById('loginForm');
             const registerForm = document.getElementById('registerForm');
@@ -170,27 +232,282 @@
             }
         }
 
-        function handleLogin(event) {
-            event.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-
-            // Demo login — connect Supabase Auth later
-            alert('Demo mode: Login would connect to Supabase Auth.\nEmail: ' + email);
-            // After Supabase Auth is set up:
-            // await sb.auth.signInWithPassword({ email, password });
+        // ========================================================================
+        // Form helpers
+        // ========================================================================
+        function showError(targetId, message) {
+            const el = document.getElementById(targetId);
+            el.textContent = message;
+            el.classList.remove('hidden');
         }
 
-        function handleRegister(event) {
-            event.preventDefault();
-            const name = document.getElementById('regName').value;
-            const email = document.getElementById('regEmail').value;
-            const accountType = document.getElementById('regAccountType').value;
+        function hideError(targetId) {
+            document.getElementById(targetId).classList.add('hidden');
+        }
 
-            // Demo register — connect Supabase Auth later
-            alert('Demo mode: Registration would connect to Supabase Auth.\nName: ' + name + '\nAccount: ' + accountType);
-            // After Supabase Auth is set up:
-            // await sb.auth.signUp({ email, password });
+        function setButtonLoading(btnId, loading) {
+            const btn = document.getElementById(btnId);
+            if (loading) {
+                btn.disabled = true;
+                btn.textContent = btn.dataset.loading || 'Please wait...';
+                btn.classList.add('opacity-75', 'cursor-not-allowed');
+            } else {
+                btn.disabled = false;
+                btn.textContent = btn.dataset.original || 'Sign In';
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+            }
+        }
+
+        function clearAllErrors() {
+            document.querySelectorAll('.error-msg').forEach(el => el.classList.add('hidden'));
+        }
+
+        // Capture original button text on load
+        document.getElementById('btnLogin').dataset.original = document.getElementById('btnLogin').textContent;
+        document.getElementById('btnRegister').dataset.original = document.getElementById('btnRegister').textContent;
+        document.getElementById('btnLogin').dataset.loading = 'Signing in...';
+        document.getElementById('btnRegister').dataset.loading = 'Creating account...';
+
+        // ========================================================================
+        // LOGIN HANDLER — Real Supabase Auth
+        // ========================================================================
+        async function handleLogin(event) {
+            event.preventDefault();
+            clearAllErrors();
+
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const btn = document.getElementById('btnLogin');
+
+            if (!email || !password) {
+                showError('loginError', 'Please enter both email and password.');
+                return;
+            }
+
+            setButtonLoading('btnLogin', true);
+
+            try {
+                const { data } = await BOMAuth.signIn({ email, password });
+                const user = data.user;
+
+                if (!user) {
+                    showError('loginError', 'No account returned. Please try again.');
+                    setButtonLoading('btnLogin', false);
+                    return;
+                }
+
+                // If email not confirmed, show resend option
+                if (!user.email_confirmed_at) {
+                    document.getElementById('loginForm').classList.add('hidden');
+                    document.getElementById('confirmNeeded').classList.remove('hidden');
+                    document.getElementById('confirmEmail').textContent = email;
+                    setButtonLoading('btnLogin', false);
+                    return;
+                }
+
+                // Logged in — redirect to dashboard based on role
+                const profile = await BOMAuth.profile().catch(() => null);
+                const role = profile?.role || user.user_metadata?.role || 'operator';
+                const target = BOMAuth.dashboardForRole(role);
+
+                window.location.replace(target);
+            } catch (err) {
+                const msg = err.message || 'Login failed';
+                showError('loginError', msg);
+                setButtonLoading('btnLogin', false);
+            }
+        }
+
+        // ========================================================================
+        // REGISTER HANDLER — Real Supabase Auth
+        // ========================================================================
+        async function handleRegister(event) {
+            event.preventDefault();
+            clearAllErrors();
+
+            const fullName = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value;
+            const accountType = document.getElementById('regAccountType').value;
+            const terms = document.getElementById('regTerms').checked;
+            const btn = document.getElementById('btnRegister');
+
+            if (!fullName || !email || !password) {
+                showError('registerError', 'Please fill in all required fields.');
+                return;
+            }
+            if (!terms) {
+                showError('registerError', 'Please agree to the Terms of Service.');
+                return;
+            }
+
+            setButtonLoading('btnRegister', true);
+
+            try {
+                const { data } = await BOMAuth.signUp({
+                    fullName,
+                    email,
+                    password,
+                    accountType
+                });
+
+                // signUp succeeded — check if confirmation is required
+                if (!data.user) {
+                    document.getElementById('registerForm').classList.add('hidden');
+                    document.getElementById('confirmNeeded').classList.remove('hidden');
+                    document.getElementById('confirmEmail').textContent = email;
+                    setButtonLoading('btnRegister', false);
+                    return;
+                }
+
+                // Auto-confirmed — go to dashboard
+                const role = ACCOUNT_TYPE_ROLE[accountType] || 'operator';
+                const target = BOMAuth.dashboardForRole(role);
+                window.location.replace(target);
+            } catch (err) {
+                const msg = err.message || 'Registration failed';
+                showError('registerError', msg);
+                setButtonLoading('btnRegister', false);
+            }
+        }
+
+        // ========================================================================
+        // PASSWORD RESET
+        // ========================================================================
+        async function handleReset(event) {
+            event.preventDefault();
+            clearAllErrors();
+
+            const email = document.getElementById('resetEmail').value.trim();
+            const btn = document.getElementById('btnReset');
+
+            if (!email) {
+                showError('resetError', 'Please enter your email.');
+                return;
+            }
+
+            setButtonLoading('btnReset', true);
+
+            try {
+                await BOMAuth.resetPassword(email);
+                document.getElementById('resetForm').classList.add('hidden');
+                document.getElementById('resetSent').classList.remove('hidden');
+            } catch (err) {
+                showError('resetError', err.message || 'Reset failed');
+                setButtonLoading('btnReset', false);
+            }
+        }
+
+        async function handleResend() {
+            const email = document.getElementById('confirmEmail').textContent.trim();
+            try {
+                await BOMAuth.resendConfirmation(email);
+                alert('Confirmation email resent! Check your inbox.');
+            } catch (err) {
+                alert('Could not resend: ' + (err.message || 'unknown error'));
+            }
+        }
+
+        // Map account type label to internal key for ACCOUNT_TYPE_ROLE lookup
+        const ACCOUNT_TYPE_ROLE = {
+            farmer: 'operator',
+            supplier: 'operator',
+            buyer: 'buyer',
+            other: 'operator',
+            group: 'operator',
+            processor: 'operator',
+            trader: 'operator'
+        };
+
+        // Initialize: show login tab by default
+        switchTab('login');
+
+        // ========================================================================
+        // PAGE INIT
+        // ========================================================================
+        (async function init() {
+            const params = new URLSearchParams(window.location.search);
+            const mode = params.get('mode');
+
+            // If recovery link was clicked, Supabase fires PASSWORD_RECOVERY
+            BOMAuth.onAuthStateChange(async (event, session) => {
+                if (event === 'PASSWORD_RECOVERY') {
+                    document.getElementById('loginForm').classList.add('hidden');
+                    document.getElementById('registerForm').classList.add('hidden');
+                    showPasswordUpdate();
+                }
+            });
+
+            // Already logged in? Go to dashboard (unless mode=reset)
+            if (mode !== 'reset') {
+                const session = await BOMAuth.session();
+                if (session) {
+                    window.location.replace(BOMAuth.dashboardForRole(
+                        session.user?.user_metadata?.role || 'operator'
+                    ));
+                }
+            }
+        })();
+
+        // ========================================================================
+        // PASSWORD UPDATE (after clicking reset link)
+        // ========================================================================
+        function showPasswordUpdate() {
+            let box = document.getElementById('passwordUpdateBox');
+            if (box) { box.classList.remove('hidden'); return; }
+
+            box = document.createElement('div');
+            box.id = 'passwordUpdateBox';
+            box.className = 'p-8 space-y-6';
+            box.innerHTML = `
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Set a new password</h2>
+                    <p class="text-gray-500 text-sm">Choose a new password for your account</p>
+                </div>
+                <form onsubmit="handlePasswordUpdate(event)" class="space-y-5">
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">New Password</label>
+                        <input type="password" id="newPassword" placeholder="At least 8 characters" required minlength="8"
+                            class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Confirm Password</label>
+                        <input type="password" id="confirmPassword" placeholder="Re-enter password" required minlength="8"
+                            class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20">
+                    </div>
+                    <p id="pwdError" class="text-red-500 text-sm error-msg hidden" role="alert"></p>
+                    <button type="submit" class="w-full bg-organic text-white py-3.5 rounded-lg font-bold text-sm hover:shadow-lg hover:shadow-organic/30 transition">
+                        Update Password
+                    </button>
+                </form>
+            `;
+            document.querySelector('.bg-white.rounded-2xl').appendChild(box);
+        }
+
+        async function handlePasswordUpdate(event) {
+            event.preventDefault();
+            document.getElementById('pwdError').classList.add('hidden');
+
+            const pwd = document.getElementById('newPassword').value;
+            const confirm = document.getElementById('confirmPassword').value;
+
+            if (pwd !== confirm) {
+                showError('pwdError', 'Passwords do not match.');
+                return;
+            }
+            if (pwd.length < 8) {
+                showError('pwdError', 'Password must be at least 8 characters.');
+                return;
+            }
+
+            const { error } = await BOMAuth.sb.auth.updateUser({ password: pwd });
+            if (error) {
+                showError('pwdError', error.message);
+                return;
+            }
+
+            alert('Password updated! Please log in.');
+            window.location.replace('login.html');
         }
     </script>
 </body>

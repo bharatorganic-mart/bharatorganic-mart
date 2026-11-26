@@ -6,6 +6,7 @@
     <title>Admin Dashboard | BHARAT ORGANIC MART</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/auth.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --organic-green: #2D5A27; --organic-dark: #1E401D; --grey-green: #6B7280; }
@@ -332,11 +333,37 @@
     <div id="notify" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300"></div>
 
     <script>
-        // ========== SUPABASE CONFIG ==========
-        const SUPABASE_URL = 'https://syxrvkiqrvbecqdkyphs.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN5eHJ2a2lxcnZiZWNxZGt5cGhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTU1MzA2NDksImV4cCI6MjExMTEwNjY0OX0.x52zcDxXj2rtjs5fPbRKXLpRuDBXshuyBT24SEDzeo4';
+        // ========================================================================
+        // Auth Guard for Admin Dashboard
+        // ========================================================================
+        async function requireAdminAuth() {
+            const session = await BOMAuth.session();
+            if (!session) {
+                window.location.replace('../login.html');
+                return false;
+            }
 
-        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            const isAdmin = await BOMAuth.isAdmin().catch(() => false);
+            if (!isAdmin) {
+                alert('Admin access required.');
+                window.location.replace('../supplier-dashboard.html');
+                return false;
+            }
+
+            await loadOperators();
+            return true;
+        }
+
+        // ========================================================================
+        // SUPABASE CONFIG (already loaded via ../js/auth.js)
+        // ========================================================================
+        // const SUPABASE_URL = 'https://syxrvkiqrvbecqdkyphs.supabase.co';
+        // const SUPABASE_ANON_KEY = '...';
+        // const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // (Now provided by BOMAuth.sb in ../js/auth.js)
+
+        // Global Supabase client (from shared auth module)
+        const sb = BOMAuth.sb;
 
         let allOperators = [];
         let allClaims = [];
@@ -700,7 +727,7 @@
         }
 
         // ========== INIT ==========
-        window.onload = loadOperators;
+        window.onload = requireAdminAuth;
     </script>
 </body>
 </html>
