@@ -333,8 +333,11 @@
         // ========================================================================
         // REGISTER HANDLER — Real Supabase Auth
         // ========================================================================
+        let isRegistering = false;
+
         async function handleRegister(event) {
             event.preventDefault();
+            if (isRegistering) return; // Prevent double-click
             clearAllErrors();
 
             const fullName = document.getElementById('regName').value.trim();
@@ -353,6 +356,8 @@
                 return;
             }
 
+            if (isRegistering) return; // Prevent double-click
+            isRegistering = true;
             setButtonLoading('btnRegister', true);
 
             try {
@@ -369,6 +374,7 @@
                     document.getElementById('confirmNeeded').classList.remove('hidden');
                     document.getElementById('confirmEmail').textContent = email;
                     setButtonLoading('btnRegister', false);
+                    isRegistering = false;
                     return;
                 }
 
@@ -380,6 +386,8 @@
                 const msg = err.message || 'Registration failed';
                 showError('registerError', msg);
                 setButtonLoading('btnRegister', false);
+            } finally {
+                isRegistering = false;
             }
         }
 
