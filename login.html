@@ -73,6 +73,11 @@
                         </button>
                     </form>
 
+                    <!-- Sign up link -->
+                    <p class="mt-4 text-center text-sm text-gray-600">
+                        Don't have an account? <a href="#" onclick="switchTab('register')" class="text-organic font-bold hover:underline ml-1">Sign up</a>
+                    </p>
+
                     <!-- Login error -->
                     <p id="loginError" class="text-red-500 text-sm error-msg hidden" role="alert"></p>
                 </div>
@@ -197,10 +202,6 @@
                     </button>
                 </div>
 
-            </div>
-
-            <div class="mt-8 text-center text-sm text-gray-500">
-                Don't have an account? <a href="#" onclick="switchTab('register')" class="text-organic font-medium hover:underline">Sign up</a>
             </div>
         </div>
     </div>
@@ -430,8 +431,18 @@
             trader: 'operator'
         };
 
-        // Initialize: show login tab by default
-        switchTab('login');
+        // ========================================================================
+        // URL PARAMETER HANDLING — Check for ?tab=register
+        // ========================================================================
+        function initTabFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const tab = params.get('tab');
+            if (tab === 'register') {
+                switchTab('register');
+            } else {
+                switchTab('login');
+            }
+        }
 
         // ========================================================================
         // PAGE INIT
@@ -456,9 +467,19 @@
                     window.location.replace(BOMAuth.dashboardForRole(
                         session.user?.user_metadata?.role || 'operator'
                     ));
+                    return; // Don't set tab if redirecting
                 }
             }
         })();
+
+        // Handle URL parameter for tab switching (after all async operations)
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlTab = urlParams.get('tab');
+        if (urlTab === 'register') {
+            switchTab('register');
+        } else {
+            switchTab('login');
+        }
 
         // ========================================================================
         // PASSWORD UPDATE (after clicking reset link)

@@ -58,28 +58,43 @@
 <body class="bg-gray-50 font-sans text-gray-900">
 
     <!-- 1. HEADER -->
-    <header class="bg-white py-6 border-b">
+    <header class="bg-white py-4 border-b">
         <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
             <!-- Left: Logo -->
             <div class="flex items-center justify-start w-full md:w-1/4">
-                <img src="Logo 1.png" alt="BHARAT ORGANIC MART Logo" class="h-16 w-auto object-contain">
+                <img src="Logo 1.png" alt="BHARAT ORGANIC MART Logo" class="h-14 w-auto object-contain">
             </div>
             <!-- Center: Title -->
             <div class="w-full md:w-2/4 text-center">
                 <h1 class="text-2xl md:text-3xl font-bold text-organic leading-tight uppercase tracking-tight">BHARAT ORGANIC MART</h1>
                 <p class="text-xs md:text-sm text-gray-500 uppercase tracking-widest mt-1">INDIA'S ORGANIC SUPPLY MARKETPLACE</p>
             </div>
-            <!-- Right spacer -->
-            <div class="hidden md:block w-1/4"></div>
+            <!-- Right: Login / Join Free Buttons -->
+            <div class="hidden md:flex items-center justify-end gap-3 w-1/4">
+                <a href="login.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-gray-700 bg-gray-100 border border-gray-200 hover:bg-gray-200 transition">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+                <a href="login.html?tab=register" class="inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 transition">
+                    Join Free
+                </a>
+            </div>
         </div>
     </header>
 
     <!-- Mobile Menu Toggle Button -->
     <div class="md:hidden bg-white px-6 py-3 border-b flex justify-between items-center">
         <span class="text-xs font-bold uppercase text-organic">Menu</span>
-        <button onclick="toggleMobileNav()" class="text-gray-700 focus:outline-none">
-            <i class="fas fa-bars text-xl"></i>
-        </button>
+        <div class="flex items-center gap-2">
+            <a href="login.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium text-gray-700 bg-gray-100 border border-gray-200 transition">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </a>
+            <a href="login.html?tab=register" class="inline-flex items-center gap-1 px-4 py-1.5 rounded-full text-xs font-bold text-white bg-blue-600 transition">
+                Join Free
+            </a>
+            <button onclick="toggleMobileNav()" class="text-gray-700 focus:outline-none ml-2">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
     </div>
 
     <!-- 2. NAV -->
@@ -256,9 +271,7 @@
                 </div>
             </div>
 
-            <!-- LOGIN / REGISTER -->
-            <a href="login.html" class="w-full md:w-auto text-center text-sm font-bold uppercase text-organic border-b-2 border-organic transition py-2">Login / Register</a>
-
+            
         </div>
     </nav>
 
@@ -986,12 +999,12 @@
 
                 container.innerHTML = listings.map(item => `
                     <div class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition overflow-hidden flex flex-col">
-                        <div class="h-48 bg-gray-100 flex items-center justify-center text-gray-400 text-sm font-medium">
+                        <div class="h-35 bg-gray-100 flex items-center justify-center text-gray-400 text-sm font-medium">
                             <i class="fas fa-store"></i> Listing Image
                         </div>
-                        <div class="p-5 flex flex-col flex-grow">
+                        <div class="p-4 flex flex-col flex-grow">
                             <div class="text-xs font-bold text-organic uppercase tracking-wider mb-1">${item.operatorType}</div>
-                            <h3 class="text-lg font-bold text-gray-900 mb-2">${item.name}</h3>
+                            <h3 class="text-base font-bold text-gray-900 mb-2">${item.name}</h3>
                             <div class="text-sm text-gray-600 mb-3 flex items-center gap-1">
                                 <i class="fas fa-map-marker-alt"></i>
                                 ${item.city || '—'}, ${item.state || '—'}
@@ -999,8 +1012,8 @@
                             <div class="text-xs text-gray-500 mb-3 border-t border-gray-100 pt-3">
                                 <strong class="text-gray-700">Products:</strong> ${item.productName || '—'}
                             </div>
-                            <div class="mt-auto pt-4">
-                                <a href="listing-detail.html?id=${item.id}" class="w-full bg-organic text-white text-center py-2.5 rounded-lg text-sm font-bold hover:bg-green-800 transition">
+                            <div class="mt-auto pt-3">
+                                <a href="listing-detail.html?id=${item.id}" class="w-full bg-organic text-white text-center py-2 rounded-lg text-sm font-bold hover:bg-green-800 transition">
                                     View Details &rarr;
                                 </a>
                             </div>
