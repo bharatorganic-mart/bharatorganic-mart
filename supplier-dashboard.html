@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supplier Dashboard | BHARAT ORGANIC MART</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/auth.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --organic-green: #2D5A27; --organic-dark: #1E401D; }
@@ -28,6 +33,9 @@
                 <a href="directory/index.html" class="text-sm text-gray-600 hover:text-organic">
                     <i class="fas fa-arrow-left mr-1"></i> View Directory
                 </a>
+                <button onclick="handleLogout()" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-bold hover:bg-gray-200 transition">
+                    <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                </button>
                 <button class="bg-organic text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-800 transition">
                     <i class="fas fa-user mr-2"></i> Supplier Profile
                 </button>
@@ -154,6 +162,17 @@
 
         function updateProfile() {
             alert('Feature coming soon: Update your supplier profile details.');
+        }
+
+        async function handleLogout() {
+            if (!confirm('Are you sure you want to logout?')) return;
+            try {
+                await BOMAuth.signOut();
+                window.location.replace('login.html');
+            } catch (err) {
+                console.error('Logout error:', err);
+                alert('Logout failed: ' + (err.message || 'Unknown error'));
+            }
         }
     </script>
 </body>

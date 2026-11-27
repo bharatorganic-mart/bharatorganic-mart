@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Post a New Listing | BHARAT ORGANIC MART</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/auth.js"></script>
@@ -414,9 +418,12 @@
                     'success'
                 );
 
-                // Redirect to admin dashboard after a short pause so user sees success
+                // Redirect based on role — admins to admin panel, everyone else to their dashboard
                 setTimeout(() => {
-                    window.location.replace('admin/index.html');
+                    const role = window.currentUserRole || 'operator';
+                    window.location.replace(
+                        ['admin', 'super_admin'].includes(role) ? 'admin/index.html' : 'supplier-dashboard.html'
+                    );
                 }, 1500);
 
             } catch (err) {
@@ -431,11 +438,21 @@
         });
 
         /* ------------------------------------------------------------------ *
-         * Auth guard — admin only
+         * Auth guard — any registered operator/account can post a listing
          * ------------------------------------------------------------------ */
         (async function init() {
-            const auth = await BOMAuth.requireAuth({ roles: ['admin', 'super_admin'] });
-            if (!auth) return; // redirect already handled by requireAuth
+            const auth = await BOMAuth.requireAuth(); // any logged-in user
+            if (!auth) return;
+
+            window.currentUserRole = auth.role;
+
+            // Auto-fill user email and contact name if available
+            if (auth.user) {
+                document.getElementById('email').value = auth.user.email || '';
+                if (auth.profile?.full_name) {
+                    document.getElementById('contactPerson').value = auth.profile.full_name;
+                }
+            }
         })();
     </script>
 </body>

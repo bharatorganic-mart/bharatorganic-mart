@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Post Buy Requirement | BHARAT ORGANIC MART</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/auth.js"></script>
@@ -78,15 +82,16 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Required Certification</label>
-                        <select id="rfqCert" class="w-full border rounded-lg pl-3 py-2.5 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20">
-                            <option value="">Any / Not Specified</option>
-                            <option value="NPOP">NPOP (India)</option>
-                            <option value="NOP">USDA NOP (USA)</option>
-                            <option value="EU">EU Organic</option>
-                            <option value="PGS">PGS-India</option>
-                            <option value="FSSAI">FSSAI Organic</option>
-                        </select>
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-3">Required Certification</label>
+                        <div id="certCheckboxes" class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-700">
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" value="NPOP" class="cert-check rounded text-organic"> NPOP (India)</label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" value="NOP" class="cert-check rounded text-organic"> USDA NOP (USA)</label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" value="EU" class="cert-check rounded text-organic"> EU Organic</label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" value="PGS" class="cert-check rounded text-organic"> PGS-India</label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" value="FSSAI" class="cert-check rounded text-organic"> FSSAI Organic</label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="otherCertCheck" class="rounded text-organic"> Other (specify)</label>
+                        </div>
+                        <input type="text" id="otherCertInput" placeholder="Enter standard name..." class="w-full mt-3 border rounded-lg px-3 py-2 text-sm hidden focus:outline-none focus:border-organic">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Delivery Destination</label>
@@ -143,6 +148,13 @@
             submitBtn.classList.toggle('opacity-75', loading);
         }
 
+        // Toggle "Other" certification input
+        document.getElementById('otherCertCheck').addEventListener('change', function () {
+            const input = document.getElementById('otherCertInput');
+            input.classList.toggle('hidden', !this.checked);
+            if (this.checked) input.focus();
+        });
+
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             setLoading(true);
@@ -154,12 +166,20 @@
                     return;
                 }
 
+                // Collect selected certifications (checkboxes)
+                const certs = Array.from(document.querySelectorAll('.cert-check:checked'))
+                    .map(cb => cb.value);
+                // Include custom "Other" value if checked
+                if (document.getElementById('otherCertCheck').checked && document.getElementById('otherCertInput').value.trim()) {
+                    certs.push(document.getElementById('otherCertInput').value.trim());
+                }
+
                 const { error } = await BOMAuth.sb.from('buyer_requirements').insert([{
                     title: document.getElementById('rfqTitle').value.trim(),
                     category: document.getElementById('rfqCategory').value,
                     required_quantity: parseFloat(document.getElementById('rfqQty').value),
                     quantity_unit: document.getElementById('rfqUnit').value,
-                    certification_required: document.getElementById('rfqCert').value || null,
+                    certification_required: certs.length ? certs.join(', ') : null,
                     delivery_destination: document.getElementById('rfqDest').value.trim(),
                     target_price: parseFloat(document.getElementById('rfqPrice').value) || null,
                     expected_delivery_date: document.getElementById('rfqDate').value || null,

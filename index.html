@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BHARAT ORGANIC MART | India's Organic Supply Marketplace</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/auth.js"></script>
@@ -324,25 +328,63 @@
 
     <!-- 3. HERO -->
     <main>
-        <section class="relative h-[600px] flex items-center justify-center text-center overflow-hidden">
+        <section class="relative overflow-hidden text-white">
             <video autoplay muted loop playsinline poster="tractor-working-green-field.jpg" class="absolute inset-0 w-full h-full object-cover">
                 <source src="assets/videos/homepage-hero.mp4" type="video/mp4">
             </video>
-            <div class="absolute inset-0 bg-black/50"></div>
+            <!-- Deep organic-green wash over the video -->
+            <div class="absolute inset-0 bg-gradient-to-br from-[#14301a]/95 via-[#1E401D]/92 to-[#2D5A27]/85"></div>
+            <!-- Subtle concentric rings -->
+            <svg class="pointer-events-none absolute -right-48 -top-48 opacity-[0.13]" width="900" height="900" fill="none" aria-hidden="true">
+                <circle cx="450" cy="450" r="200" stroke="white" stroke-width="1"/>
+                <circle cx="450" cy="450" r="320" stroke="white" stroke-width="1"/>
+                <circle cx="450" cy="450" r="440" stroke="white" stroke-width="1"/>
+            </svg>
 
-            <div class="relative z-10 px-6 max-w-4xl text-white">
-                <span class="text-sm font-bold uppercase tracking-[0.3em] text-green-300 block mb-4">BHARAT ORGANIC MART</span>
-                <h1 class="text-4xl md:text-7xl font-extrabold leading-tight mb-6">
-                    Connecting Organic Farms <span class="text-green-300">to Global Markets</span>
-                </h1>
-                <p class="text-base md:text-xl text-gray-100 mb-10 leading-relaxed max-w-2xl mx-auto">
-                    BHARAT ORGANIC MART is a platform connecting India's farmers, organic producers, processors, suppliers and global buyers, making organic trade simpler, more transparent and accessible.
-                </p>
-                <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <a href="directory/index.html" class="bg-organic text-white px-8 py-4 rounded-lg font-bold hover:bg-green-800 transition shadow-lg text-lg block text-center">
-                        Browse Marketplace
-                    </a>
-                    <a href="rfq-post.html" class="bg-gray-800 text-white px-8 py-4 rounded-lg font-bold hover:bg-gray-900 transition shadow-lg text-lg border border-white/20 block text-center">View Buyer Leads</a>
+            <div class="relative max-w-7xl mx-auto px-6 pt-16 pb-10 md:pt-24 md:pb-12">
+                <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10">
+                    <div class="max-w-3xl">
+                        <span class="inline-flex items-center gap-2 text-[11px] md:text-xs font-bold uppercase tracking-[0.28em] text-green-300 mb-5">
+                            <i class="fas fa-seedling"></i> Verified Organic B2B Marketplace
+                        </span>
+                        <h1 class="text-4xl md:text-6xl font-extrabold leading-[1.08] tracking-tight">
+                            India's Trusted Marketplace for <span class="text-green-300">Certified Organic Trade</span>
+                        </h1>
+                        <p class="mt-5 text-base md:text-lg text-green-50/85 max-w-2xl leading-relaxed">
+                            Connecting certified organic farmers, FPOs and processors with wholesale buyers across India and around the world.
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3 shrink-0">
+                        <a href="rfq-post.html" class="group inline-flex items-center gap-4 bg-white text-[#1E401D] pl-6 pr-5 py-4 rounded-full font-bold text-sm md:text-base shadow-xl hover:bg-green-50 transition">
+                            <span class="flex items-center gap-2.5"><i class="far fa-file-alt"></i> Post Requirement</span>
+                            <i class="fas fa-arrow-right text-xs transition group-hover:translate-x-1"></i>
+                        </a>
+                        <a href="post-listing.html" class="group inline-flex items-center gap-4 bg-white text-organic pl-6 pr-5 py-4 rounded-full font-bold text-sm md:text-base shadow-xl hover:bg-green-50 transition">
+                            <span class="flex items-center gap-2.5"><i class="fas fa-chart-column"></i> Start Selling</span>
+                            <i class="fas fa-arrow-right text-xs transition group-hover:translate-x-1"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- LIVE PLATFORM STATS -->
+                <div class="mt-12 md:mt-16 pt-8 border-t border-white/20 grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-8">
+                    <div>
+                        <div id="statOperators" class="text-3xl md:text-4xl font-extrabold tracking-tight">—</div>
+                        <div class="mt-1 text-[11px] font-bold uppercase tracking-[0.18em] text-green-200/70">Operators Listed</div>
+                    </div>
+                    <div>
+                        <div id="statProducts" class="text-3xl md:text-4xl font-extrabold tracking-tight">—</div>
+                        <div class="mt-1 text-[11px] font-bold uppercase tracking-[0.18em] text-green-200/70">Organic Products</div>
+                    </div>
+                    <div>
+                        <div id="statStates" class="text-3xl md:text-4xl font-extrabold tracking-tight">—</div>
+                        <div class="mt-1 text-[11px] font-bold uppercase tracking-[0.18em] text-green-200/70">States Covered</div>
+                    </div>
+                    <div>
+                        <div id="statScopes" class="text-3xl md:text-4xl font-extrabold tracking-tight">—</div>
+                        <div class="mt-1 text-[11px] font-bold uppercase tracking-[0.18em] text-green-200/70">Certification Programs</div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -381,6 +423,7 @@
         // Load featured listings from Supabase (same source as the directory page)
         async function loadHomepageListings() {
             try {
+                // Featured cards
                 const { data, error } = await sb
                     .from('directory_listings')
                     .select('id, operator_type, name, city, state, product_name')
@@ -404,6 +447,7 @@
 
                 if (!listings || listings.length === 0) {
                     document.getElementById('homepageEmpty').classList.remove('hidden');
+                    loadHeroStats();
                     return;
                 }
 
@@ -430,6 +474,8 @@
                         </div>
                     </div>
                 `).join('');
+
+                loadHeroStats();
             } catch (err) {
                 console.error('Failed to load homepage listings:', err);
                 document.getElementById('homepageLoading').classList.add('hidden');
@@ -438,6 +484,45 @@
                     <i class="fas fa-exclamation-triangle text-gray-300 text-3xl mb-4"></i>
                     <p class="text-gray-500 text-lg">Unable to load listings.</p>
                 `;
+                loadHeroStats();
+            }
+        }
+
+        // Live platform stats shown in the hero strip
+        async function loadHeroStats() {
+            try {
+                const { data } = await sb
+                    .from('directory_listings')
+                    .select('state, scope_1, scope_2, scope_3, product_name');
+
+                const rows = data ?? [];
+
+                const products = new Set();
+                rows.forEach(r => {
+                    (r.product_name || '')
+                        .split(/[;,]/)
+                        .map(s => s.trim().toLowerCase())
+                        .filter(Boolean)
+                        .forEach(p => products.add(p));
+                });
+
+                const scopes = new Set();
+                rows.forEach(r => [r.scope_1, r.scope_2, r.scope_3].forEach(s => { if (s) scopes.add(s.trim().toUpperCase()); }));
+
+                const states = new Set(rows.map(r => r.state).filter(Boolean));
+
+                const set = (id, value) => {
+                    const el = document.getElementById(id);
+                    if (el) el.textContent = value;
+                };
+                set('statOperators', rows.length);
+                set('statProducts', products.size);
+                set('statStates', states.size);
+                set('statScopes', scopes.size);
+            } catch (err) {
+                console.error('Hero stats unavailable:', err);
+                ['statOperators', 'statProducts', 'statStates', 'statScopes']
+                    .forEach(id => { const el = document.getElementById(id); if (el) el.textContent = '0'; });
             }
         }
 

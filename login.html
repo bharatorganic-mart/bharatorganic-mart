@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login / Register | BHARAT ORGANIC MART</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -12,6 +16,7 @@
         .text-organic { color: var(--organic-green); }
         .border-organic { border-color: var(--organic-green); }
         .hover-organic:hover { background-color: var(--organic-dark); }
+        .tab-btn { border-bottom: 2px solid transparent; }
     </style>
 </head>
 <body class="bg-gray-50 font-sans text-gray-900 min-h-screen flex flex-col">
@@ -34,16 +39,17 @@
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
 
                 <!-- Tab Navigation -->
-                <div class="grid grid-cols-2 border-b">
-                    <button id="tabLogin" onclick="switchTab('login')" class="py-5 text-center text-sm font-bold text-organic bg-white border-b-2 border-organic">Login</button>
-                    <button id="tabRegister" onclick="switchTab('register')" class="py-5 text-center text-sm font-bold text-gray-400 hover:text-gray-600 transition bg-gray-50">Register</button>
+                <div class="grid grid-cols-3 border-b">
+                    <button id="tabLogin" onclick="switchTab('login')" class="tab-btn py-5 text-center text-sm font-bold text-organic bg-white border-b-2 border-organic">Password</button>
+                    <button id="tabMobile" onclick="switchTab('mobile')" class="tab-btn py-5 text-center text-sm font-bold text-gray-500 hover:text-gray-900 transition bg-gray-50">Mobile OTP</button>
+                    <button id="tabRegister" onclick="switchTab('register')" class="tab-btn py-5 text-center text-sm font-bold text-gray-500 hover:text-gray-900 transition bg-gray-50">Register</button>
                 </div>
 
-                <!-- Login Form -->
+                <!-- Login Form (Password) -->
                 <div id="loginForm" class="p-8 space-y-6">
                     <div class="text-center">
                         <h2 class="text-2xl font-bold text-gray-900 mb-2">Welcome back</h2>
-                        <p class="text-gray-500 text-sm">Sign in to your organic marketplace account</p>
+                        <p class="text-gray-500 text-sm">Sign in with your email and password</p>
                     </div>
 
                     <form id="formLogin" onsubmit="handleLogin(event)" class="space-y-5">
@@ -70,6 +76,46 @@
 
                     <!-- Login error -->
                     <p id="loginError" class="text-red-500 text-sm error-msg hidden" role="alert"></p>
+                </div>
+
+                <!-- Mobile OTP Login Form -->
+                <div id="mobileForm" class="hidden p-8 space-y-6">
+                    <div class="text-center">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2">Login to connect</h2>
+                        <p class="text-gray-500 text-sm">Login to get verified sellers</p>
+                    </div>
+
+                    <form id="formMobile" onsubmit="handleMobileLogin(event)" class="space-y-6">
+                        <div class="space-y-2">
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Enter your mobile number</label>
+                            <div class="flex">
+                                <div class="flex items-center gap-2 px-3 py-3 border border-r-0 rounded-l-lg bg-gray-50 text-sm text-gray-600">
+                                    <img src="https://flagcdn.com/w20/in.png" alt="India" class="w-5 h-auto">
+                                    <span class="font-bold">+91</span>
+                                </div>
+                                <input type="tel" id="mobileNumber" placeholder="9876543210" required pattern="[0-9]{10}"
+                                    class="w-full border rounded-r-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20">
+                            </div>
+                            <p class="text-[11px] text-green-700 flex items-center gap-1 mt-1">
+                                <i class="fas fa-check-circle"></i> Your mobile number is safe with us
+                            </p>
+                        </div>
+
+                        <!-- OTP Input (Hidden until "Get OTP" clicked) -->
+                        <div id="otpSection" class="hidden space-y-2">
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Enter 6-digit OTP</label>
+                            <input type="text" id="otpCode" placeholder="123456" pattern="[0-9]{6}"
+                                class="w-full border rounded-lg px-4 py-3 text-sm tracking-[1em] text-center font-bold focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20">
+                            <p class="text-center text-xs text-gray-500">
+                                Didn't get it? <button type="button" onclick="handleMobileLogin(event)" class="text-organic font-bold hover:underline">Resend OTP</button>
+                            </p>
+                        </div>
+
+                        <button type="submit" id="btnMobile" class="w-full bg-[#94C1B9] text-white py-3.5 rounded-lg font-bold text-base hover:shadow-lg transition uppercase">
+                            Get OTP
+                        </button>
+                    </form>
+                    <p id="mobileError" class="text-red-500 text-sm error-msg hidden" role="alert"></p>
                 </div>
 
                 <!-- Email confirmation needed (shown after login if not confirmed) -->
@@ -208,27 +254,39 @@
 
     <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../js/auth.js"></script>
+    <script src="js/auth.js"></script>
     <script>
         // ========================================================================
         // Auth tab switching (UI only)
         // ========================================================================
         function switchTab(tab) {
             const loginForm = document.getElementById('loginForm');
+            const mobileForm = document.getElementById('mobileForm');
             const registerForm = document.getElementById('registerForm');
             const tabLogin = document.getElementById('tabLogin');
+            const tabMobile = document.getElementById('tabMobile');
             const tabRegister = document.getElementById('tabRegister');
 
+            // Hide all forms
+            loginForm.classList.add('hidden');
+            mobileForm.classList.add('hidden');
+            registerForm.classList.add('hidden');
+
+            // Reset all tabs to inactive
+            [tabLogin, tabMobile, tabRegister].forEach(btn => {
+                btn.className = 'tab-btn py-5 text-center text-sm font-bold text-gray-500 hover:text-gray-900 transition bg-gray-50';
+            });
+
+            // Show selected form and activate its tab
             if (tab === 'login') {
                 loginForm.classList.remove('hidden');
-                registerForm.classList.add('hidden');
-                tabLogin.className = 'py-5 text-center text-sm font-bold text-organic bg-white border-b-2 border-organic';
-                tabRegister.className = 'py-5 text-center text-sm font-bold text-gray-400 hover:text-gray-600 transition bg-gray-50';
-            } else {
+                tabLogin.className = 'tab-btn py-5 text-center text-sm font-bold text-organic bg-white border-b-2 border-organic';
+            } else if (tab === 'mobile') {
+                mobileForm.classList.remove('hidden');
+                tabMobile.className = 'tab-btn py-5 text-center text-sm font-bold text-organic bg-white border-b-2 border-organic';
+            } else if (tab === 'register') {
                 registerForm.classList.remove('hidden');
-                loginForm.classList.add('hidden');
-                tabRegister.className = 'py-5 text-center text-sm font-bold text-organic bg-white border-b-2 border-organic';
-                tabLogin.className = 'py-5 text-center text-sm font-bold text-gray-400 hover:text-gray-600 transition bg-gray-50';
+                tabRegister.className = 'tab-btn py-5 text-center text-sm font-bold text-organic bg-white border-b-2 border-organic';
             }
         }
 
@@ -421,6 +479,92 @@
 
         // Initialize: show login tab by default
         switchTab('login');
+
+        // ========================================================================
+        // MOBILE OTP LOGIN (UI ready — needs an SMS provider configured in Supabase)
+        // ========================================================================
+        let otpRequested = false;
+
+        async function handleMobileLogin(event) {
+            if (event) event.preventDefault();
+
+            const mobile = document.getElementById('mobileNumber').value.trim();
+            const btn = document.getElementById('btnMobile');
+            const otpSection = document.getElementById('otpSection');
+
+            if (!/^[0-9]{10}$/.test(mobile)) {
+                showError('mobileError', 'Please enter a valid 10-digit mobile number.');
+                return;
+            }
+
+            const phone = '+91' + mobile;
+
+            // STEP 1 — Send the OTP
+            if (!otpRequested) {
+                btn.disabled = true;
+                btn.textContent = 'Sending OTP...';
+
+                try {
+                    const { error } = await BOMAuth.sb.auth.signInWithOtp({ phone });
+                    if (error) throw error;
+
+                    otpRequested = true;
+                    otpSection.classList.remove('hidden');
+                    document.getElementById('otpCode').focus();
+                    btn.textContent = 'Verify OTP';
+                    btn.classList.remove('bg-[#94C1B9]');
+                    btn.classList.add('bg-organic');
+                } catch (err) {
+                    // SMS provider not configured yet — show honest message
+                    const msg = err.message || 'Unable to send OTP';
+                    showError('mobileError',
+                        msg.toLowerCase().includes('sms') || msg.toLowerCase().includes('provider')
+                            ? 'SMS login is not enabled yet. An admin must connect an SMS provider (e.g. Twilio) in Supabase first. Meanwhile, please use the Password or Register tab.'
+                            : msg);
+                    btn.disabled = false;
+                    btn.textContent = 'Get OTP';
+                }
+                return;
+            }
+
+            // STEP 2 — Verify the OTP
+            const token = document.getElementById('otpCode').value.trim();
+            if (!/^[0-9]{6}$/.test(token)) {
+                showError('mobileError', 'Please enter the 6-digit OTP.');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Verifying...';
+
+            try {
+                const { data, error } = await BOMAuth.sb.auth.verifyOtp({
+                    phone,
+                    token,
+                    type: 'sms'
+                });
+                if (error) throw error;
+
+                const role = data.user?.user_metadata?.role || 'operator';
+                window.location.replace(BOMAuth.dashboardForRole(role));
+            } catch (err) {
+                showError('mobileError', err.message || 'Invalid OTP. Please try again.');
+                btn.disabled = false;
+                btn.textContent = 'Verify OTP';
+            }
+        }
+
+        // Reset OTP state when the mobile number is edited
+        document.getElementById('mobileNumber').addEventListener('input', function () {
+            if (otpRequested && this.value.trim().length !== 10) {
+                otpRequested = false;
+                document.getElementById('otpSection').classList.add('hidden');
+                const btn = document.getElementById('btnMobile');
+                btn.textContent = 'Get OTP';
+                btn.classList.add('bg-[#94C1B9]');
+                btn.classList.remove('bg-organic');
+            }
+        });
 
         // ========================================================================
         // PAGE INIT
