@@ -389,88 +389,89 @@
             </div>
         </section>
 
-        <!-- 4. LATEST LISTINGS FROM JSON -->
-        <section class="max-w-7xl mx-auto py-16 px-6">
-            <div class="flex justify-between items-end mb-8">
-                <div>
-                    <h2 class="text-3xl font-bold text-gray-900">Latest Marketplace Listings</h2>
-                    <p class="text-gray-500 text-sm mt-1">Verified organic suppliers and producers</p>
+        <!-- 4. LATEST MARKETPLACE LISTINGS -->
+        <section class="bg-white py-12 md:py-16">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-900">Latest Marketplace Listings</h2>
+                        <p class="text-gray-500 text-sm mt-1">Verified organic suppliers and producers</p>
+                    </div>
+                    <a href="directory/index.html?type=all" class="text-sm font-bold text-organic hover:underline flex items-center gap-1 self-end">
+                        View All <i class="fas fa-arrow-right"></i>
+                    </a>
                 </div>
-                <a href="directory/index.html?type=all" class="text-sm font-bold text-organic hover:underline flex items-center gap-1">
-                    View All <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
 
-            <div id="homepageListings" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Listing cards loaded from JSON -->
-            </div>
+                <div id="homepageListings" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <!-- Listing cards loaded from JSON -->
+                </div>
 
-            <!-- Loading state -->
-            <div id="homepageLoading" class="col-span-full text-center py-12 hidden">
-                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-organic mx-auto mb-4"></div>
-                <p class="text-gray-500 text-sm">Loading listings...</p>
-            </div>
+                <!-- Loading state -->
+                <div id="homepageLoading" class="col-span-full text-center py-8 hidden">
+                    <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-organic mx-auto mb-3"></div>
+                    <p class="text-gray-500 text-sm">Loading listings...</p>
+                </div>
 
-            <!-- Empty state -->
-            <div id="homepageEmpty" class="col-span-full text-center py-12 hidden">
-                <i class="fas fa-inbox text-gray-300 text-4xl mb-4"></i>
-                <p class="text-gray-500 text-lg">No listings available right now.</p>
+                <!-- Empty state -->
+                <div id="homepageEmpty" class="col-span-full text-center py-8 hidden">
+                    <i class="fas fa-inbox text-gray-300 text-3xl mb-3"></i>
+                    <p class="text-gray-500 text-base">No listings available right now.</p>
+                </div>
             </div>
         </section>
 
         <!-- 5. WHY PARTNER WITH BHARAT ORGANIC MART? -->
-        <section class="bg-white py-16 md:py-24">
+        <section class="bg-white py-12 md:py-16">
             <div class="max-w-7xl mx-auto px-6">
-                <div class="text-center mb-12 md:mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Why Partner with Bharat Organic Mart?</h2>
-                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">Connecting India's organic supply chain with business opportunities worldwide.</p>
+                <div class="text-center mb-8 md:mb-12">
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-3">Why Partner with Bharat Organic Mart?</h2>
+                    <p class="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">Connecting India's organic supply chain with business opportunities worldwide.</p>
                 </div>
 
                 <!-- Main layout: 68% left (2x2 cards) / 32% right (banner) -->
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
                     <!-- LEFT SIDE: 2x2 Benefit Cards (8/12 = 66.6%) -->
-                    <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <!-- Benefit Card 1 -->
-                        <div class="bg-white border border-gray-100 rounded-2xl p-6 hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
-                            <div class="w-14 h-14 bg-green-50 rounded-xl flex items-center justify-center mb-4 flex-shrink-0">
-                                <i class="fas fa-globe text-organic text-2xl"></i>
+                        <div class="bg-white border border-gray-100 rounded-xl p-5 hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                            <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center mb-3 flex-shrink-0">
+                                <i class="fas fa-seedling text-organic text-xl"></i>
                             </div>
-                            <h3 class="text-lg font-bold text-gray-900 mb-2">GLOBAL MARKET REACH</h3>
-                            <p class="text-gray-600 text-sm leading-relaxed flex-grow">Connect with domestic and international organic buyers and business partners.</p>
+                            <h3 class="text-base font-bold text-gray-900 mb-1.5">DISCOVER ORGANIC GROWERS & PRODUCERS</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed flex-grow">Find organic farmers, growers, FPOs, ICS groups, crop availability, growing regions and agricultural producers across India. Explore contract farming opportunities and connect directly with potential farming partners.</p>
                         </div>
 
                         <!-- Benefit Card 2 -->
-                        <div class="bg-white border border-gray-100 rounded-2xl p-6 hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
-                            <div class="w-14 h-14 bg-green-50 rounded-xl flex items-center justify-center mb-4 flex-shrink-0">
-                                <i class="fas fa-certificate text-organic text-2xl"></i>
+                        <div class="bg-white border border-gray-100 rounded-xl p-5 hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                            <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center mb-3 flex-shrink-0">
+                                <i class="fas fa-industry text-organic text-xl"></i>
                             </div>
-                            <h3 class="text-lg font-bold text-gray-900 mb-2">ORGANIC CERTIFICATION FOCUS</h3>
-                            <p class="text-gray-600 text-sm leading-relaxed flex-grow">Showcase your organic certification details and build buyer confidence through a transparent verification process.</p>
+                            <h3 class="text-base font-bold text-gray-900 mb-1.5">CONNECT WITH CERTIFIED ORGANIC BUSINESSES</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed flex-grow">Explore certification information, organic suppliers, processors, manufacturers and supporting services across the supply chain. Connect with third-party labelling, testing and inspection service providers.</p>
                         </div>
 
                         <!-- Benefit Card 3 -->
-                        <div class="bg-white border border-gray-100 rounded-2xl p-6 hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
-                            <div class="w-14 h-14 bg-green-50 rounded-xl flex items-center justify-center mb-4 flex-shrink-0">
-                                <i class="fas fa-handshake text-organic text-2xl"></i>
+                        <div class="bg-white border border-gray-100 rounded-xl p-5 hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                            <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center mb-3 flex-shrink-0">
+                                <i class="fas fa-handshake text-organic text-xl"></i>
                             </div>
-                            <h3 class="text-lg font-bold text-gray-900 mb-2">BUSINESS LEAD GENERATION</h3>
-                            <p class="text-gray-600 text-sm leading-relaxed flex-grow">Discover sourcing requirements, receive enquiries and connect with potential buyers.</p>
+                            <h3 class="text-base font-bold text-gray-900 mb-1.5">BUSINESS LEAD GENERATION</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed flex-grow">Discover sourcing requirements, receive enquiries and connect with potential buyers. Explore contract manufacturing, private labelling and third-party labelling opportunities.</p>
                         </div>
 
                         <!-- Benefit Card 4 -->
-                        <div class="bg-white border border-gray-100 rounded-2xl p-6 hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
-                            <div class="w-14 h-14 bg-green-50 rounded-xl flex items-center justify-center mb-4 flex-shrink-0">
-                                <i class="fas fa-eye text-organic text-2xl"></i>
+                        <div class="bg-white border border-gray-100 rounded-xl p-5 hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                            <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center mb-3 flex-shrink-0">
+                                <i class="fas fa-chart-line text-organic text-xl"></i>
                             </div>
-                            <h3 class="text-lg font-bold text-gray-900 mb-2">BUSINESS VISIBILITY</h3>
-                            <p class="text-gray-600 text-sm leading-relaxed flex-grow">Showcase your company, products, processing facilities and business capabilities.</p>
+                            <h3 class="text-base font-bold text-gray-900 mb-1.5">GROW YOUR BUSINESS & REACH MARKETS</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed flex-grow">Connect with domestic and international buyers, discover sourcing requirements, generate enquiries and build business partnerships.</p>
                         </div>
                     </div>
 
                     <!-- RIGHT SIDE: Promotional Banner (4/12 = 33.3%) -->
                     <div class="lg:col-span-4">
-                        <div class="relative bg-gradient-to-br from-[#14301a] via-[#1E401D] to-[#2D5A27] rounded-2xl p-6 md:p-8 lg:p-10 text-white overflow-hidden h-full min-h-[400px] flex flex-col justify-center">
-                            <!-- Organic agriculture background image -->
+                        <div class="relative bg-gradient-to-br from-[#14301a] via-[#1E401D] to-[#2D5A27] rounded-xl p-5 md:p-7 lg:p-8 text-white overflow-hidden h-full min-h-[360px] flex flex-col justify-center">
                             <div class="absolute inset-0 bg-gradient-to-br from-[#14301a]/95 via-[#1E401D]/92 to-[#2D5A27]/85"></div>
                             <svg class="pointer-events-none absolute -right-48 -top-48 opacity-[0.13]" width="900" height="900" fill="none" aria-hidden="true">
                                 <circle cx="450" cy="450" r="200" stroke="white" stroke-width="1"/>
@@ -478,10 +479,10 @@
                                 <circle cx="450" cy="450" r="440" stroke="white" stroke-width="1"/>
                             </svg>
                             <div class="relative z-10 w-full">
-                                <h2 class="text-2xl md:text-3xl lg:text-4xl font-extrabold leading-tight mb-4">Showcase. Connect. Grow.</h2>
-                                <h3 class="text-lg md:text-xl lg:text-2xl font-bold text-green-300 mb-5">Take Your Organic Business to New Markets.</h3>
-                                <p class="text-green-50/85 mb-6 leading-relaxed">List your organic products, connect with potential buyers and explore new opportunities across India's organic supply chain and international markets.</p>
-                                <a href="post-listing.html" class="inline-flex items-center gap-2 bg-white text-[#1E401D] px-5 py-3 rounded-full font-bold text-sm hover:bg-green-50 transition shadow-lg">
+                                <h2 class="text-xl md:text-2xl lg:text-3xl font-extrabold leading-tight mb-3">Showcase. Connect. Grow.</h2>
+                                <h3 class="text-base md:text-lg lg:text-xl font-bold text-green-300 mb-4">Take Your Organic Business to New Markets.</h3>
+                                <p class="text-green-50/85 mb-5 leading-relaxed text-sm md:text-base">List your organic products, connect with potential buyers and explore new opportunities across India's organic supply chain and international markets.</p>
+                                <a href="post-listing.html" class="inline-flex items-center gap-2 bg-white text-[#1E401D] px-4 py-2.5 rounded-full font-bold text-sm hover:bg-green-50 transition shadow-lg">
                                     Join Bharat Organic Mart <i class="fas fa-arrow-right text-xs"></i>
                                 </a>
                             </div>
@@ -492,136 +493,136 @@
         </section>
 
         <!-- 6. EXPLORE ORGANIC PRODUCTS -->
-        <section class="bg-gray-50 py-16 md:py-24">
+        <section class="bg-gray-50 py-10 md:py-14">
             <div class="max-w-7xl mx-auto px-6">
-                <div class="text-center mb-12 md:mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Explore Organic Products</h2>
-                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">Discover organic ingredients, agricultural produce and processed products from businesses across India.</p>
+                <div class="text-center mb-8 md:mb-10">
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-3">Explore Organic Products</h2>
+                    <p class="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">Discover organic ingredients, agricultural produce and processed products from businesses across India.</p>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                     <!-- Category 1: Organic Grains -->
-                    <a href="directory/index.html?type=all&category=grains" class="group bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="h-40 bg-gradient-to-br from-amber-100 to-amber-200 flex items-center justify-center">
-                            <i class="fas fa-seedling text-organic text-5xl opacity-80 group-hover:scale-110 transition-transform duration-300"></i>
+                    <a href="directory/index.html?type=all&category=grains" class="group bg-white border border-gray-100 rounded-xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
+                        <div class="h-28 bg-gradient-to-br from-amber-50 to-amber-100 flex items-center justify-center">
+                            <i class="fas fa-seedling text-organic text-3xl opacity-80 group-hover:scale-105 transition-transform duration-300"></i>
                         </div>
-                        <div class="p-6">
-                            <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Organic Grains</h3>
-                            <p class="text-gray-600 text-sm mb-4">Premium organic rice, wheat, millets and cereals from certified farms.</p>
-                            <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Explore Products <i class="fas fa-arrow-right text-xs"></i></span>
+                        <div class="p-4">
+                            <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Organic Grains</h3>
+                            <p class="text-gray-600 text-xs mb-3 line-clamp-2">Premium organic rice, wheat, millets and cereals from certified farms.</p>
+                            <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Explore <i class="fas fa-arrow-right text-[10px]"></i></span>
                         </div>
                     </a>
 
                     <!-- Category 2: Pulses and Legumes -->
-                    <a href="directory/index.html?type=all&category=pulses" class="group bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="h-40 bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center">
-                            <i class="fas fa-pepper-hot text-organic text-5xl opacity-80 group-hover:scale-110 transition-transform duration-300"></i>
+                    <a href="directory/index.html?type=all&category=pulses" class="group bg-white border border-gray-100 rounded-xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
+                        <div class="h-28 bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center">
+                            <i class="fas fa-pepper-hot text-organic text-3xl opacity-80 group-hover:scale-105 transition-transform duration-300"></i>
                         </div>
-                        <div class="p-6">
-                            <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Pulses & Legumes</h3>
-                            <p class="text-gray-600 text-sm mb-4">Organic chickpeas, lentils, beans, peas and other legumes.</p>
-                            <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Explore Products <i class="fas fa-arrow-right text-xs"></i></span>
+                        <div class="p-4">
+                            <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Pulses & Legumes</h3>
+                            <p class="text-gray-600 text-xs mb-3 line-clamp-2">Organic chickpeas, lentils, beans, peas and other legumes.</p>
+                            <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Explore <i class="fas fa-arrow-right text-[10px]"></i></span>
                         </div>
                     </a>
 
                     <!-- Category 3: Spices and Herbs -->
-                    <a href="directory/index.html?type=all&category=spices" class="group bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="h-40 bg-gradient-to-br from-red-100 to-red-200 flex items-center justify-center">
-                            <i class="fas fa-mortar-pestle text-organic text-5xl opacity-80 group-hover:scale-110 transition-transform duration-300"></i>
+                    <a href="directory/index.html?type=all&category=spices" class="group bg-white border border-gray-100 rounded-xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
+                        <div class="h-28 bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center">
+                            <i class="fas fa-mortar-pestle text-organic text-3xl opacity-80 group-hover:scale-105 transition-transform duration-300"></i>
                         </div>
-                        <div class="p-6">
-                            <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Spices & Herbs</h3>
-                            <p class="text-gray-600 text-sm mb-4">Authentic organic spices, herbs and seasonings from spice-growing regions.</p>
-                            <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Explore Products <i class="fas fa-arrow-right text-xs"></i></span>
+                        <div class="p-4">
+                            <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Spices & Herbs</h3>
+                            <p class="text-gray-600 text-xs mb-3 line-clamp-2">Authentic organic spices, herbs and seasonings from spice-growing regions.</p>
+                            <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Explore <i class="fas fa-arrow-right text-[10px]"></i></span>
                         </div>
                     </a>
 
                     <!-- Category 4: Oilseeds and Edible Oils -->
-                    <a href="directory/index.html?type=all&category=oilseeds" class="group bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="h-40 bg-gradient-to-br from-yellow-100 to-yellow-200 flex items-center justify-center">
-                            <i class="fas fa-tint text-organic text-5xl opacity-80 group-hover:scale-110 transition-transform duration-300"></i>
+                    <a href="directory/index.html?type=all&category=oilseeds" class="group bg-white border border-gray-100 rounded-xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
+                        <div class="h-28 bg-gradient-to-br from-yellow-50 to-yellow-100 flex items-center justify-center">
+                            <i class="fas fa-tint text-organic text-3xl opacity-80 group-hover:scale-105 transition-transform duration-300"></i>
                         </div>
-                        <div class="p-6">
-                            <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Oilseeds & Edible Oils</h3>
-                            <p class="text-gray-600 text-sm mb-4">Cold-pressed organic oils and premium oilseeds from certified producers.</p>
-                            <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Explore Products <i class="fas fa-arrow-right text-xs"></i></span>
+                        <div class="p-4">
+                            <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Oilseeds & Edible Oils</h3>
+                            <p class="text-gray-600 text-xs mb-3 line-clamp-2">Cold-pressed organic oils and premium oilseeds from certified producers.</p>
+                            <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Explore <i class="fas fa-arrow-right text-[10px]"></i></span>
                         </div>
                     </a>
 
                     <!-- Category 5: Fruits and Vegetables -->
-                    <a href="directory/index.html?type=all&category=fruits" class="group bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="h-40 bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center">
-                            <i class="fas fa-apple-alt text-organic text-5xl opacity-80 group-hover:scale-110 transition-transform duration-300"></i>
+                    <a href="directory/index.html?type=all&category=fruits" class="group bg-white border border-gray-100 rounded-xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
+                        <div class="h-28 bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center">
+                            <i class="fas fa-apple-alt text-organic text-3xl opacity-80 group-hover:scale-105 transition-transform duration-300"></i>
                         </div>
-                        <div class="p-6">
-                            <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Fruits & Vegetables</h3>
-                            <p class="text-gray-600 text-sm mb-4">Fresh organic produce from farms practicing natural cultivation methods.</p>
-                            <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Explore Products <i class="fas fa-arrow-right text-xs"></i></span>
+                        <div class="p-4">
+                            <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Fruits & Vegetables</h3>
+                            <p class="text-gray-600 text-xs mb-3 line-clamp-2">Fresh organic produce from farms practicing natural cultivation methods.</p>
+                            <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Explore <i class="fas fa-arrow-right text-[10px]"></i></span>
                         </div>
                     </a>
 
                     <!-- Category 6: Organic Sweeteners -->
-                    <a href="directory/index.html?type=all&category=sweeteners" class="group bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="h-40 bg-gradient-to-br from-amber-50 to-amber-100 flex items-center justify-center">
-                            <i class="fas fa-cube text-organic text-5xl opacity-80 group-hover:scale-110 transition-transform duration-300"></i>
+                    <a href="directory/index.html?type=all&category=sweeteners" class="group bg-white border border-gray-100 rounded-xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
+                        <div class="h-28 bg-gradient-to-br from-amber-50 to-amber-100 flex items-center justify-center">
+                            <i class="fas fa-honey-pot text-organic text-3xl opacity-80 group-hover:scale-105 transition-transform duration-300"></i>
                         </div>
-                        <div class="p-6">
-                            <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Organic Sweeteners</h3>
-                            <p class="text-gray-600 text-sm mb-4">Natural organic jaggery, honey, stevia and alternative sweeteners.</p>
-                            <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Explore Products <i class="fas fa-arrow-right text-xs"></i></span>
+                        <div class="p-4">
+                            <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Organic Sweeteners</h3>
+                            <p class="text-gray-600 text-xs mb-3 line-clamp-2">Natural organic jaggery, honey, stevia and alternative sweeteners.</p>
+                            <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Explore <i class="fas fa-arrow-right text-[10px]"></i></span>
                         </div>
                     </a>
 
                     <!-- Category 7: Nuts and Dried Fruits -->
-                    <a href="directory/index.html?type=all&category=nuts" class="group bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="h-40 bg-gradient-to-br from-amber-200 to-amber-300 flex items-center justify-center">
-                            <i class="fas fa-seedling text-organic text-5xl opacity-80 group-hover:scale-110 transition-transform duration-300"></i>
+                    <a href="directory/index.html?type=all&category=nuts" class="group bg-white border border-gray-100 rounded-xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
+                        <div class="h-28 bg-gradient-to-br from-amber-100 to-amber-200 flex items-center justify-center">
+                            <i class="fas fa-seedling text-organic text-3xl opacity-80 group-hover:scale-105 transition-transform duration-300"></i>
                         </div>
-                        <div class="p-6">
-                            <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Nuts & Dried Fruits</h3>
-                            <p class="text-gray-600 text-sm mb-4">Premium organic almonds, cashews, walnuts, raisins and dried fruits.</p>
-                            <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Explore Products <i class="fas fa-arrow-right text-xs"></i></span>
+                        <div class="p-4">
+                            <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Nuts & Dried Fruits</h3>
+                            <p class="text-gray-600 text-xs mb-3 line-clamp-2">Premium organic almonds, cashews, walnuts, raisins and dried fruits.</p>
+                            <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Explore <i class="fas fa-arrow-right text-[10px]"></i></span>
                         </div>
                     </a>
 
                     <!-- Category 8: Organic Processed Foods -->
-                    <a href="directory/index.html?type=all&category=processed" class="group bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="h-40 bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
-                            <i class="fas fa-industry text-organic text-5xl opacity-80 group-hover:scale-110 transition-transform duration-300"></i>
+                    <a href="directory/index.html?type=all&category=processed" class="group bg-white border border-gray-100 rounded-xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
+                        <div class="h-28 bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center">
+                            <i class="fas fa-industry text-organic text-3xl opacity-80 group-hover:scale-105 transition-transform duration-300"></i>
                         </div>
-                        <div class="p-6">
-                            <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Organic Processed Foods</h3>
-                            <p class="text-gray-600 text-sm mb-4">Ready-to-eat organic meals, flours, pasta and value-added products.</p>
-                            <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Explore Products <i class="fas fa-arrow-right text-xs"></i></span>
+                        <div class="p-4">
+                            <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Organic Processed Foods</h3>
+                            <p class="text-gray-600 text-xs mb-3 line-clamp-2">Ready-to-eat organic meals, flours, pasta and value-added products.</p>
+                            <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Explore <i class="fas fa-arrow-right text-[10px]"></i></span>
                         </div>
                     </a>
 
                     <!-- Category 9: Organic Snacks -->
-                    <a href="directory/index.html?type=all&category=snacks" class="group bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="h-40 bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center">
-                            <i class="fas fa-cookie-bite text-organic text-5xl opacity-80 group-hover:scale-110 transition-transform duration-300"></i>
+                    <a href="directory/index.html?type=all&category=snacks" class="group bg-white border border-gray-100 rounded-xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
+                        <div class="h-28 bg-gradient-to-br from-purple-50 to-purple-100 flex items-center justify-center">
+                            <i class="fas fa-cookie-bite text-organic text-3xl opacity-80 group-hover:scale-105 transition-transform duration-300"></i>
                         </div>
-                        <div class="p-6">
-                            <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Organic Snacks</h3>
-                            <p class="text-gray-600 text-sm mb-4">Healthy organic snacks, bars, namkeen and guilt-free treats.</p>
-                            <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Explore Products <i class="fas fa-arrow-right text-xs"></i></span>
+                        <div class="p-4">
+                            <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Organic Snacks</h3>
+                            <p class="text-gray-600 text-xs mb-3 line-clamp-2">Healthy organic snacks, bars, namkeen and guilt-free treats.</p>
+                            <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Explore <i class="fas fa-arrow-right text-[10px]"></i></span>
                         </div>
                     </a>
 
                     <!-- Category 10: Organic Seeds -->
-                    <a href="directory/index.html?type=all&category=seeds" class="group bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="h-40 bg-gradient-to-br from-emerald-100 to-emerald-200 flex items-center justify-center">
-                            <i class="fas fa-seedling text-organic text-5xl opacity-80 group-hover:scale-110 transition-transform duration-300"></i>
+                    <a href="directory/index.html?type=all&category=seeds" class="group bg-white border border-gray-100 rounded-xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
+                        <div class="h-28 bg-gradient-to-br from-emerald-50 to-emerald-100 flex items-center justify-center">
+                            <i class="fas fa-seedling text-organic text-3xl opacity-80 group-hover:scale-105 transition-transform duration-300"></i>
                         </div>
-                        <div class="p-6">
-                            <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Organic Seeds</h3>
-                            <p class="text-gray-600 text-sm mb-4">Certified organic seeds for farming, gardening and sprouting.</p>
-                            <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Explore Products <i class="fas fa-arrow-right text-xs"></i></span>
+                        <div class="p-4">
+                            <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Organic Seeds</h3>
+                            <p class="text-gray-600 text-xs mb-3 line-clamp-2">Certified organic seeds for farming, gardening and sprouting.</p>
+                            <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Explore <i class="fas fa-arrow-right text-[10px]"></i></span>
                         </div>
                     </a>
                 </div>
 
-                <div class="text-center mt-10 md:mt-14">
+                <div class="text-center mt-8 md:mt-10">
                     <a href="directory/index.html?type=all" class="inline-flex items-center gap-2 text-sm font-bold text-organic hover:underline">
                         View All Categories <i class="fas fa-arrow-right"></i>
                     </a>
@@ -630,99 +631,99 @@
         </section>
 
         <!-- 7. FIND ORGANIC PARTNERS -->
-        <section class="bg-white py-16 md:py-24">
+        <section class="bg-white py-10 md:py-14">
             <div class="max-w-7xl mx-auto px-6">
-                <div class="text-center mb-12 md:mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Find Organic Partners</h2>
-                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">Connect with businesses across every stage of the organic supply chain.</p>
+                <div class="text-center mb-8 md:mb-10">
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-3">Find Organic Partners</h2>
+                    <p class="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">Connect with businesses across every stage of the organic supply chain.</p>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     <!-- Partner 1: Organic Farmers -->
-                    <a href="directory/index.html?type=Individual%20Farmers" class="group bg-white border border-gray-100 rounded-2xl p-6 hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="w-16 h-16 bg-green-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-green-100 transition-colors">
-                            <i class="fas fa-user-tie text-organic text-3xl"></i>
+                    <a href="directory/index.html?type=Individual%20Farmers" class="group bg-white border border-gray-100 rounded-xl p-5 hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                        <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center mb-3 group-hover:bg-green-100 transition-colors flex-shrink-0">
+                            <i class="fas fa-user-tie text-organic text-2xl"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Organic Farmers</h3>
-                        <p class="text-gray-600 text-sm mb-4">Individual certified organic farmers growing crops with natural methods.</p>
-                        <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Find Partners <i class="fas fa-arrow-right text-xs"></i></span>
+                        <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Organic Farmers</h3>
+                        <p class="text-gray-600 text-xs mb-3 line-clamp-2 flex-grow">Individual certified organic farmers growing crops with natural methods.</p>
+                        <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Find Partners <i class="fas fa-arrow-right text-[10px]"></i></span>
                     </a>
 
                     <!-- Partner 2: FPOs -->
-                    <a href="directory/index.html?type=FPOs%20%26%20Cooperatives" class="group bg-white border border-gray-100 rounded-2xl p-6 hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="w-16 h-16 bg-emerald-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-emerald-100 transition-colors">
-                            <i class="fas fa-users text-organic text-3xl"></i>
+                    <a href="directory/index.html?type=FPOs%20%26%20Cooperatives" class="group bg-white border border-gray-100 rounded-xl p-5 hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                        <div class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center mb-3 group-hover:bg-emerald-100 transition-colors flex-shrink-0">
+                            <i class="fas fa-users text-organic text-2xl"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Farmer Producer Organizations (FPOs)</h3>
-                        <p class="text-gray-600 text-sm mb-4">Collective farmer organizations with shared certification and marketing.</p>
-                        <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Find Partners <i class="fas fa-arrow-right text-xs"></i></span>
+                        <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Farmer Producer Organizations (FPOs)</h3>
+                        <p class="text-gray-600 text-xs mb-3 line-clamp-2 flex-grow">Collective farmer organizations with shared certification and marketing.</p>
+                        <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Find Partners <i class="fas fa-arrow-right text-[10px]"></i></span>
                     </a>
 
                     <!-- Partner 3: ICS Groups -->
-                    <a href="directory/index.html?type=Grower%20Groups" class="group bg-white border border-gray-100 rounded-2xl p-6 hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="w-16 h-16 bg-teal-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-teal-100 transition-colors">
-                            <i class="fas fa-sitemap text-organic text-3xl"></i>
+                    <a href="directory/index.html?type=Grower%20Groups" class="group bg-white border border-gray-100 rounded-xl p-5 hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                        <div class="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center mb-3 group-hover:bg-teal-100 transition-colors flex-shrink-0">
+                            <i class="fas fa-sitemap text-organic text-2xl"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Internal Control System (ICS) Groups</h3>
-                        <p class="text-gray-600 text-sm mb-4">Farmer groups certified under Internal Control Systems for group certification.</p>
-                        <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Find Partners <i class="fas fa-arrow-right text-xs"></i></span>
+                        <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Internal Control System (ICS) Groups</h3>
+                        <p class="text-gray-600 text-xs mb-3 line-clamp-2 flex-grow">Farmer groups certified under Internal Control Systems for group certification.</p>
+                        <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Find Partners <i class="fas fa-arrow-right text-[10px]"></i></span>
                     </a>
 
                     <!-- Partner 4: Organic Suppliers -->
-                    <a href="directory/index.html?type=Organic%20Suppliers" class="group bg-white border border-gray-100 rounded-2xl p-6 hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="w-16 h-16 bg-amber-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-amber-100 transition-colors">
-                            <i class="fas fa-truck text-organic text-3xl"></i>
+                    <a href="directory/index.html?type=Organic%20Suppliers" class="group bg-white border border-gray-100 rounded-xl p-5 hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                        <div class="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center mb-3 group-hover:bg-amber-100 transition-colors flex-shrink-0">
+                            <i class="fas fa-truck text-organic text-2xl"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Organic Suppliers</h3>
-                        <p class="text-gray-600 text-sm mb-4">Traders and suppliers of certified organic produce and ingredients.</p>
-                        <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Find Partners <i class="fas fa-arrow-right text-xs"></i></span>
+                        <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Organic Suppliers</h3>
+                        <p class="text-gray-600 text-xs mb-3 line-clamp-2 flex-grow">Traders and suppliers of certified organic produce and ingredients.</p>
+                        <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Find Partners <i class="fas fa-arrow-right text-[10px]"></i></span>
                     </a>
 
                     <!-- Partner 5: Manufacturers & Processors -->
-                    <a href="directory/index.html?type=Processors%20%26%20Manufacturers" class="group bg-white border border-gray-100 rounded-2xl p-6 hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="w-16 h-16 bg-blue-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-100 transition-colors">
-                            <i class="fas fa-industry text-organic text-3xl"></i>
+                    <a href="directory/index.html?type=Processors%20%26%20Manufacturers" class="group bg-white border border-gray-100 rounded-xl p-5 hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                        <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-3 group-hover:bg-blue-100 transition-colors flex-shrink-0">
+                            <i class="fas fa-industry text-organic text-2xl"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Manufacturers & Processors</h3>
-                        <p class="text-gray-600 text-sm mb-4">Certified organic processing units and manufacturing facilities.</p>
-                        <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Find Partners <i class="fas fa-arrow-right text-xs"></i></span>
+                        <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Manufacturers & Processors</h3>
+                        <p class="text-gray-600 text-xs mb-3 line-clamp-2 flex-grow">Certified organic processing units and manufacturing facilities.</p>
+                        <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Find Partners <i class="fas fa-arrow-right text-[10px]"></i></span>
                     </a>
 
                     <!-- Partner 6: Exporters -->
-                    <a href="directory/index.html?type=Exporters" class="group bg-white border border-gray-100 rounded-2xl p-6 hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="w-16 h-16 bg-indigo-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-indigo-100 transition-colors">
-                            <i class="fas fa-globe-americas text-organic text-3xl"></i>
+                    <a href="directory/index.html?type=Exporters" class="group bg-white border border-gray-100 rounded-xl p-5 hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                        <div class="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center mb-3 group-hover:bg-indigo-100 transition-colors flex-shrink-0">
+                            <i class="fas fa-globe-americas text-organic text-2xl"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Exporters</h3>
-                        <p class="text-gray-600 text-sm mb-4">Certified organic exporters with international market access and compliance.</p>
-                        <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Find Partners <i class="fas fa-arrow-right text-xs"></i></span>
+                        <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Exporters</h3>
+                        <p class="text-gray-600 text-xs mb-3 line-clamp-2 flex-grow">Certified organic exporters with international market access and compliance.</p>
+                        <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Find Partners <i class="fas fa-arrow-right text-[10px]"></i></span>
                     </a>
 
                     <!-- Partner 7: Importers -->
-                    <a href="directory/index.html?type=Importers" class="group bg-white border border-gray-100 rounded-2xl p-6 hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="w-16 h-16 bg-purple-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-purple-100 transition-colors">
-                            <i class="fas fa-ship text-organic text-3xl"></i>
+                    <a href="directory/index.html?type=Importers" class="group bg-white border border-gray-100 rounded-xl p-5 hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                        <div class="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center mb-3 group-hover:bg-purple-100 transition-colors flex-shrink-0">
+                            <i class="fas fa-ship text-organic text-2xl"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Importers</h3>
-                        <p class="text-gray-600 text-sm mb-4">International buyers sourcing certified organic products from India.</p>
-                        <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Find Partners <i class="fas fa-arrow-right text-xs"></i></span>
+                        <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Importers</h3>
+                        <p class="text-gray-600 text-xs mb-3 line-clamp-2 flex-grow">International buyers sourcing certified organic products from India.</p>
+                        <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Find Partners <i class="fas fa-arrow-right text-[10px]"></i></span>
                     </a>
 
                     <!-- Partner 8: Wholesalers & Distributors -->
-                    <a href="directory/index.html?type=Traders" class="group bg-white border border-gray-100 rounded-2xl p-6 hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="w-16 h-16 bg-pink-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-pink-100 transition-colors">
-                            <i class="fas fa-warehouse text-organic text-3xl"></i>
+                    <a href="directory/index.html?type=Traders" class="group bg-white border border-gray-100 rounded-xl p-5 hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                        <div class="w-12 h-12 bg-pink-50 rounded-xl flex items-center justify-center mb-3 group-hover:bg-pink-100 transition-colors flex-shrink-0">
+                            <i class="fas fa-warehouse text-organic text-2xl"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Wholesalers & Distributors</h3>
-                        <p class="text-gray-600 text-sm mb-4">Bulk organic traders and distribution networks across India and globally.</p>
-                        <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Find Partners <i class="fas fa-arrow-right text-xs"></i></span>
+                        <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Wholesalers & Distributors</h3>
+                        <p class="text-gray-600 text-xs mb-3 line-clamp-2 flex-grow">Bulk organic traders and distribution networks across India and globally.</p>
+                        <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Find Partners <i class="fas fa-arrow-right text-[10px]"></i></span>
                     </a>
                 </div>
             </div>
         </section>
 
         <!-- 8. POST YOUR BUY REQUIREMENT -->
-        <section class="relative bg-gradient-to-br from-[#14301a] via-[#1E401D] to-[#2D5A27] py-16 md:py-24 text-white overflow-hidden">
+        <section class="relative bg-gradient-to-br from-[#14301a] via-[#1E401D] to-[#2D5A27] py-10 md:py-14 text-white overflow-hidden">
             <div class="absolute inset-0 bg-gradient-to-br from-[#14301a]/95 via-[#1E401D]/92 to-[#2D5A27]/85"></div>
             <svg class="pointer-events-none absolute -right-48 -top-48 opacity-[0.13]" width="900" height="900" fill="none" aria-hidden="true">
                 <circle cx="450" cy="450" r="200" stroke="white" stroke-width="1"/>
@@ -731,208 +732,208 @@
             </svg>
 
             <div class="relative max-w-7xl mx-auto px-6">
-                <div class="text-center mb-12 md:mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4">Looking for Organic Products?</h2>
-                    <p class="text-lg text-green-50/85 max-w-2xl mx-auto mb-8">Tell us what you need and connect with potential organic suppliers.</p>
-                    <p class="text-green-50/70 max-w-2xl mx-auto">Whether you are looking for organic raw materials, agricultural produce, certified ingredients or processed organic products, publish your requirement and connect with relevant suppliers.</p>
+                <div class="text-center mb-8 md:mb-10">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-3">Looking for Organic Products?</h2>
+                    <p class="text-base md:text-lg text-green-50/85 max-w-2xl mx-auto mb-6">Tell us what you need and connect with potential organic suppliers.</p>
+                    <p class="text-green-50/70 max-w-2xl mx-auto text-sm md:text-base">Whether you are sourcing organic raw materials, agricultural produce, certified ingredients or processed organic products, publish your requirement and connect with relevant suppliers.</p>
                 </div>
 
-                <div class="flex flex-col sm:flex-row gap-6 justify-center">
-                    <a href="rfq-post.html" class="group inline-flex items-center gap-4 bg-white text-[#1E401D] pl-8 pr-6 py-4 rounded-full font-bold text-base md:text-lg shadow-xl hover:bg-green-50 transition">
-                        <span class="flex items-center gap-3"><i class="far fa-file-alt text-2xl"></i> Post a Buy Requirement</span>
-                        <i class="fas fa-arrow-right text-sm transition group-hover:translate-x-1"></i>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="rfq-post.html" class="group inline-flex items-center gap-3 bg-white text-[#1E401D] pl-6 pr-5 py-3 rounded-full font-bold text-sm md:text-base shadow-lg hover:bg-green-50 transition">
+                        <span class="flex items-center gap-2"><i class="far fa-file-alt text-xl"></i> Post a Buy Requirement</span>
+                        <i class="fas fa-arrow-right text-xs transition group-hover:translate-x-1"></i>
                     </a>
-                    <a href="directory/index.html?type=Organic%20Suppliers" class="group inline-flex items-center gap-4 bg-white/10 text-white pl-8 pr-6 py-4 rounded-full font-bold text-base md:text-lg border border-white/20 hover:bg-white/20 transition backdrop-blur-sm">
-                        <span class="flex items-center gap-3"><i class="fas fa-search text-xl"></i> Browse Organic Suppliers</span>
-                        <i class="fas fa-arrow-right text-sm transition group-hover:translate-x-1"></i>
+                    <a href="directory/index.html?type=Organic%20Suppliers" class="group inline-flex items-center gap-3 bg-white/10 text-white pl-6 pr-5 py-3 rounded-full font-bold text-sm md:text-base border border-white/20 hover:bg-white/20 transition backdrop-blur-sm">
+                        <span class="flex items-center gap-2"><i class="fas fa-search text-lg"></i> Browse Organic Suppliers</span>
+                        <i class="fas fa-arrow-right text-xs transition group-hover:translate-x-1"></i>
                     </a>
                 </div>
             </div>
         </section>
 
         <!-- 9. ORGANIC CERTIFICATION & BUSINESS SERVICES -->
-        <section class="bg-white py-16 md:py-24">
+        <section class="bg-white py-10 md:py-14">
             <div class="max-w-7xl mx-auto px-6">
-                <div class="text-center mb-12 md:mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Organic Certification & Business Services</h2>
-                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">Explore resources and services supporting the growth of organic businesses.</p>
+                <div class="text-center mb-8 md:mb-10">
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-3">Organic Certification & Business Services</h2>
+                    <p class="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">Explore services and resources supporting the organic industry.</p>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     <!-- Service 1: Organic Certification Support -->
-                    <a href="#" class="group bg-white border border-gray-100 rounded-2xl p-6 hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="w-14 h-14 bg-green-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-green-100 transition-colors">
+                    <a href="#" class="group bg-white border border-gray-100 rounded-xl p-5 hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                        <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center mb-3 group-hover:bg-green-100 transition-colors flex-shrink-0">
                             <i class="fas fa-certificate text-organic text-2xl"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Organic Certification Support</h3>
-                        <p class="text-gray-600 text-sm mb-4">Guidance and resources for organic certification processes and requirements.</p>
-                        <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Learn More <i class="fas fa-arrow-right text-xs"></i></span>
+                        <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Organic Certification Support</h3>
+                        <p class="text-gray-600 text-xs mb-3 line-clamp-2 flex-grow">Guidance and resources for organic certification processes and requirements.</p>
+                        <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Learn More <i class="fas fa-arrow-right text-[10px]"></i></span>
                     </a>
 
                     <!-- Service 2: NPOP Certification Guidance -->
-                    <a href="certification/npop-certification-bodies.html" class="group bg-white border border-gray-100 rounded-2xl p-6 hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="w-14 h-14 bg-emerald-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-emerald-100 transition-colors">
+                    <a href="certification/npop-certification-bodies.html" class="group bg-white border border-gray-100 rounded-xl p-5 hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                        <div class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center mb-3 group-hover:bg-emerald-100 transition-colors flex-shrink-0">
                             <i class="fas fa-leaf text-organic text-2xl"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">NPOP Certification Guidance</h3>
-                        <p class="text-gray-600 text-sm mb-4">India's National Programme for Organic Production certification process and bodies.</p>
-                        <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Learn More <i class="fas fa-arrow-right text-xs"></i></span>
+                        <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">NPOP Certification Guidance</h3>
+                        <p class="text-gray-600 text-xs mb-3 line-clamp-2 flex-grow">India's National Programme for Organic Production certification process and bodies.</p>
+                        <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Learn More <i class="fas fa-arrow-right text-[10px]"></i></span>
                     </a>
 
                     <!-- Service 3: USDA-NOP Certification Guidance -->
-                    <a href="#" class="group bg-white border border-gray-100 rounded-2xl p-6 hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="w-14 h-14 bg-blue-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-100 transition-colors">
+                    <a href="#" class="group bg-white border border-gray-100 rounded-xl p-5 hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                        <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-3 group-hover:bg-blue-100 transition-colors flex-shrink-0">
                             <i class="fas fa-flag-usa text-organic text-2xl"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">USDA-NOP Certification Guidance</h3>
-                        <p class="text-gray-600 text-sm mb-4">USDA National Organic Program certification for US market access.</p>
-                        <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Learn More <i class="fas fa-arrow-right text-xs"></i></span>
+                        <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">USDA-NOP Certification Guidance</h3>
+                        <p class="text-gray-600 text-xs mb-3 line-clamp-2 flex-grow">USDA National Organic Program certification for US market access.</p>
+                        <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Learn More <i class="fas fa-arrow-right text-[10px]"></i></span>
                     </a>
 
                     <!-- Service 4: EU Organic Certification Information -->
-                    <a href="#" class="group bg-white border border-gray-100 rounded-2xl p-6 hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="w-14 h-14 bg-purple-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-purple-100 transition-colors">
+                    <a href="#" class="group bg-white border border-gray-100 rounded-xl p-5 hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                        <div class="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center mb-3 group-hover:bg-purple-100 transition-colors flex-shrink-0">
                             <i class="fas fa-flag text-organic text-2xl"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">EU Organic Certification</h3>
-                        <p class="text-gray-600 text-sm mb-4">European Union organic regulation compliance and certification guidance.</p>
-                        <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Learn More <i class="fas fa-arrow-right text-xs"></i></span>
+                        <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">EU Organic Certification</h3>
+                        <p class="text-gray-600 text-xs mb-3 line-clamp-2 flex-grow">European Union organic regulation compliance and certification guidance.</p>
+                        <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Learn More <i class="fas fa-arrow-right text-[10px]"></i></span>
                     </a>
 
-                    <!-- Service 5: Organic Seeds -->
-                    <a href="#" class="group bg-white border border-gray-100 rounded-2xl p-6 hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="w-14 h-14 bg-amber-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-amber-100 transition-colors">
-                            <i class="fas fa-seedling text-organic text-2xl"></i>
+                    <!-- Service 5: Third-Party Labelling Services -->
+                    <a href="#" class="group bg-white border border-gray-100 rounded-xl p-5 hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                        <div class="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center mb-3 group-hover:bg-amber-100 transition-colors flex-shrink-0">
+                            <i class="fas fa-tag text-organic text-2xl"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Organic Seeds</h3>
-                        <p class="text-gray-600 text-sm mb-4">Certified organic seeds for farming, gardening and commercial cultivation.</p>
-                        <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Learn More <i class="fas fa-arrow-right text-xs"></i></span>
+                        <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Third-Party Labelling Services</h3>
+                        <p class="text-gray-600 text-xs mb-3 line-clamp-2 flex-grow">Third-party labelling services for organic products and compliance.</p>
+                        <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Learn More <i class="fas fa-arrow-right text-[10px]"></i></span>
                     </a>
 
-                    <!-- Service 6: Organic Fertilizers and Inputs -->
-                    <a href="#" class="group bg-white border border-gray-100 rounded-2xl p-6 hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="w-14 h-14 bg-amber-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-amber-200 transition-colors">
+                    <!-- Service 6: Testing and Inspection Services -->
+                    <a href="#" class="group bg-white border border-gray-100 rounded-xl p-5 hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                        <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mb-3 group-hover:bg-amber-200 transition-colors flex-shrink-0">
                             <i class="fas fa-flask text-organic text-2xl"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Organic Fertilizers & Inputs</h3>
-                        <p class="text-gray-600 text-sm mb-4">Approved organic fertilizers, bio-pesticides and cultivation inputs.</p>
-                        <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Learn More <i class="fas fa-arrow-right text-xs"></i></span>
+                        <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Testing & Inspection Services</h3>
+                        <p class="text-gray-600 text-xs mb-3 line-clamp-2 flex-grow">Approved testing laboratories and inspection services for organic compliance.</p>
+                        <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Learn More <i class="fas fa-arrow-right text-[10px]"></i></span>
                     </a>
 
-                    <!-- Service 7: Contract Farming -->
-                    <a href="#" class="group bg-white border border-gray-100 rounded-2xl p-6 hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="w-14 h-14 bg-teal-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-teal-100 transition-colors">
-                            <i class="fas fa-handshake text-organic text-2xl"></i>
+                    <!-- Service 7: Organic Seeds and Inputs -->
+                    <a href="#" class="group bg-white border border-gray-100 rounded-xl p-5 hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                        <div class="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center mb-3 group-hover:bg-teal-100 transition-colors flex-shrink-0">
+                            <i class="fas fa-seedling text-organic text-2xl"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Contract Farming</h3>
-                        <p class="text-gray-600 text-sm mb-4">Opportunities and guidance for contract farming arrangements in organic sector.</p>
-                        <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Learn More <i class="fas fa-arrow-right text-xs"></i></span>
+                        <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Organic Seeds & Inputs</h3>
+                        <p class="text-gray-600 text-xs mb-3 line-clamp-2 flex-grow">Certified organic seeds, fertilizers and approved cultivation inputs.</p>
+                        <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Learn More <i class="fas fa-arrow-right text-[10px]"></i></span>
                     </a>
 
                     <!-- Service 8: Export Documentation Support -->
-                    <a href="#" class="group bg-white border border-gray-100 rounded-2xl p-6 hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="w-14 h-14 bg-indigo-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-indigo-100 transition-colors">
+                    <a href="#" class="group bg-white border border-gray-100 rounded-xl p-5 hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                        <div class="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center mb-3 group-hover:bg-indigo-100 transition-colors flex-shrink-0">
                             <i class="fas fa-file-export text-organic text-2xl"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Export Documentation Support</h3>
-                        <p class="text-gray-600 text-sm mb-4">Assistance with organic export certificates, phytosanitary and compliance docs.</p>
-                        <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Learn More <i class="fas fa-arrow-right text-xs"></i></span>
+                        <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Export Documentation Support</h3>
+                        <p class="text-gray-600 text-xs mb-3 line-clamp-2 flex-grow">Assistance with organic export certificates, phytosanitary and compliance docs.</p>
+                        <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Learn More <i class="fas fa-arrow-right text-[10px]"></i></span>
                     </a>
                 </div>
 
-                <p class="text-center text-sm text-gray-500 mt-8">Bharat Organic Mart is not an accredited certification body. Certification services are provided by APEDA-accredited and internationally recognized certification agencies.</p>
+                <p class="text-center text-xs text-gray-500 mt-6">Bharat Organic Mart is not an accredited certification body. Certification services are provided by APEDA-accredited and internationally recognized certification agencies.</p>
             </div>
         </section>
 
         <!-- 10. LEARNING CENTRE -->
-        <section class="bg-gray-50 py-16 md:py-24">
+        <section class="bg-gray-50 py-10 md:py-14">
             <div class="max-w-7xl mx-auto px-6">
-                <div class="text-center mb-12 md:mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Learn. Grow. Trade Organic.</h2>
-                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">Explore useful knowledge, guidance and resources for the organic industry.</p>
+                <div class="text-center mb-8 md:mb-10">
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-3">Learn. Grow. Trade Organic.</h2>
+                    <p class="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">Knowledge and resources for every stage of the organic industry.</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     <!-- Article 1 -->
-                    <a href="learning-centre/how-to-get-organic-certification-in-india.html" class="group bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="h-48 bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center">
-                            <i class="fas fa-book-open text-organic text-5xl opacity-80 group-hover:scale-110 transition-transform duration-300"></i>
+                    <a href="learning-centre/how-to-get-organic-certification-in-india.html" class="group bg-white border border-gray-100 rounded-xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                        <div class="h-32 bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-book-open text-organic text-3xl opacity-80 group-hover:scale-105 transition-transform duration-300"></i>
                         </div>
-                        <div class="p-6">
-                            <span class="text-xs font-bold text-organic uppercase tracking-wider mb-2 block">Certification Guide</span>
-                            <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">How to Get Organic Certification in India</h3>
-                            <p class="text-gray-600 text-sm mb-4">Complete step-by-step guide to NPOP, PGS-India certification process, documents, costs and timelines.</p>
-                            <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Read More <i class="fas fa-arrow-right text-xs"></i></span>
+                        <div class="p-4 flex flex-col flex-grow">
+                            <span class="text-xs font-bold text-organic uppercase tracking-wider mb-1.5 block">Certification Guide</span>
+                            <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">How to Get Organic Certification in India</h3>
+                            <p class="text-gray-600 text-xs mb-3 line-clamp-2 flex-grow">Complete step-by-step guide to NPOP, PGS-India certification process, documents, costs and timelines.</p>
+                            <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Read More <i class="fas fa-arrow-right text-[10px]"></i></span>
                         </div>
                     </a>
 
                     <!-- Article 2 -->
-                    <a href="#" class="group bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="h-48 bg-gradient-to-br from-emerald-50 to-emerald-100 flex items-center justify-center">
-                            <i class="fas fa-seedling text-organic text-5xl opacity-80 group-hover:scale-110 transition-transform duration-300"></i>
+                    <a href="#" class="group bg-white border border-gray-100 rounded-xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                        <div class="h-32 bg-gradient-to-br from-emerald-50 to-emerald-100 flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-seedling text-organic text-3xl opacity-80 group-hover:scale-105 transition-transform duration-300"></i>
                         </div>
-                        <div class="p-6">
-                            <span class="text-xs font-bold text-organic uppercase tracking-wider mb-2 block">Farming Practices</span>
-                            <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Organic Farming Practices for Indian Conditions</h3>
-                            <p class="text-gray-600 text-sm mb-4">Natural cultivation methods, soil health management, pest control and crop rotation for Indian farms.</p>
-                            <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Read More <i class="fas fa-arrow-right text-xs"></i></span>
+                        <div class="p-4 flex flex-col flex-grow">
+                            <span class="text-xs font-bold text-organic uppercase tracking-wider mb-1.5 block">Farming Practices</span>
+                            <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Organic Farming Practices for Indian Conditions</h3>
+                            <p class="text-gray-600 text-xs mb-3 line-clamp-2 flex-grow">Natural cultivation methods, soil health management, pest control and crop rotation for Indian farms.</p>
+                            <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Read More <i class="fas fa-arrow-right text-[10px]"></i></span>
                         </div>
                     </a>
 
                     <!-- Article 3 -->
-                    <a href="#" class="group bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="h-48 bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center">
-                            <i class="fas fa-globe text-organic text-5xl opacity-80 group-hover:scale-110 transition-transform duration-300"></i>
+                    <a href="#" class="group bg-white border border-gray-100 rounded-xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                        <div class="h-32 bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-globe text-organic text-3xl opacity-80 group-hover:scale-105 transition-transform duration-300"></i>
                         </div>
-                        <div class="p-6">
-                            <span class="text-xs font-bold text-organic uppercase tracking-wider mb-2 block">Export Requirements</span>
-                            <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">International Organic Export Requirements</h3>
-                            <p class="text-gray-600 text-sm mb-4">Understanding USDA-NOP, EU Organic, COR and other international organic standards for export.</p>
-                            <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Read More <i class="fas fa-arrow-right text-xs"></i></span>
+                        <div class="p-4 flex flex-col flex-grow">
+                            <span class="text-xs font-bold text-organic uppercase tracking-wider mb-1.5 block">Export Requirements</span>
+                            <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">International Organic Export Requirements</h3>
+                            <p class="text-gray-600 text-xs mb-3 line-clamp-2 flex-grow">Understanding USDA-NOP, EU Organic, COR and other international organic standards for export.</p>
+                            <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Read More <i class="fas fa-arrow-right text-[10px]"></i></span>
                         </div>
                     </a>
 
                     <!-- Article 4 -->
-                    <a href="#" class="group bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="h-48 bg-gradient-to-br from-amber-50 to-amber-100 flex items-center justify-center">
-                            <i class="fas fa-file-contract text-organic text-5xl opacity-80 group-hover:scale-110 transition-transform duration-300"></i>
+                    <a href="#" class="group bg-white border border-gray-100 rounded-xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                        <div class="h-32 bg-gradient-to-br from-amber-50 to-amber-100 flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-file-contract text-organic text-3xl opacity-80 group-hover:scale-105 transition-transform duration-300"></i>
                         </div>
-                        <div class="p-6">
-                            <span class="text-xs font-bold text-organic uppercase tracking-wider mb-2 block">Compliance</span>
-                            <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Organic Food Regulations & Compliance</h3>
-                            <p class="text-gray-600 text-sm mb-4">FSSAI organic regulations, labeling requirements, traceability and documentation for organic businesses.</p>
-                            <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Read More <i class="fas fa-arrow-right text-xs"></i></span>
+                        <div class="p-4 flex flex-col flex-grow">
+                            <span class="text-xs font-bold text-organic uppercase tracking-wider mb-1.5 block">Compliance</span>
+                            <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Organic Food Regulations & Compliance</h3>
+                            <p class="text-gray-600 text-xs mb-3 line-clamp-2 flex-grow">FSSAI organic regulations, labeling requirements, traceability and documentation for organic businesses.</p>
+                            <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Read More <i class="fas fa-arrow-right text-[10px]"></i></span>
                         </div>
                     </a>
 
                     <!-- Article 5 -->
-                    <a href="#" class="group bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="h-48 bg-gradient-to-br from-purple-50 to-purple-100 flex items-center justify-center">
-                            <i class="fas fa-chart-line text-organic text-5xl opacity-80 group-hover:scale-110 transition-transform duration-300"></i>
+                    <a href="#" class="group bg-white border border-gray-100 rounded-xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                        <div class="h-32 bg-gradient-to-br from-purple-50 to-purple-100 flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-chart-line text-organic text-3xl opacity-80 group-hover:scale-105 transition-transform duration-300"></i>
                         </div>
-                        <div class="p-6">
-                            <span class="text-xs font-bold text-organic uppercase tracking-wider mb-2 block">Business</span>
-                            <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">Organic Business Opportunities in India</h3>
-                            <p class="text-gray-600 text-sm mb-4">Market trends, government schemes, funding opportunities and growth areas in Indian organic sector.</p>
-                            <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Read More <i class="fas fa-arrow-right text-xs"></i></span>
+                        <div class="p-4 flex flex-col flex-grow">
+                            <span class="text-xs font-bold text-organic uppercase tracking-wider mb-1.5 block">Business</span>
+                            <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">Organic Business Opportunities in India</h3>
+                            <p class="text-gray-600 text-xs mb-3 line-clamp-2 flex-grow">Market trends, government schemes, funding opportunities and growth areas in Indian organic sector.</p>
+                            <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Read More <i class="fas fa-arrow-right text-[10px]"></i></span>
                         </div>
                     </a>
 
                     <!-- Article 6 -->
-                    <a href="certification/npop-certification-bodies.html" class="group bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300">
-                        <div class="h-48 bg-gradient-to-br from-teal-50 to-teal-100 flex items-center justify-center">
-                            <i class="fas fa-building text-organic text-5xl opacity-80 group-hover:scale-110 transition-transform duration-300"></i>
+                    <a href="certification/npop-certification-bodies.html" class="group bg-white border border-gray-100 rounded-xl overflow-hidden hover:border-organic/30 hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                        <div class="h-32 bg-gradient-to-br from-teal-50 to-teal-100 flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-building text-organic text-3xl opacity-80 group-hover:scale-105 transition-transform duration-300"></i>
                         </div>
-                        <div class="p-6">
-                            <span class="text-xs font-bold text-organic uppercase tracking-wider mb-2 block">Certification Bodies</span>
-                            <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-organic transition-colors">NPOP Organic Certification Bodies in India</h3>
-                            <p class="text-gray-600 text-sm mb-4">Directory of APEDA-accredited certification bodies, accreditation details and contact information.</p>
-                            <span class="inline-flex items-center gap-1 text-sm font-bold text-organic group-hover:gap-3 transition-all">Read More <i class="fas fa-arrow-right text-xs"></i></span>
+                        <div class="p-4 flex flex-col flex-grow">
+                            <span class="text-xs font-bold text-organic uppercase tracking-wider mb-1.5 block">Certification Bodies</span>
+                            <h3 class="text-base font-bold text-gray-900 mb-1.5 group-hover:text-organic transition-colors">NPOP Organic Certification Bodies in India</h3>
+                            <p class="text-gray-600 text-xs mb-3 line-clamp-2 flex-grow">Directory of APEDA-accredited certification bodies, accreditation details and contact information.</p>
+                            <span class="inline-flex items-center gap-1 text-xs font-bold text-organic group-hover:gap-2 transition-all">Read More <i class="fas fa-arrow-right text-[10px]"></i></span>
                         </div>
                     </a>
                 </div>
 
-                <div class="text-center mt-10 md:mt-14">
+                <div class="text-center mt-8 md:mt-10">
                     <a href="learning-centre/how-to-get-organic-certification-in-india.html" class="inline-flex items-center gap-2 text-sm font-bold text-organic hover:underline">
                         View All Articles <i class="fas fa-arrow-right"></i>
                     </a>
