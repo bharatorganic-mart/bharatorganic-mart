@@ -299,8 +299,8 @@
             setButtonLoading('btnLogin', true);
 
             try {
-                const { data } = await BOMAuth.signIn({ email, password });
-                const user = data.user;
+                const result = await BOMAuth.signIn({ email, password });
+                const user = result?.user;
 
                 if (!user) {
                     showError('loginError', 'No account returned. Please try again.');
