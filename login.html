@@ -361,15 +361,18 @@
             setButtonLoading('btnRegister', true);
 
             try {
-                const { data } = await BOMAuth.signUp({
+                const result = await BOMAuth.signUp({
                     fullName,
                     email,
                     password,
                     accountType
                 });
 
+                // BOMAuth.signUp returns Supabase response: { user, session }
+                const user = result?.user;
+
                 // signUp succeeded — check if confirmation is required
-                if (!data.user) {
+                if (!user) {
                     document.getElementById('registerForm').classList.add('hidden');
                     document.getElementById('confirmNeeded').classList.remove('hidden');
                     document.getElementById('confirmEmail').textContent = email;
