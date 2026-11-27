@@ -263,6 +263,20 @@
             }
         }
 
+        // Initialize tab from URL parameter
+        function initTabFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const tab = params.get('tab');
+            if (tab === 'register') {
+                switchTab('register');
+            } else {
+                switchTab('login');
+            }
+        }
+
+        // Initialize tab from URL on load
+        document.addEventListener('DOMContentLoaded', initTabFromURL);
+
         // ========================================================================
         // Form helpers
         // ========================================================================

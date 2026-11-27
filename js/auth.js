@@ -17,53 +17,81 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
 
 /* Account type chosen on the form -> DB role in user_profiles.role */
 const ACCOUNT_TYPE_ROLE = {
-  farmer: 'operator',
-  supplier: 'operator',
-  processor: 'operator',
-  trader: 'operator',
-  exporter: 'operator',
-  importer: 'buyer',
+  farmer: 'farmer',
+  supplier: 'supplier',
+  processor: 'processor',
+  trader: 'trader',
+  exporter: 'exporter',
+  importer: 'importer',
   buyer: 'buyer',
+  farmer_group: 'farmer_group',
+  fpo: 'fpo',
+  ics_group: 'ics_group',
+  processor_manufacturer: 'processor_manufacturer',
   other: 'operator'
 };
 
 const ROLE_LABELS = {
-  operator: 'Organic Supplier',
+  farmer: 'Farmer',
+  farmer_group: 'Farmer Group',
+  fpo: 'FPO / Cooperative',
+  ics_group: 'ICS Group',
+  supplier: 'Supplier',
+  processor: 'Processor',
+  processor_manufacturer: 'Processor / Manufacturer',
+  trader: 'Trader',
+  exporter: 'Exporter',
+  importer: 'Importer',
   buyer: 'Buyer / Importer',
   admin: 'Administrator',
-  super_admin: 'Super Administrator'
+  super_admin: 'Super Administrator',
+  operator: 'Organic Supplier'
 };
 
 const DASHBOARD_BY_ROLE = {
+  farmer: 'farmer-dashboard.html',
+  farmer_group: 'farmer-dashboard.html',
+  fpo: 'farmer-dashboard.html',
+  ics_group: 'farmer-dashboard.html',
+  supplier: 'supplier-dashboard.html',
+  processor: 'supplier-dashboard.html',
+  processor_manufacturer: 'supplier-dashboard.html',
+  trader: 'supplier-dashboard.html',
+  exporter: 'supplier-dashboard.html',
+  importer: 'buyer-dashboard.html',
   buyer: 'buyer-dashboard.html',
-  operator: 'supplier-dashboard.html',
   admin: 'admin/index.html',
-  super_admin: 'admin/index.html'
+  super_admin: 'admin/index.html',
+  operator: 'supplier-dashboard.html'
 };
 
 const ROLE_NAV = {
-  operator: [
-    { label: 'My Farm Profile', href: 'supplier-dashboard.html#farm-profile', icon: 'fas fa-seedling', roles: ['operator'] },
-    { label: 'My Crops', href: 'supplier-dashboard.html#my-crops', icon: 'fas fa-seedling', roles: ['operator'] },
-    { label: 'Crop Availability', href: 'supplier-dashboard.html#crop-availability', icon: 'fas fa-calendar-alt', roles: ['operator'] },
-    { label: 'Harvest Information', href: 'supplier-dashboard.html#harvest', icon: 'fas fa-tractor', roles: ['operator'] },
-    { label: 'Contract Farming', href: 'supplier-dashboard.html#contract-farming', icon: 'fas fa-handshake', roles: ['operator'] },
-    { label: 'Buyer Enquiries', href: 'supplier-dashboard.html#enquiries', icon: 'fas fa-envelope', roles: ['operator'] },
-    { label: 'My Listings', href: 'supplier-dashboard.html#my-listings', icon: 'fas fa-list', roles: ['operator'] },
-    { label: 'Certification & Documents', href: 'supplier-dashboard.html#certification', icon: 'fas fa-certificate', roles: ['operator'] },
-    { label: 'Processing Capabilities', href: 'supplier-dashboard.html#processing', icon: 'fas fa-industry', roles: ['operator'] },
-    { label: 'Export Markets', href: 'supplier-dashboard.html#export', icon: 'fas fa-globe', roles: ['operator'] },
-    { label: 'Buyer Enquiries', href: 'supplier-dashboard.html#buyer-enquiries', icon: 'fas fa-inbox', roles: ['operator'] },
-    { label: 'Private Label Opportunities', href: 'supplier-dashboard.html#private-label', icon: 'fas fa-tag', roles: ['operator'] }
+  farmer: [
+    { label: 'My Farmer Profile', href: 'farmer-dashboard.html#profile', icon: 'fas fa-user', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] },
+    { label: 'My Farm Details', href: 'farmer-dashboard.html#farm-details', icon: 'fas fa-seedling', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] },
+    { label: 'My Crop Listings', href: 'farmer-dashboard.html#my-crops', icon: 'fas fa-seedling', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] },
+    { label: 'Contract Farming Opportunities', href: 'farmer-dashboard.html#contract-farming', icon: 'fas fa-handshake', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] },
+    { label: 'Buyer Enquiries', href: 'farmer-dashboard.html#enquiries', icon: 'fas fa-envelope', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] },
+    { label: 'Saved Buyers', href: 'farmer-dashboard.html#saved-buyers', icon: 'fas fa-heart', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] },
+    { label: 'Certification & Documents', href: 'farmer-dashboard.html#certification', icon: 'fas fa-certificate', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] }
+  ],
+  supplier: [
+    { label: 'My Business Profile', href: 'supplier-dashboard.html#profile', icon: 'fas fa-user-tie', roles: ['supplier', 'processor', 'processor_manufacturer', 'trader', 'exporter'] },
+    { label: 'My Product Listings', href: 'supplier-dashboard.html#my-listings', icon: 'fas fa-list', roles: ['supplier', 'processor', 'processor_manufacturer', 'trader', 'exporter'] },
+    { label: 'Add New Listing', href: 'post-listing.html', icon: 'fas fa-plus', roles: ['supplier', 'processor', 'processor_manufacturer', 'trader', 'exporter'] },
+    { label: 'Buyer Enquiries / Leads', href: 'supplier-dashboard.html#enquiries', icon: 'fas fa-inbox', roles: ['supplier', 'processor', 'processor_manufacturer', 'trader', 'exporter'] },
+    { label: 'Quotations / Responses', href: 'supplier-dashboard.html#quotations', icon: 'fas fa-file-invoice', roles: ['supplier', 'processor', 'processor_manufacturer', 'trader', 'exporter'] },
+    { label: 'Saved Buyers', href: 'supplier-dashboard.html#saved-buyers', icon: 'fas fa-heart', roles: ['supplier', 'processor', 'processor_manufacturer', 'trader', 'exporter'] },
+    { label: 'Certification & Documents', href: 'supplier-dashboard.html#certification', icon: 'fas fa-certificate', roles: ['supplier', 'processor', 'processor_manufacturer', 'trader', 'exporter'] }
   ],
   buyer: [
-    { label: 'My Buyer Profile', href: 'buyer-dashboard.html#profile', icon: 'fas fa-user-tie', roles: ['buyer'] },
-    { label: 'Post a Requirement', href: 'rfq-post.html', icon: 'fas fa-file-alt', roles: ['buyer'] },
-    { label: 'My Requirements', href: 'buyer-dashboard.html#my-requirements', icon: 'fas fa-clipboard-list', roles: ['buyer'] },
-    { label: 'Supplier Enquiries', href: 'buyer-dashboard.html#enquiries', icon: 'fas fa-search', roles: ['buyer'] },
-    { label: 'Saved Suppliers', href: 'buyer-dashboard.html#saved', icon: 'fas fa-heart', roles: ['buyer'] },
-    { label: 'Quotations / Responses', href: 'buyer-dashboard.html#quotations', icon: 'fas fa-file-invoice', roles: ['buyer'] },
-    { label: 'Saved Suppliers', href: 'buyer-dashboard.html#saved-suppliers', icon: 'fas fa-bookmark', roles: ['buyer'] }
+    { label: 'My Buyer Profile', href: 'buyer-dashboard.html#profile', icon: 'fas fa-user-tie', roles: ['buyer', 'importer'] },
+    { label: 'Post a Requirement', href: 'rfq-post.html', icon: 'fas fa-file-alt', roles: ['buyer', 'importer'] },
+    { label: 'My Requirements', href: 'buyer-dashboard.html#my-requirements', icon: 'fas fa-clipboard-list', roles: ['buyer', 'importer'] },
+    { label: 'Supplier Enquiries', href: 'buyer-dashboard.html#enquiries', icon: 'fas fa-search', roles: ['buyer', 'importer'] },
+    { label: 'Saved Suppliers', href: 'buyer-dashboard.html#saved', icon: 'fas fa-heart', roles: ['buyer', 'importer'] },
+    { label: 'Quotations / Responses', href: 'buyer-dashboard.html#quotations', icon: 'fas fa-file-invoice', roles: ['buyer', 'importer'] },
+    { label: 'Saved Suppliers', href: 'buyer-dashboard.html#saved-suppliers', icon: 'fas fa-bookmark', roles: ['buyer', 'importer'] }
   ],
   admin: [
     { label: 'Admin Dashboard', href: 'admin/index.html', icon: 'fas fa-tachometer-alt', roles: ['admin', 'super_admin'] },
@@ -72,6 +100,15 @@ const ROLE_NAV = {
     { label: 'Claims Management', href: 'admin/index.html#claims', icon: 'fas fa-flag', roles: ['admin', 'super_admin'] },
     { label: 'Certification Verification', href: 'admin/index.html#certification', icon: 'fas fa-certificate', roles: ['admin', 'super_admin'] },
     { label: 'Reports & Analytics', href: 'admin/index.html#reports', icon: 'fas fa-chart-bar', roles: ['admin', 'super_admin'] }
+  ],
+  farmer: [
+    { label: 'My Farmer Profile', href: 'farmer-dashboard.html#profile', icon: 'fas fa-user', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] },
+    { label: 'My Farm Details', href: 'farmer-dashboard.html#farm-details', icon: 'fas fa-seedling', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] },
+    { label: 'My Crop Listings', href: 'farmer-dashboard.html#my-crops', icon: 'fas fa-seedling', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] },
+    { label: 'Contract Farming Opportunities', href: 'farmer-dashboard.html#contract-farming', icon: 'fas fa-handshake', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] },
+    { label: 'Buyer Enquiries', href: 'farmer-dashboard.html#enquiries', icon: 'fas fa-envelope', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] },
+    { label: 'Saved Buyers', href: 'farmer-dashboard.html#saved-buyers', icon: 'fas fa-heart', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] },
+    { label: 'Certification & Documents', href: 'farmer-dashboard.html#certification', icon: 'fas fa-certificate', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] }
   ]
 };
 
@@ -171,11 +208,13 @@ function onAuthStateChange(cb) {
 async function isAdmin() {
   const user = await getCurrentUser();
   if (!user) return false;
+
   const { data, error } = await sb
     .from('admin_users')
     .select('role')
     .eq('id', user.id)
     .maybeSingle();
+
   if (error && error.code !== 'PGRST116') throw error;
   return !!data;
 }
@@ -203,16 +242,25 @@ function redirectIfAuthenticated() {
  * ------------------------------------------------------------------ */
 async function requireAuth({ roles = null, loginPage = 'login.html' } = {}) {
   const session = await getSession();
+
   if (!session) {
     window.location.replace(loginPage + '?next=' + encodeURIComponent(window.location.pathname));
     return null;
   }
+
   const profile = await getProfile().catch(() => null);
   const role = profile?.role || session.user.user_metadata?.role || 'operator';
+
   if (roles && !roles.includes(role)) {
-    document.body.innerHTML = `<div style="max-width:420px;margin:80px auto;padding:32px;text-align:center;font-family:sans-serif"><h1 style="font-size:24px;font-weight:700">Access denied</h1><p style="margin-top:8px;color:#666">Your account type is not allowed on this page.</p><a href="/" style="display:inline-block;margin-top:16px;color:#2D5A27;font-weight:600">Back to site</a></div>`;
+    document.body.innerHTML = `
+      <div style="max-width:420px;margin:80px auto;padding:32px;text-align:center;font-family:sans-serif">
+        <h1 style="font-size:24px;font-weight:700">Access denied</h1>
+        <p style="margin-top:8px;color:#666">Your account type is not allowed on this page.</p>
+        <a href="/" style="display:inline-block;margin-top:16px;color:#2D5A27;font-weight:600">Back to site</a>
+      </div>`;
     return null;
   }
+
   return { user: session.user, profile, role };
 }
 
@@ -227,6 +275,7 @@ class AuthHeaderManager {
     this.dropdownOpen = false;
     this.authListener = null;
     this.initialized = false;
+    this.profileCompletionCache = 0;
   }
 
   async init() {
@@ -340,7 +389,7 @@ class AuthHeaderManager {
     const profileCompletion = this.getProfileCompletion();
 
     return `
-      <div class="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-lg border border-gray-100 py-2 shadow-xl z-50" id="user-dropdown">
+      <div class="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-lg border border-gray-100 py-2 shadow-xl z-50" id="user-dropdown">
         <!-- Account Header -->
         <div class="px-4 py-3 border-b border-gray-100">
           <div class="flex items-center gap-3">
