@@ -243,14 +243,17 @@
             const registerForm = document.getElementById('registerForm');
             const tabLogin = document.getElementById('tabLogin');
             const tabRegister = document.getElementById('tabRegister');
+            const tabMobile = document.getElementById('tabMobile');
 
             // Hide all forms
             loginForm.classList.add('hidden');
             registerForm.classList.add('hidden');
 
             // Reset all tabs to inactive
-            [tabLogin, tabRegister].forEach(btn => {
-                btn.className = 'tab-btn py-5 text-center text-sm font-bold text-gray-500 hover:text-gray-900 transition bg-gray-50';
+            [tabLogin, tabRegister, tabMobile].forEach(btn => {
+                if (btn) {
+                    btn.className = 'tab-btn py-5 text-center text-sm font-bold text-gray-500 hover:text-gray-900 transition bg-gray-50';
+                }
             });
 
             // Show selected form and activate its tab
@@ -260,6 +263,8 @@
             } else if (tab === 'register') {
                 registerForm.classList.remove('hidden');
                 tabRegister.className = 'tab-btn py-5 text-center text-sm font-bold text-organic bg-white border-b-2 border-organic';
+            } else if (tab === 'mobile') {
+                // Mobile OTP tab would go here if implemented
             }
         }
 
