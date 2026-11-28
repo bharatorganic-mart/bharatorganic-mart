@@ -67,7 +67,7 @@ const DASHBOARD_BY_ROLE = {
 
 const ROLE_NAV = {
   farmer: [
-    { label: 'My Farmer Profile', href: 'farmer-dashboard.html#profile', icon: 'fas fa-user', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] },
+    { label: 'My Farmer Profile', href: 'farmer-profile.html', icon: 'fas fa-user', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] },
     { label: 'My Farm Details', href: 'farmer-dashboard.html#farm-details', icon: 'fas fa-seedling', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] },
     { label: 'My Crop Listings', href: 'farmer-dashboard.html#my-crops', icon: 'fas fa-seedling', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] },
     { label: 'Contract Farming Opportunities', href: 'farmer-dashboard.html#contract-farming', icon: 'fas fa-handshake', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] },
@@ -76,22 +76,21 @@ const ROLE_NAV = {
     { label: 'Certification & Documents', href: 'farmer-dashboard.html#certification', icon: 'fas fa-certificate', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] }
   ],
   supplier: [
-    { label: 'My Business Profile', href: 'supplier-dashboard.html#profile', icon: 'fas fa-user-tie', roles: ['supplier', 'processor', 'processor_manufacturer', 'trader', 'exporter'] },
+    { label: 'My Business Profile', href: 'supplier-profile.html', icon: 'fas fa-user-tie', roles: ['supplier', 'processor', 'processor_manufacturer', 'trader', 'exporter'] },
     { label: 'My Product Listings', href: 'supplier-dashboard.html#my-listings', icon: 'fas fa-list', roles: ['supplier', 'processor', 'processor_manufacturer', 'trader', 'exporter'] },
     { label: 'Add New Listing', href: 'post-listing.html', icon: 'fas fa-plus', roles: ['supplier', 'processor', 'processor_manufacturer', 'trader', 'exporter'] },
     { label: 'Buyer Enquiries / Leads', href: 'supplier-dashboard.html#enquiries', icon: 'fas fa-inbox', roles: ['supplier', 'processor', 'processor_manufacturer', 'trader', 'exporter'] },
     { label: 'Quotations / Responses', href: 'supplier-dashboard.html#quotations', icon: 'fas fa-file-invoice', roles: ['supplier', 'processor', 'processor_manufacturer', 'trader', 'exporter'] },
     { label: 'Saved Buyers', href: 'supplier-dashboard.html#saved-buyers', icon: 'fas fa-heart', roles: ['supplier', 'processor', 'processor_manufacturer', 'trader', 'exporter'] },
-    { label: 'Certification & Documents', href: 'supplier-dashboard.html#certification', icon: 'fas fa-certificate', roles: ['supplier', 'processor', 'processor_manufacturer', 'trader', 'exporter'] }
+    { label: 'Certification & Documents', href: 'supplier-profile.html#certification', icon: 'fas fa-certificate', roles: ['supplier', 'processor', 'processor_manufacturer', 'trader', 'exporter'] }
   ],
   buyer: [
-    { label: 'My Buyer Profile', href: 'buyer-dashboard.html#profile', icon: 'fas fa-user-tie', roles: ['buyer', 'importer'] },
+    { label: 'My Buyer Profile', href: 'buyer-profile.html', icon: 'fas fa-user-tie', roles: ['buyer', 'importer'] },
     { label: 'Post a Requirement', href: 'rfq-post.html', icon: 'fas fa-file-alt', roles: ['buyer', 'importer'] },
     { label: 'My Requirements', href: 'buyer-dashboard.html#my-requirements', icon: 'fas fa-clipboard-list', roles: ['buyer', 'importer'] },
     { label: 'Supplier Enquiries', href: 'buyer-dashboard.html#enquiries', icon: 'fas fa-search', roles: ['buyer', 'importer'] },
     { label: 'Saved Suppliers', href: 'buyer-dashboard.html#saved', icon: 'fas fa-heart', roles: ['buyer', 'importer'] },
     { label: 'Quotations / Responses', href: 'buyer-dashboard.html#quotations', icon: 'fas fa-file-invoice', roles: ['buyer', 'importer'] },
-    { label: 'Saved Suppliers', href: 'buyer-dashboard.html#saved-suppliers', icon: 'fas fa-bookmark', roles: ['buyer', 'importer'] }
   ],
   admin: [
     { label: 'Admin Dashboard', href: 'admin/index.html', icon: 'fas fa-tachometer-alt', roles: ['admin', 'super_admin'] },
@@ -101,14 +100,69 @@ const ROLE_NAV = {
     { label: 'Certification Verification', href: 'admin/index.html#certification', icon: 'fas fa-certificate', roles: ['admin', 'super_admin'] },
     { label: 'Reports & Analytics', href: 'admin/index.html#reports', icon: 'fas fa-chart-bar', roles: ['admin', 'super_admin'] }
   ],
-  farmer: [
-    { label: 'My Farmer Profile', href: 'farmer-dashboard.html#profile', icon: 'fas fa-user', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] },
-    { label: 'My Farm Details', href: 'farmer-dashboard.html#farm-details', icon: 'fas fa-seedling', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] },
-    { label: 'My Crop Listings', href: 'farmer-dashboard.html#my-crops', icon: 'fas fa-seedling', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] },
-    { label: 'Contract Farming Opportunities', href: 'farmer-dashboard.html#contract-farming', icon: 'fas fa-handshake', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] },
-    { label: 'Buyer Enquiries', href: 'farmer-dashboard.html#enquiries', icon: 'fas fa-envelope', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] },
-    { label: 'Saved Buyers', href: 'farmer-dashboard.html#saved-buyers', icon: 'fas fa-heart', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] },
-    { label: 'Certification & Documents', href: 'farmer-dashboard.html#certification', icon: 'fas fa-certificate', roles: ['farmer', 'farmer_group', 'fpo', 'ics_group'] }
+  farmer_group: [
+    { label: 'My Farmer Group Profile', href: 'farmer-profile.html', icon: 'fas fa-user', roles: ['farmer_group', 'fpo', 'ics_group'] },
+    { label: 'My Farm Details', href: 'farmer-dashboard.html#farm-details', icon: 'fas fa-seedling', roles: ['farmer_group', 'fpo', 'ics_group'] },
+    { label: 'My Crop Listings', href: 'farmer-dashboard.html#my-crops', icon: 'fas fa-seedling', roles: ['farmer_group', 'fpo', 'ics_group'] },
+    { label: 'Contract Farming Opportunities', href: 'farmer-dashboard.html#contract-farming', icon: 'fas fa-handshake', roles: ['farmer_group', 'fpo', 'ics_group'] },
+    { label: 'Buyer Enquiries', href: 'farmer-dashboard.html#enquiries', icon: 'fas fa-envelope', roles: ['farmer_group', 'fpo', 'ics_group'] },
+    { label: 'Saved Buyers', href: 'farmer-dashboard.html#saved-buyers', icon: 'fas fa-heart', roles: ['farmer_group', 'fpo', 'ics_group'] },
+    { label: 'Certification & Documents', href: 'farmer-dashboard.html#certification', icon: 'fas fa-certificate', roles: ['farmer_group', 'fpo', 'ics_group'] }
+  ],
+  fpo: [
+    { label: 'My FPO Profile', href: 'fpo-profile.html', icon: 'fas fa-users', roles: ['fpo', 'farmer_group', 'ics_group'] },
+    { label: 'Member Farms', href: 'fpo-dashboard.html#farms', icon: 'fas fa-seedling', roles: ['fpo', 'farmer_group', 'ics_group'] },
+    { label: 'Crop Aggregates', href: 'fpo-dashboard.html#crops', icon: 'fas fa-seedling', roles: ['fpo', 'farmer_group', 'ics_group'] },
+    { label: 'Buyer Enquiries', href: 'fpo-dashboard.html#enquiries', icon: 'fas fa-envelope', roles: ['fpo', 'farmer_group', 'ics_group'] },
+    { label: 'Certification & Documents', href: 'fpo-dashboard.html#certification', icon: 'fas fa-certificate', roles: ['fpo', 'farmer_group', 'ics_group'] }
+  ],
+  ics_group: [
+    { label: 'My ICS Group Profile', href: 'ics-profile.html', icon: 'fas fa-sitemap', roles: ['ics_group', 'farmer_group', 'fpo'] },
+    { label: 'Member Farms', href: 'ics-dashboard.html#farms', icon: 'fas fa-seedling', roles: ['ics_group', 'farmer_group', 'fpo'] },
+    { label: 'Crop Aggregates', href: 'ics-dashboard.html#crops', icon: 'fas fa-seedling', roles: ['ics_group', 'farmer_group', 'fpo'] },
+    { label: 'Buyer Enquiries', href: 'ics-dashboard.html#enquiries', icon: 'fas fa-envelope', roles: ['ics_group', 'farmer_group', 'fpo'] },
+    { label: 'Certification & Documents', href: 'ics-dashboard.html#certification', icon: 'fas fa-certificate', roles: ['ics_group', 'farmer_group', 'fpo'] }
+  ],
+  processor: [
+    { label: 'My Business Profile', href: 'supplier-profile.html', icon: 'fas fa-industry', roles: ['processor', 'processor_manufacturer', 'trader', 'exporter'] },
+    { label: 'My Product Listings', href: 'supplier-dashboard.html#my-listings', icon: 'fas fa-list', roles: ['processor', 'processor_manufacturer', 'trader', 'exporter'] },
+    { label: 'Add New Listing', href: 'post-listing.html', icon: 'fas fa-plus', roles: ['processor', 'processor_manufacturer', 'trader', 'exporter'] },
+    { label: 'Buyer Enquiries / Leads', href: 'supplier-dashboard.html#enquiries', icon: 'fas fa-inbox', roles: ['processor', 'processor_manufacturer', 'trader', 'exporter'] },
+    { label: 'Quotations / Responses', href: 'supplier-dashboard.html#quotations', icon: 'fas fa-file-invoice', roles: ['processor', 'processor_manufacturer', 'trader', 'exporter'] },
+    { label: 'Certification & Documents', href: 'supplier-profile.html#certification', icon: 'fas fa-certificate', roles: ['processor', 'processor_manufacturer', 'trader', 'exporter'] }
+  ],
+  processor_manufacturer: [
+    { label: 'My Business Profile', href: 'supplier-profile.html', icon: 'fas fa-industry', roles: ['processor_manufacturer', 'trader', 'exporter'] },
+    { label: 'My Product Listings', href: 'supplier-dashboard.html#my-listings', icon: 'fas fa-list', roles: ['processor_manufacturer', 'trader', 'exporter'] },
+    { label: 'Add New Listing', href: 'post-listing.html', icon: 'fas fa-plus', roles: ['processor_manufacturer', 'trader', 'exporter'] },
+    { label: 'Buyer Enquiries / Leads', href: 'supplier-dashboard.html#enquiries', icon: 'fas fa-inbox', roles: ['processor_manufacturer', 'trader', 'exporter'] },
+    { label: 'Quotations / Responses', href: 'supplier-dashboard.html#quotations', icon: 'fas fa-file-invoice', roles: ['processor_manufacturer', 'trader', 'exporter'] },
+    { label: 'Certification & Documents', href: 'supplier-profile.html#certification', icon: 'fas fa-certificate', roles: ['processor_manufacturer', 'trader', 'exporter'] }
+  ],
+  trader: [
+    { label: 'My Business Profile', href: 'supplier-profile.html', icon: 'fas fa-user-tie', roles: ['trader', 'exporter'] },
+    { label: 'My Product Listings', href: 'supplier-dashboard.html#my-listings', icon: 'fas fa-list', roles: ['trader', 'exporter'] },
+    { label: 'Add New Listing', href: 'post-listing.html', icon: 'fas fa-plus', roles: ['trader', 'exporter'] },
+    { label: 'Buyer Enquiries / Leads', href: 'supplier-dashboard.html#enquiries', icon: 'fas fa-inbox', roles: ['trader', 'exporter'] },
+    { label: 'Quotations / Responses', href: 'supplier-dashboard.html#quotations', icon: 'fas fa-file-invoice', roles: ['trader', 'exporter'] },
+    { label: 'Saved Buyers', href: 'supplier-dashboard.html#saved-buyers', icon: 'fas fa-heart', roles: ['trader', 'exporter'] },
+    { label: 'Certification & Documents', href: 'supplier-profile.html#certification', icon: 'fas fa-certificate', roles: ['trader', 'exporter'] }
+  ],
+  exporter: [
+    { label: 'My Business Profile', href: 'supplier-profile.html', icon: 'fas fa-globe-americas', roles: ['exporter'] },
+    { label: 'My Product Listings', href: 'supplier-dashboard.html#my-listings', icon: 'fas fa-list', roles: ['exporter'] },
+    { label: 'Add New Listing', href: 'post-listing.html', icon: 'fas fa-plus', roles: ['exporter'] },
+    { label: 'Buyer Enquiries / Leads', href: 'supplier-dashboard.html#enquiries', icon: 'fas fa-inbox', roles: ['exporter'] },
+    { label: 'Quotations / Responses', href: 'supplier-dashboard.html#quotations', icon: 'fas fa-file-invoice', roles: ['exporter'] },
+    { label: 'Certification & Documents', href: 'supplier-profile.html#certification', icon: 'fas fa-certificate', roles: ['exporter'] }
+  ],
+  importer: [
+    { label: 'My Buyer Profile', href: 'buyer-profile.html', icon: 'fas fa-user-tie', roles: ['importer', 'buyer'] },
+    { label: 'Post a Requirement', href: 'rfq-post.html', icon: 'fas fa-file-alt', roles: ['importer', 'buyer'] },
+    { label: 'My Requirements', href: 'buyer-dashboard.html#my-requirements', icon: 'fas fa-clipboard-list', roles: ['importer', 'buyer'] },
+    { label: 'Supplier Enquiries', href: 'buyer-dashboard.html#enquiries', icon: 'fas fa-search', roles: ['importer', 'buyer'] },
+    { label: 'Saved Suppliers', href: 'buyer-dashboard.html#saved', icon: 'fas fa-heart', roles: ['importer', 'buyer'] },
+    { label: 'Quotations / Responses', href: 'buyer-dashboard.html#quotations', icon: 'fas fa-file-invoice', roles: ['importer', 'buyer'] },
   ]
 };
 
@@ -389,7 +443,7 @@ class AuthHeaderManager {
     const profileCompletion = this.getProfileCompletion();
 
     return `
-      <div class="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-lg border border-gray-100 py-2 shadow-xl z-50" id="user-dropdown">
+      <div class="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-lg border border-gray-100 py-1.5 shadow-xl z-[10000]" id="user-dropdown" style="display: none;">
         <!-- Account Header -->
         <div class="px-4 py-3 border-b border-gray-100">
           <div class="flex items-center gap-3">
@@ -415,7 +469,7 @@ class AuthHeaderManager {
         <!-- Navigation Items -->
         <div class="py-1">
           ${items.map(item => `
-            <a href="${item.href}" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-organic transition-colors group">
+            <a href="${item.href}" class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-organic transition-colors group dropdown-link">
               <i class="${item.icon} text-gray-400 group-hover:text-organic transition-colors w-5"></i>
               <span>${item.label}</span>
             </a>
@@ -423,7 +477,7 @@ class AuthHeaderManager {
         </div>
 
         <div class="border-t border-gray-100 pt-1">
-          <a href="#" onclick="window.BOMAuth.signOut().then(() => window.location.reload())" class="flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors">
+          <a href="#" onclick="window.BOMAuth.signOut().then(() => window.location.reload())" class="flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors dropdown-link">
             <i class="fas fa-sign-out-alt w-5"></i>
             <span>Logout</span>
           </a>
@@ -463,19 +517,19 @@ class AuthHeaderManager {
       this.attachDropdownListeners();
     } else {
       authContainer.innerHTML = `
-        <div class="hidden md:flex items-center justify-end gap-3 w-1/4">
-          <a href="login.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-gray-700 bg-gray-100 border border-gray-200 hover:bg-gray-200 transition">
+        <div class="hidden md:flex items-center justify-end gap-3 w-1/4 min-w-[280px]">
+          <a href="login.html" class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-gray-700 bg-gray-100 border border-gray-200 hover:bg-gray-200 transition whitespace-nowrap flex-shrink-0">
             <i class="fas fa-sign-in-alt"></i> Login
           </a>
-          <a href="login.html?tab=register" class="inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-bold text-white bg-[#8B4513] hover:bg-[#7a3d11] transition">
+          <a href="login.html?tab=register" class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-white bg-[#8B4513] border border-[#8B4513] hover:bg-[#7a3d11] transition whitespace-nowrap flex-shrink-0">
             Join Free
           </a>
         </div>
         <div class="md:hidden flex items-center gap-2">
-          <a href="login.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium text-gray-700 bg-gray-100 border border-gray-200 transition">
+          <a href="login.html" class="inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium text-gray-700 bg-gray-100 border border-gray-200 transition whitespace-nowrap flex-shrink-0">
             <i class="fas fa-sign-in-alt"></i> Login
           </a>
-          <a href="login.html?tab=register" class="inline-flex items-center gap-1 px-4 py-1.5 rounded-full text-xs font-bold text-white bg-[#8B4513] transition">
+          <a href="login.html?tab=register" class="inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium text-white bg-[#8B4513] border border-[#8B4513] transition whitespace-nowrap flex-shrink-0">
             Join Free
           </a>
         </div>
@@ -513,8 +567,19 @@ class AuthHeaderManager {
       };
     }
 
-    // Close on outside click
+    // Close dropdown when clicking navigation links or dropdown menu items
     document.addEventListener('click', (e) => {
+      // Close dropdown when clicking any link (navigation or dropdown item)
+      if (e.target.closest('a')) {
+        if (this.dropdownOpen) {
+          this.dropdownOpen = false;
+          document.querySelectorAll('#user-dropdown').forEach(d => d.style.display = 'none');
+          document.querySelectorAll('[aria-expanded="true"]').forEach(btn => btn.setAttribute('aria-expanded', 'false'));
+        }
+        return;
+      }
+
+      // Close on outside click
       if (this.dropdownOpen && !e.target.closest('#user-menu') && !e.target.closest('#user-menu-mobile')) {
         this.dropdownOpen = false;
         const dropdowns = document.querySelectorAll('#user-dropdown');
@@ -530,6 +595,11 @@ class AuthHeaderManager {
         document.querySelectorAll('#user-dropdown').forEach(d => d.style.display = 'none');
         document.querySelectorAll('[aria-expanded="true"]').forEach(btn => btn.setAttribute('aria-expanded', 'false'));
       }
+    });
+
+    // Close dropdown on navigation (beforeunload)
+    window.addEventListener('beforeunload', () => {
+      this.dropdownOpen = false;
     });
   }
 

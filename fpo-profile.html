@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My FPO Profile | BHARAT ORGANIC MART</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/auth.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --organic-green: #2D5A27; --organic-dark: #1E401D; }
+        .bg-organic { background-color: var(--organic-green); }
+        .text-organic { color: var(--organic-green); }
+        .border-organic { border-color: var(--organic-green); }
+        .hover-organic:hover { background-color: var(--organic-dark); }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-900 min-h-screen flex flex-col">
+
+    <!-- 1. HEADER -->
+    <header class="bg-white py-4 border-b">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <!-- Left: Logo -->
+            <a href="index.html" class="flex items-center justify-start w-full md:w-1/4" aria-label="Go to Homepage">
+                <img src="Logo 1.png" alt="BHARAT ORGANIC MART Logo" class="h-14 w-auto object-contain">
+            </a>
+            <!-- Center: Title -->
+            <div class="w-full md:w-2/4 text-center">
+                <a href="index.html"><h1 class="text-2xl md:text-3xl font-bold text-organic leading-tight uppercase tracking-tight">BHARAT ORGANIC MART</h1></a>
+                <p class="text-xs md:text-sm text-gray-500 uppercase tracking-widest mt-1">INDIA'S ORGANIC SUPPLY MARKETPLACE</p>
+            </div>
+            <!-- Right: Auth Buttons Container (managed by AuthHeaderManager) -->
+            <div id="auth-buttons" class="hidden md:flex items-center justify-end gap-3 w-1/4">
+              <!-- Auth buttons will be injected here by AuthHeaderManager -->
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Toggle Button -->
+    <div class="md:hidden bg-white px-6 py-3 border-b flex justify-between items-center">
+        <span class="text-xs font-bold uppercase text-organic">Menu</span>
+        <div id="auth-buttons-mobile" class="flex items-center gap-2">
+          <!-- Mobile auth buttons will be injected here by AuthHeaderManager -->
+        </div>
+        <button onclick="toggleMobileNav()" class="text-gray-700 focus:outline-none ml-2">
+            <i class="fas fa-bars text-xl"></i>
+        </button>
+    </div>
+
+    <main class="flex-grow">
+        <div class="max-w-4xl mx-auto px-4 py-8">
+            <!-- Profile Header -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-8">
+                <div class="bg-gradient-to-r from-[#14301a] via-[#1E401D] to-[#2D5A27] px-6 py-8">
+                    <div class="flex flex-col md:flex-row md:items-center gap-6">
+                        <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-users text-organic text-5xl"></i>
+                        </div>
+                        <div class="flex-1 text-center md:text-left">
+                            <h1 class="text-2xl md:text-3xl font-bold text-white mb-1" id="profileName">Loading...</h1>
+                            <p class="text-green-100" id="profileRole">Farmer Producer Organization (FPO)</p>
+                            <p class="text-green-100/80 text-sm mt-1" id="profileEmail">Loading...</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full text-sm font-medium text-white">
+                                <i class="fas fa-percentage"></i>
+                                <span id="completionPercent">0%</span> Complete
+                            </div>
+                            <button onclick="window.location.href='fpo-profile-edit.html'" class="bg-white text-[#1E401D] px-5 py-2.5 rounded-full font-bold text-sm hover:bg-green-50 transition shadow-lg">
+                                Edit Profile
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Completion Bar -->
+                <div class="px-6 py-4 border-t border-gray-100">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm font-medium text-gray-600">Profile Completion</span>
+                        <span class="font-bold text-organic" id="completionPercentDisplay">0%</span>
+                    </div>
+                    <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                        <div class="h-full bg-organic rounded-full" id="completionBar" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Tabs -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <!-- Tab Navigation -->
+                <div class="border-b border-gray-100">
+                    <nav class="flex -mb-px" aria-label="Profile tabs">
+                        <button id="tabOverview" onclick="switchProfileTab('overview')" class="profile-tab py-4 px-6 text-sm font-bold text-organic border-b-2 border-organic">Overview</button>
+                        <button id="tabFPO" onclick="switchProfileTab('fpo')" class="profile-tab py-5 text-center text-sm font-bold text-gray-500 hover:text-organic hover:bg-gray-50 transition">FPO Details</button>
+                        <button id="tabMembers" onclick="switchProfileTab('members')" class="profile-tab py-5 text-center text-sm font-bold text-gray-500 hover:text-organic hover:bg-gray-50 transition">Member Farms</button>
+                        <button id="tabCrops" onclick="switchProfileTab('crops')" class="profile-tab py-5 text-center text-sm font-bold text-gray-500 hover:text-organic hover:bg-gray-50 transition">Crop Aggregates</button>
+                        <button id="tabContract" onclick="switchProfileTab('contract')" class="profile-tab py-5 text-center text-sm font-bold text-gray-500 hover:text-organic hover:bg-gray-50 transition">Contract Farming</button>
+                        <button id="tabCertification" onclick="switchProfileTab('certification')" class="profile-tab py-5 text-center text-sm font-bold text-gray-500 hover:text-organic hover:bg-gray-50 transition">Certification</button>
+                        <button id="tabContact" onclick="switchProfileTab('contact')" class="profile-tab py-5 text-center text-sm font-bold text-gray-500 hover:text-organic hover:bg-gray-50 transition">Contact</button>
+                    </nav>
+                </div>
+
+                <!-- Tab Panels -->
+                <div class="p-6">
+                    <!-- Overview Tab -->
+                    <div id="panelOverview" class="profile-panel space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-gray-50 rounded-xl p-6">
+                                <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2"><i class="fas fa-users text-organic"></i> FPO Overview</h3>
+                                <dl class="space-y-3 text-sm">
+                                    <div class="flex justify-between"><dt class="text-gray-500">FPO Name</dt><dd class="font-medium text-gray-900" id="fpoName">—</dd></div>
+                                    <div class="flex justify-between"><dt class="text-gray-500">Account Type</dt><dd class="font-medium text-gray-900" id="fpoType">—</dd></div>
+                                    <div class="flex justify-between"><dt class="text-gray-500">Account Status</dt><dd class="font-medium text-green-600" id="fpoStatus">Active</dd></div>
+                                    <div class="flex justify-between"><dt class="text-gray-500">Member Since</dt><dd class="font-medium text-gray-900" id="memberSince">—</dd></div>
+                                </dl>
+                            </div>
+                            <div class="bg-gray-50 rounded-xl p-6">
+                                <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2"><i class="fas fa-building text-organic"></i> Organization Information</h3>
+                                <dl class="space-y-3 text-sm">
+                                    <div class="flex justify-between"><dt class="text-gray-500">FPO Name</dt><dd class="font-medium text-gray-900" id="fpoNameDetail">—</dd></div>
+                                    <div class="flex justify-between"><dt class="text-gray-500">Account Type</dt><dd class="font-medium text-gray-900" id="fpoType">FPO</dd></div>
+                                    <div class="flex justify-between"><dt class="text-gray-500">Contact Person</dt><dd class="font-medium text-gray-900" id="contactPerson">—</dd></div>
+                                    <div class="flex justify-between"><dt class="text-gray-500">Phone</dt><dd class="font-medium text-gray-900" id="fpoPhone">—</dd></div>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="bg-green-50 border border-green-100 rounded-xl p-6">
+                            <h3 class="text-lg font-bold text-organic mb-3 flex items-center gap-2"><i class="fas fa-chart-line"></i> Quick Stats</h3>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                                <div class="bg-white rounded-lg p-4"><div class="text-2xl font-bold text-organic" id="statMembers">0</div><p class="text-xs text-gray-500 mt-1">Member Farms</p></div>
+                                <div class="bg-white rounded-lg p-4"><div class="text-2xl font-bold text-organic" id="statCrops">0</div><p class="text-xs text-gray-500 mt-1">Crop Aggregates</p></div>
+                                <div class="bg-white rounded-lg p-4"><div class="text-2xl font-bold text-organic" id="statEnquiries">0</div><p class="text-xs text-gray-500 mt-1">Buyer Enquiries</p></div>
+                                <div class="bg-white rounded-lg p-4"><div class="text-2xl font-bold text-organic" id="statContracts">0</div><p class="text-xs text-gray-500 mt-1">Contract Farming</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FPO Details Tab -->
+                <div id="panelFPO" class="profile-panel hidden space-y-6">
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2"><i class="fas fa-users text-organic"></i> FPO Details</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">FPO Name</label>
+                                <input type="text" id="fpoNameInput" placeholder="Your FPO name" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20" readonly>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">Registration Number</label>
+                                <input type="text" id="regNumberInput" placeholder="Registration number" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20" readonly>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">Legal Structure</label>
+                                <select id="legalStructureInput" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20" disabled>
+                                    <option value="">Select Legal Structure</option>
+                                    <option value="cooperative">Cooperative Society</option>
+                                    <option value="company">Producer Company</option>
+                                    <option value="society">Society</option>
+                                    <option value="trust">Trust</option>
+                                </select>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">Registration Date</label>
+                                <input type="date" id="regDateInput" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20" readonly>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">Registered Address</label>
+                                <textarea id="regAddressInput" rows="3" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20" readonly placeholder="Registered office address"></textarea>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">PAN</label>
+                                <input type="text" id="panInput" placeholder="PAN (optional)" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2"><i class="fas fa-map-marker-alt text-organic"></i> Registered Office Address</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">Address Line 1</label>
+                                <input type="text" id="addr1Input" placeholder="Building, Street, Area" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20" readonly>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">Address Line 2</label>
+                                <input type="text" id="addr2Input" placeholder="Village, Taluka (optional)" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20" readonly>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">District</label>
+                                <input type="text" id="districtInput" placeholder="District" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20" readonly>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">State</label>
+                                <select id="stateInput" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20" disabled>
+                                    <option value="">Select State</option>
+                                    <option value="maharashtra">Maharashtra</option>
+                                    <option value="gujarat">Gujarat</option>
+                                    <option value="karnataka">Karnataka</option>
+                                    <option value="tamil_nadu">Tamil Nadu</option>
+                                    <option value="delhi">Delhi</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">Postal Code</label>
+                                <input type="text" id="postalInput" placeholder="PIN Code" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20" readonly>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">Country</label>
+                                <input type="text" id="countryInput" value="India" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Member Farms Tab -->
+                <div id="panelMembers" class="profile-panel hidden space-y-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-bold text-gray-900 flex items-center gap-2"><i class="fas fa-users text-organic"></i> Member Farms</h3>
+                        <a href="fpo-dashboard.html#farms" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-organic text-white text-sm font-bold hover:bg-green-800 transition">
+                            <i class="fas fa-plus mr-2"></i> Add Member Farm
+                        </a>
+                    </div>
+                    <div id="memberFarms" class="space-y-4">
+                        <div class="text-center py-12 text-gray-500">
+                            <i class="fas fa-users text-3xl mb-3 text-gray-300"></i>
+                            <p>No member farms added yet.</p>
+                            <p class="text-sm mt-2">Add member farms to your FPO to manage collective organic certification and crop aggregation.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Crop Aggregates Tab -->
+                <div id="panelCrops" class="profile-panel hidden space-y-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-bold text-gray-900 flex items-center gap-2"><i class="fas fa-seedling text-organic"></i> Crop Aggregates</h3>
+                        <a href="fpo-dashboard.html#crops" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-organic text-white text-sm font-bold hover:bg-green-800 transition">
+                            <i class="fas fa-plus mr-2"></i> Add Crop Aggregate
+                        </a>
+                    </div>
+                    <div id="cropAggregates" class="space-y-4">
+                        <div class="text-center py-12 text-gray-500">
+                            <i class="fas fa-seedling text-3xl mb-3 text-gray-300"></i>
+                            <p>No crop aggregates added yet.</p>
+                            <p class="text-sm mt-2">Add crop aggregates to showcase collective production capacity to buyers.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contract Farming Tab -->
+                <div id="panelContract" class="profile-panel hidden space-y-6">
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2"><i class="fas fa-handshake text-organic"></i> Contract Farming Opportunities</h3>
+                        <p class="text-gray-600 text-sm mb-4">Manage and explore contract farming opportunities with buyers on behalf of member farms.</p>
+                        <a href="fpo-dashboard.html#contract-farming" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-organic text-white text-sm font-bold hover:bg-green-800 transition">
+                            <i class="fas fa-handshake mr-2"></i> View Contract Farming Opportunities
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Certification Tab -->
+                <div id="panelCertification" class="profile-panel hidden space-y-6">
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2"><i class="fas fa-certificate text-organic"></i> Organic Certification Details</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">Certification Standard</label>
+                                <select id="certStandardInput" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20" disabled>
+                                    <option value="">Select Standard</option>
+                                    <option value="npop">NPOP (India)</option>
+                                    <option value="nop">USDA NOP (USA)</option>
+                                    <option value="eu">EU Organic</option>
+                                    <option value="pgs">PGS-India</option>
+                                </select>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">Certification Body</label>
+                                <input type="text" id="certBodyInput" placeholder="e.g., Control Union, Ecocert, OneCert" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20" readonly>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">Certificate Number</label>
+                                <input type="text" id="certNumberInput" placeholder="Certificate No." class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20" readonly>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">Scope</label>
+                                <input type="text" id="certScopeInput" placeholder="e.g., Crop Production, Processing, Trading" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20" readonly>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">Issue Date</label>
+                                <input type="date" id="certIssueInput" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20" readonly>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">Expiry Date</label>
+                                <input type="date" id="certExpiryInput" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20" readonly>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">Certificate File</label>
+                                <input type="file" id="certFileInput" accept=".pdf,.jpg,.jpeg,.png" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20" disabled>
+                                <p class="text-xs text-gray-500 mt-1">Upload certificate copy (PDF/JPG/PNG, max 5MB)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border border-gray-100 rounded-xl p-6">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4">Verification Status</h3>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-clock text-yellow-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium text-gray-900">Under Review</p>
+                                <p class="text-sm text-gray-500">Your certification documents are being verified. This usually takes 3-5 business days.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Tab -->
+                <div id="panelContact" class="profile-panel hidden space-y-6">
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2"><i class="fas fa-address-book text-organic"></i> Contact Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">Contact Person</label>
+                                <input type="text" id="contactPersonInput" placeholder="Primary contact person" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20" readonly>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">Designation</label>
+                                <input type="text" id="designationInput" placeholder="e.g., CEO, Managing Director" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20" readonly>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">Email</label>
+                                <input type="email" id="contactEmailInput" placeholder="contact@fpo.com" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20" readonly>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">Phone</label>
+                                <input type="tel" id="contactPhoneInput" placeholder="+91 XXXXX XXXXX" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20" readonly>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">Alternate Phone</label>
+                                <input type="tel" id="altPhoneInput" placeholder="+91 XXXXX XXXXX (optional)" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20" readonly>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">Preferred Contact Method</label>
+                                <select id="prefContactInput" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20" disabled>
+                                    <option value="email">Email</option>
+                                    <option value="phone">Phone</option>
+                                    <option value="whatsapp">WhatsApp</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2"><i class="fas fa-bell text-organic"></i> Notification Preferences</h3>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3">
+                                <input type="checkbox" class="rounded text-organic focus:ring-organic" checked disabled>
+                                <span class="text-sm text-gray-700">Email notifications for new buyer enquiries</span>
+                            </label>
+                            <label class="flex items-center gap-3">
+                                <input type="checkbox" class="rounded text-organic focus:ring-organic" checked disabled>
+                                <span class="text-sm text-gray-700">Email notifications for new contract farming opportunities</span>
+                            </label>
+                            <label class="flex items-center gap-3">
+                                <input type="checkbox" class="rounded text-organic focus:ring-organic" disabled>
+                                <span class="text-sm text-gray-700">SMS notifications for urgent enquiries</span>
+                            </label>
+                            <label class="flex items-center gap-3">
+                                <input type="checkbox" class="rounded text-organic focus:ring-organic" disabled>
+                                <span class="text-sm text-gray-700">Weekly marketplace digest email</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-6 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 BHARAT ORGANIC MART. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/auth.js"></script>
+    <script>
+        // Profile page initialization
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Initialize auth header
+            if (window.headerManager) {
+                await headerManager.init();
+            }
+
+            // Load profile data
+            await loadProfileData();
+
+            // Initialize tabs
+            initProfileTabs();
+        });
+
+        async function loadProfileData() {
+            try {
+                const profile = await BOMAuth.profile();
+                if (!profile) return;
+
+                const user = await BOMAuth.currentUser();
+                if (!user) return;
+
+                // Update header info
+                document.getElementById('profileName').textContent = profile.full_name || user.email?.split('@')[0] || 'User';
+                document.getElementById('profileEmail').textContent = user.email || '—';
+                document.getElementById('profileRole').textContent = 'Farmer Producer Organization (FPO)';
+                document.getElementById('fpoName').textContent = profile.fpo_name || '—';
+                document.getElementById('fpoType').textContent = 'FPO';
+                document.getElementById('memberSince').textContent = profile.created_at ? new Date(profile.created_at).toLocaleDateString('en-IN', {year: 'numeric', month: 'long'}) : '—';
+                document.getElementById('contactPerson').textContent = profile.contact_person || '—';
+                document.getElementById('fpoPhone').textContent = profile.phone || '—';
+                document.getElementById('fpoNameDetail').textContent = profile.fpo_name || '—';
+                document.getElementById('contactPerson').textContent = profile.contact_person || '—';
+                document.getElementById('fpoPhone').textContent = profile.phone || '—';
+                document.getElementById('fpoNameInput').value = profile.fpo_name || '';
+                document.getElementById('regNumberInput').value = profile.reg_number || '';
+                document.getElementById('legalStructureInput').value = profile.legal_structure || '';
+                document.getElementById('regDateInput').value = profile.reg_date || '';
+                document.getElementById('regAddressInput').value = profile.reg_address || '';
+                document.getElementById('panInput').value = profile.pan || '';
+                document.getElementById('addr1Input').value = profile.address || '';
+                document.getElementById('districtInput').value = profile.district || '';
+                document.getElementById('stateInput').value = profile.state || '';
+                document.getElementById('postalInput').value = profile.postal_code || '';
+
+                // Calculate profile completion
+                const fields = ['full_name', 'fpo_name', 'reg_number', 'legal_structure', 'reg_date', 'reg_address', 'address', 'city', 'state', 'pan', 'website'];
+                const filled = fields.filter(f => profile[f]).length;
+                const completion = Math.round((filled / fields.length) * 100);
+                document.getElementById('completionPercent').textContent = completion + '%';
+                document.getElementById('completionPercentDisplay').textContent = completion + '%';
+                document.getElementById('completionBar').style.width = completion + '%';
+                document.getElementById('completionPercentDisplay').textContent = completion + '%';
+
+                // Load stats
+                loadStats();
+            } catch (err) {
+                console.error('Error loading profile:', err);
+            }
+        }
+
+        function loadStats() {
+            document.getElementById('statMembers').textContent = localStorage.getItem('statMembers') || '0';
+            document.getElementById('statCrops').textContent = localStorage.getItem('statCrops') || '0';
+            document.getElementById('statEnquiries').textContent = localStorage.getItem('statEnquiries') || '0';
+            document.getElementById('statContracts').textContent = localStorage.getItem('statContracts') || '0';
+        }
+
+        function initProfileTabs() {
+            const tabs = ['overview', 'fpo', 'members', 'crops', 'contract', 'certification', 'contact'];
+
+            window.switchProfileTab = function(tab) {
+                tabs.forEach(t => {
+                    document.getElementById('panel' + t.charAt(0).toUpperCase() + t.slice(1)).classList.add('hidden');
+                    document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1)).classList.remove('border-organic', 'text-organic');
+                    document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1)).classList.add('text-gray-500', 'hover:text-organic', 'hover:bg-gray-50');
+                });
+
+                document.getElementById('panel' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.remove('hidden');
+                document.getElementById('tab' + tab.charAt(0).toUpperCase() + t.slice(1)).classList.add('border-organic', 'text-organic');
+                document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1)).classList.remove('text-gray-500', 'hover:text-organic', 'hover:bg-gray-50');
+            };
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (window.headerManager) {
+                await headerManager.init();
+            }
+            await loadProfileData();
+            initProfileTabs();
+        });
+
+        window.BOMAuth = window.BOMAuth || {};
+        window.BOMAuth.signOut = window.BOMAuth.signOut || async function() {
+            const { sb } = await import('../js/auth.js');
+            await sb.auth.signOut();
+            window.location.href = 'login.html';
+        };
+    </script>
+</body>
+</html>

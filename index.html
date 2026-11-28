@@ -62,11 +62,11 @@
         <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
             <!-- Left: Logo -->
             <div class="flex items-center justify-start w-full md:w-1/4">
-                <img src="Logo 1.png" alt="BHARAT ORGANIC MART Logo" class="h-14 w-auto object-contain">
+                <a href="index.html"><img src="Logo 1.png" alt="BHARAT ORGANIC MART Logo" class="h-14 w-auto object-contain"></a>
             </div>
             <!-- Center: Title -->
             <div class="w-full md:w-2/4 text-center">
-                <h1 class="text-2xl md:text-3xl font-bold text-organic leading-tight uppercase tracking-tight">BHARAT ORGANIC MART</h1>
+                <a href="index.html"><h1 class="text-2xl md:text-3xl font-bold text-organic leading-tight uppercase tracking-tight">BHARAT ORGANIC MART</h1></a>
                 <p class="text-xs md:text-sm text-gray-500 uppercase tracking-widest mt-1">INDIA'S ORGANIC SUPPLY MARKETPLACE</p>
             </div>
             <!-- Right: Auth Buttons Container (managed by AuthHeaderManager) -->
@@ -346,88 +346,55 @@
             </svg>
 
             <div class="relative max-w-7xl mx-auto px-6 pt-16 pb-10 md:pt-24 md:pb-12">
-                <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10">
-                    <div class="max-w-3xl">
+                <div class="lg:grid lg:grid-cols-12 lg:gap-8 lg:items-start">
+                    <!-- Left Column - Content (65%) -->
+                    <div class="lg:col-span-8 min-w-0">
                         <span class="inline-flex items-center gap-2 text-[11px] md:text-xs font-bold uppercase tracking-[0.28em] text-green-300 mb-5">
                             <i class="fas fa-seedling"></i> Verified Organic B2B Marketplace
                         </span>
-                        <h1 class="text-4xl md:text-6xl font-extrabold leading-[1.08] tracking-tight">
-                            India's Trusted Marketplace for <span class="text-green-300">Certified Organic Trade</span>
-                        </h1>
-                        <p class="mt-5 text-base md:text-lg text-green-50/85 max-w-2xl leading-relaxed">
+                        <div class="mb-6">
+                            <div class="block whitespace-nowrap text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight text-white">
+                                India's Trusted Marketplace
+                            </div>
+                            <div class="block whitespace-nowrap text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight text-green-300">
+                                for <span class="text-green-300">Certified Organic Trade</span>
+                            </div>
+                        </div>
+                        <p class="mt-6 text-base md:text-lg text-green-50/85 max-w-xl leading-relaxed">
                             Connecting certified organic farmers, FPOs and processors with wholesale buyers across India and around the world.
                         </p>
                     </div>
 
-                    <div class="flex flex-col sm:flex-row gap-3 shrink-0">
-                        <a href="rfq-post.html" class="group inline-flex items-center gap-4 bg-white text-[#1E401D] pl-6 pr-5 py-4 rounded-full font-bold text-sm md:text-base shadow-xl hover:bg-green-50 transition">
-                            <span class="flex items-center gap-2.5"><i class="far fa-file-alt"></i> Post Requirement</span>
-                            <i class="fas fa-arrow-right text-xs transition group-hover:translate-x-1"></i>
-                        </a>
-                        <a href="post-listing.html" class="group inline-flex items-center gap-4 bg-white text-organic pl-6 pr-5 py-4 rounded-full font-bold text-sm md:text-base shadow-xl hover:bg-green-50 transition">
-                            <span class="flex items-center gap-2.5"><i class="fas fa-chart-column"></i> Start Selling</span>
-                            <i class="fas fa-arrow-right text-xs transition group-hover:translate-x-1"></i>
-                        </a>
-                    </div>
-
-            <!-- Hero section for Join Free / Login buttons -->
-            <section class="bg-gradient-to-r from-green-900 via-green-800 to-green-700 py-12 md:py-16">
-                <div class="max-w-7xl mx-auto px-6 text-center">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Ready to Join the Organic Marketplace?</h2>
-                    <p class="text-lg text-green-100 mb-8 max-w-2xl mx-auto">Connect with verified organic buyers and suppliers across India. Join thousands of organic businesses growing together.</p>
-                    <div class="flex flex-col sm:flex-row justify-center gap-4">
-                        <a href="login.html?tab=register" class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-lg font-bold text-[#8B4513] bg-white hover:bg-[#f5f5f0] transition-shadow hover:shadow-xl transform hover:-translate-y-0.5">
-                            <i class="fas fa-user-plus mr-2"></i> Join Free
-                        </a>
-                        <a href="login.html" class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-lg font-bold text-green-900 bg-white hover:bg-green-50 transition-shadow hover:shadow-xl transform hover:-translate-y-0.5">
-                            <i class="fas fa-sign-in-alt mr-2"></i> Login
-                        </a>
+                    <!-- Right Column - Buttons (35%) -->
+                    <div class="lg:col-span-4 flex justify-end mt-14 lg:mt-64">
+                        <div class="flex items-center gap-4">
+                            <a href="rfq-post.html" class="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full text-base font-bold text-[var(--organic-green)] bg-white hover:bg-green-50 transition shadow-sm whitespace-nowrap flex-shrink-0">
+                                <i class="fas fa-file-alt mr-2"></i> Post Requirement <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                            <a href="post-listing.html" class="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full text-base font-bold text-[var(--organic-green)] bg-white hover:bg-green-50 transition shadow-sm whitespace-nowrap flex-shrink-0">
+                                <i class="fas fa-chart-column mr-2"></i> Start Selling <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </section>
-
-            
-            <!-- Hero section for Join Free / Login buttons -->
-            <section class="bg-gradient-to-r from-green-900 via-green-800 to-green-700 py-12 md:py-16">
-                <div class="max-w-7xl mx-auto px-6 text-center">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Ready to Join the Organic Marketplace?</h2>
-                    <p class="text-lg text-green-100 mb-8 max-w-2xl mx-auto">Connect with verified organic buyers and suppliers across India. Join thousands of organic businesses growing together.</p>
-                    <div class="flex flex-col sm:flex-row justify-center gap-4">
-                        <a href="login.html?tab=register" class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-lg font-bold text-[#8B4513] bg-white hover:bg-[#f5f5f0] transition-shadow hover:shadow-xl transform hover:-translate-y-0.5">
-                            <i class="fas fa-user-plus mr-2"></i> Join Free
-                        </a>
-                        <a href="login.html" class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-lg font-bold text-green-900 bg-white hover:bg-green-50 transition-shadow hover:shadow-xl transform hover:-translate-y-0.5">
-                            <i class="fas fa-sign-in-alt mr-2"></i> Login
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            
-            
-            
-            
-            
-            
-                            </div>
 
                 <!-- LIVE PLATFORM STATS -->
-                <div class="mt-12 md:mt-16 pt-8 border-t border-white/20 grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-8">
-                    <div>
-                        <div id="statOperators" class="text-3xl md:text-4xl font-extrabold tracking-tight">—</div>
-                        <div class="mt-1 text-[11px] font-bold uppercase tracking-[0.18em] text-green-200/70">Operators Listed</div>
+                <div class="mt-10 md:mt-14 pt-8 border-t border-white/20 grid grid-cols-4 gap-4 md:gap-8">
+                    <div class="text-center">
+                        <div id="statOperators" class="text-4xl md:text-5xl font-extrabold tracking-tight text-white">34</div>
+                        <div class="mt-2 text-xs md:text-sm font-bold uppercase tracking-[0.15em] text-green-200/70">OPERATORS LISTED</div>
                     </div>
-                    <div>
-                        <div id="statProducts" class="text-3xl md:text-4xl font-extrabold tracking-tight">—</div>
-                        <div class="mt-1 text-[11px] font-bold uppercase tracking-[0.18em] text-green-200/70">Organic Products</div>
+                    <div class="text-center">
+                        <div id="statProducts" class="text-4xl md:text-5xl font-extrabold tracking-tight text-white">52</div>
+                        <div class="mt-2 text-xs md:text-sm font-bold uppercase tracking-[0.15em] text-green-200/70">ORGANIC PRODUCTS</div>
                     </div>
-                    <div>
-                        <div id="statStates" class="text-3xl md:text-4xl font-extrabold tracking-tight">—</div>
-                        <div class="mt-1 text-[11px] font-bold uppercase tracking-[0.18em] text-green-200/70">States Covered</div>
+                    <div class="text-center">
+                        <div id="statStates" class="text-4xl md:text-5xl font-extrabold tracking-tight text-white">7</div>
+                        <div class="mt-2 text-xs md:text-sm font-bold uppercase tracking-[0.15em] text-green-200/70">STATES COVERED</div>
                     </div>
-                    <div>
-                        <div id="statScopes" class="text-3xl md:text-4xl font-extrabold tracking-tight">—</div>
-                        <div class="mt-1 text-[11px] font-bold uppercase tracking-[0.18em] text-green-200/70">Certification Programs</div>
+                    <div class="text-center">
+                        <div id="statScopes" class="text-4xl md:text-5xl font-extrabold tracking-tight text-white">3</div>
+                        <div class="mt-2 text-xs md:text-sm font-bold uppercase tracking-[0.15em] text-green-200/70">CERTIFICATION PROGRAMS</div>
                     </div>
                 </div>
             </div>

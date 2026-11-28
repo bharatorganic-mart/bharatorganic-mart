@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service | BHARAT ORGANIC MART</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/auth.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --organic-green: #2D5A27; --organic-dark: #1E401D; --grey-green: #6B7280; }
+        .bg-organic { background-color: var(--organic-green); }
+        .text-organic { color: var(--organic-green); }
+        .border-organic { border-color: var(--organic-green); }
+        .hover-organic:hover { background-color: var(--organic-dark); }
+
+        /* Mega menu styles from index.html */
+        body { overflow-x: hidden; }
+        nav { position: relative; }
+        .mega-menu {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: calc(100% - 1px);
+            width: 100vw;
+            max-width: 100%;
+            box-sizing: border-box;
+            background: white;
+            border-bottom: 4px solid var(--organic-green);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding-top: 15px;
+            padding-bottom: 30px;
+        }
+        .group.is-open > button {
+            color: var(--organic-green) !important;
+            border-bottom-color: var(--organic-green) !important;
+        }
+        .group:hover .mega-menu { display: block; }
+        .group:hover > button {
+            color: var(--organic-green) !important;
+            border-bottom-color: var(--organic-green) !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-900">
+
+    <!-- 1. HEADER -->
+    <header class="bg-white py-4 border-b">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <!-- Left: Logo -->
+            <a href="index.html" class="flex items-center justify-start w-full md:w-1/4" aria-label="Go to Homepage">
+                <img src="Logo 1.png" alt="BHARAT ORGANIC MART Logo" class="h-14 w-auto object-contain">
+            </a>
+            <!-- Center: Title -->
+            <div class="w-full md:w-2/4 text-center">
+                <h1 class="text-2xl md:text-3xl font-bold text-organic leading-tight uppercase tracking-tight">BHARAT ORGANIC MART</h1>
+                <p class="text-xs md:text-sm text-gray-500 uppercase tracking-widest mt-1">INDIA'S ORGANIC SUPPLY MARKETPLACE</p>
+            </div>
+            <!-- Right: Auth Buttons Container -->
+            <div id="auth-buttons" class="hidden md:flex items-center justify-end gap-3 w-1/4">
+              <!-- Auth buttons will be injected here by AuthHeaderManager -->
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Toggle Button -->
+    <div class="md:hidden bg-white px-6 py-3 border-b flex justify-between items-center">
+        <span class="text-xs font-bold uppercase text-organic">Menu</span>
+        <div id="auth-buttons-mobile" class="flex items-center gap-2">
+          <!-- Mobile auth buttons will be injected here by AuthHeaderManager -->
+        </div>
+        <button onclick="toggleMobileNav()" class="text-gray-700 focus:outline-none ml-2">
+            <i class="fas fa-bars text-xl"></i>
+        </button>
+    </div>
+
+    <!-- 2. NAV -->
+    <nav id="mainNav" class="hidden md:block bg-white border-b shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-center md:space-x-6 py-2 md:py-4">
+            <!-- HOME -->
+            <a href="index.html" class="w-full md:w-auto text-center text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2">Home</a>
+
+            <!-- A. FIND ORGANIC PARTNERS -->
+            <div class="group w-full md:w-auto text-center">
+                <button class="w-full md:w-auto text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center justify-center gap-1">Find Organic Partners <i class="fas fa-chevron-down text-[10px]"></i></button>
+                <div class="mega-menu text-left">
+                    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div>
+                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Farmers & Producers</h4>
+                            <ul class="space-y-3 text-sm">
+                                <li><a href="directory/index.html?type=Individual%20Farmers" class="text-gray-600 hover:text-organic block py-0.5">1. Individual Farmers</a></li>
+                                <li><a href="directory/index.html?type=Grower%20Groups" class="text-gray-600 hover:text-organic block py-0.5">2. Grower Groups</a></li>
+                                <li><a href="directory/index.html?type=FPOs%20%26%20Cooperatives" class="text-gray-600 hover:text-organic block py-0.5">3. FPOs & Cooperatives</a></li>
+                                <li><a href="directory/index.html?type=Contract%20Farming" class="text-gray-600 hover:text-organic block py-0.5">4. Contract Farming</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Businesses</h4>
+                            <ul class="space-y-3 text-sm">
+                                <li><a href="directory/index.html?type=Processors%20%26%20Manufacturers" class="text-gray-600 hover:text-organic block py-0.5">1. Processors & Manufacturers</a></li>
+                                <li><a href="directory/index.html?type=Traders" class="text-gray-600 hover:text-organic block py-0.5">2. Traders</a></li>
+                                <li><a href="directory/index.html?type=Exporters" class="text-gray-600 hover:text-organic block py-0.5">3. Exporters</a></li>
+                                <li><a href="directory/index.html?type=Organic%20Suppliers" class="text-gray-600 hover:text-organic block py-0.5">4. Organic Suppliers</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Certification Bodies</h4>
+                            <ul class="space-y-3 text-sm">
+                                <li><a href="certification/npop-certification-bodies.html" class="text-gray-600 hover:text-organic block py-0.5">1. NPOP Certification Bodies</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">2. USDA Accredited Certifiers</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="max-w-7xl mx-auto px-6 border-t mt-8 pt-4 text-right">
+                        <a href="directory/index.html?type=all" class="text-xs font-bold text-organic hover:underline">Explore All Farmers & Producers &rarr;</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- B. MARKETPLACE -->
+            <div class="group w-full md:w-auto text-center">
+                <button class="w-full md:w-auto text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center justify-center gap-1">Marketplace <i class="fas fa-chevron-down text-[10px]"></i></button>
+                <div class="mega-menu text-left">
+                    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Buy & Sell</h4>
+                            <ul class="space-y-3 text-sm">
+                                <li><a href="directory/index.html?type=all" class="text-gray-600 hover:text-organic block py-0.5">1. Browse Organic Products</a></li>
+                                <li><a href="directory/index.html?type=Organic%20Suppliers" class="text-gray-600 hover:text-organic block py-0.5">2. Supplier Listings</a></li>
+                                <li><a href="rfq-post.html" class="text-gray-600 hover:text-organic block py-0.5">3. Buyer Requirements (RFQs)</a></li>
+                                <li><a href="post-listing.html" class="text-gray-600 hover:text-organic block py-0.5">4. Post Your Products</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Trade Network</h4>
+                            <ul class="space-y-3 text-sm">
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">1. Domestic Buyers</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">2. International Buyers</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">3. Trade Enquiries</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="max-w-7xl mx-auto px-6 border-t mt-8 pt-4 text-right">
+                        <a href="#" class="text-xs font-bold text-organic hover:underline">Explore All Marketplace Categories &rarr;</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- C. CERTIFICATION -->
+            <div class="group w-full md:w-auto text-center">
+                <button class="w-full md:w-auto text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center justify-center gap-1">Certification <i class="fas fa-chevron-down text-[10px]"></i></button>
+                <div class="mega-menu text-left">
+                    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Certification Database</h4>
+                            <ul class="space-y-3 text-sm">
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">1. NPOP Directory</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">2. USDA NOP Directory</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">3. PGS-India Resources</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">4. Certification Status Search</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Certification Support</h4>
+                            <ul class="space-y-3 text-sm">
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">1. How to Get Certified</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">2. ICS & Grower Group Certification</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">3. Certification Documents</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">4. Scope & Certificate Guidance</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="max-w-7xl mx-auto px-6 border-t mt-8 pt-4 text-right">
+                        <a href="#" class="text-xs font-bold text-organic hover:underline">Explore Certification Resources &rarr;</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- D. LEARNING CENTRE -->
+            <div class="group w-full md:w-auto text-center">
+                <button class="w-full md:w-auto text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center justify-center gap-1">Learning Centre <i class="fas fa-chevron-down text-[10px]"></i></button>
+                <div class="mega-menu text-left">
+                    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div>
+                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Organic Farming</h4>
+                            <ul class="space-y-3 text-sm">
+                                <li><a href="learning-centre/how-to-get-organic-certification-in-india.html" class="text-gray-600 hover:text-organic block py-0.5">1. How to Become an Organic Farmer</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">2. Organic Farming Methods</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">3. Organic Fertilizers</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">4. Pest Management</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">5. Organic Seeds & Inputs</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Organic Farm Management</h4>
+                            <ul class="space-y-3 text-sm">
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">1. Soil Health & Management</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">2. Crop Rotation & Diversification</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">3. Organic Farm Planning</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">4. Conversion to Organic Farming</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Business & Processing</h4>
+                            <ul class="space-y-3 text-sm">
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">1. Organic Processing Guides</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">2. Storage & Handling</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">3. Traceability & Recordkeeping</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">4. Organic Export Guide</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">5. Packaging & Labelling Requirements</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="max-w-7xl mx-auto px-6 border-t mt-8 pt-4 text-right">
+                        <a href="#" class="text-xs font-bold text-organic hover:underline">Visit Learning Centre &rarr;</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- E. SERVICES -->
+            <div class="group w-full md:w-auto text-center">
+                <button class="w-full md:w-auto text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center justify-center gap-1">Services <i class="fas fa-chevron-down text-[10px]"></i></button>
+                <div class="mega-menu text-left">
+                    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Professional Services</h4>
+                            <ul class="space-y-3 text-sm">
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">1. Certification Consultants</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">2. Testing Laboratories</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">3. Inspection Services</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">4. Organic Experts</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Supply Chain</h4>
+                            <ul class="space-y-3 text-sm">
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">1. Logistics Partners</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">2. Packaging Suppliers</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">3. Organic Inputs & Seeds Suppliers</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">4. Processing Facilities</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="max-w-7xl mx-auto px-6 border-t mt-8 pt-4 text-right">
+                        <a href="#" class="text-xs font-bold text-organic hover:underline">Explore All Services &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Toggle Button -->
+    <div class="md:hidden bg-white px-6 py-3 border-b flex justify-between items-center">
+        <span class="text-xs font-bold uppercase text-organic">Menu</span>
+        <div id="auth-buttons-mobile" class="flex items-center gap-2">
+          <!-- Mobile auth buttons will be injected here by AuthHeaderManager -->
+        </div>
+        <button onclick="toggleMobileNav()" class="text-gray-700 focus:outline-none ml-2">
+            <i class="fas fa-bars text-xl"></i>
+        </button>
+    </div>
+
+    <main>
+        <section class="bg-white py-12 md:py-20">
+            <div class="max-w-4xl mx-auto px-6">
+                <!-- Breadcrumb -->
+                <nav class="mb-8" aria-label="Breadcrumb">
+                    <ol class="flex items-center gap-2 text-sm text-gray-500">
+                        <li><a href="index.html" class="hover:text-organic transition-colors">Home</a></li>
+                        <li><i class="fas fa-chevron-right text-[10px]"></i></li>
+                        <li class="text-gray-900 font-medium">Terms of Service</li>
+                    </ol>
+                </nav>
+
+                <!-- Page Header -->
+                <header class="mb-12">
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Terms of Service</h1>
+                    <p class="text-lg text-gray-600 max-w-3xl">Last updated: November 2026</p>
+                </header>
+
+                <div class="prose prose-lg max-w-none text-gray-700 space-y-10">
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">1. Introduction and Acceptance</h2>
+                        <p>Welcome to Bharat Organic Mart ("Platform", "we", "us", "our"), India's dedicated B2B organic marketplace connecting certified organic farmers, Farmer Producer Organizations (FPOs), Internal Control System (ICS) groups, processors, manufacturers, suppliers, traders, buyers, importers, and exporters. By accessing or using our Platform, you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, you may not use the Platform.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">2. Definitions</h2>
+                        <dl class="space-y-3">
+                            <dt class="font-semibold">"Platform"</dt>
+                            <dd>The Bharat Organic Mart website, mobile applications, and associated services.</dd>
+                            <dt class="font-semibold">"User"</dt>
+                            <dd>Any individual or entity that registers, accesses, or uses the Platform.</dd>
+                            <dt class="font-semibold">"Account"</dt>
+                            <dd>The user profile created upon registration, including all associated data and credentials.</dd>
+                            <dt class="font-semibold">"Listing"</dt>
+                            <dd>Any product, crop, service, or requirement posted by a User on the Platform.</dd>
+                            <dt class="font-semibold">"Certification"</dt>
+                            <dd>Valid organic certification from recognized bodies (NPOP, NOP, EU Organic, PGS-India, etc.) as applicable to the User's listings.</dd>
+                            <dt class="font-semibold">"Enquiry"</dt>
+                            <dd>A business inquiry initiated by a buyer or supplier through the Platform.</dd>
+                        </dl>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">3. Account Registration and Eligibility</h2>
+                        <p class="mb-4"><strong>3.1 Registration.</strong> To access certain features of the Platform, you must register for an Account. You must provide accurate, current, and complete information during registration and keep it updated.</p>
+                        <p class="mb-4"><strong>3.2 Eligibility.</strong> You must be at least 18 years old and legally capable of entering into contracts under Indian law. Organizations must be duly registered under applicable Indian laws (Companies Act, Societies Registration Act, Cooperative Societies Act, etc.).</p>
+                        <p class="mb-4"><strong>3.3 Account Types.</strong> You must select an appropriate account type during registration: Individual Farmer, FPO, ICS Group, Processor/Manufacturer, Supplier/Trader, Buyer, or Importer/Exporter. Your account type determines the features available to you.</p>
+                        <p class="mb-4"><strong>3.4 Account Security.</strong> You are responsible for maintaining the confidentiality of your login credentials and for all activities under your Account. Notify us immediately of any unauthorized use.</p>
+                        <p class="mb-4"><strong>3.5 Verification.</strong> We reserve the right to verify your identity, business registration, and organic certification documents. We may suspend or terminate Accounts that provide false or misleading information.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">4. User Responsibilities and Accurate Information</h2>
+                        <p class="mb-4"><strong>4.1 Accurate Information.</strong> You must provide truthful, accurate, and complete information in your Account profile, Listings, Enquiries, and all communications on the Platform.</p>
+                        <p class="mb-4"><strong>4.2 Business Information.</strong> You must accurately represent your business entity, registration details, contact information, and operational capacity.</p>
+                        <p class="mb-4"><strong>4.3 Prohibited Conduct.</strong> You agree not to: (a) provide false or misleading information; (b) impersonate any person or entity; (c) interfere with the Platform's operation; (d) harvest data or scrape content; (e) use the Platform for any unlawful purpose; (f) transmit viruses or harmful code.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">5. Organic Certification Claims and Certificate Accuracy</h2>
+                        <p class="mb-4"><strong>5.1 Certification Requirements.</strong> Any Listing claiming organic status must be backed by valid, current organic certification from a recognized certification body (e.g., NPOP, NOP/USDA Organic, EU Organic, COR, PGS-India). You must disclose the certification body, certificate number, scope, and validity period.</p>
+                        <p class="mb-4"><strong>5.2 Certificate Accuracy.</strong> You are solely responsible for the accuracy and validity of all certification information displayed in your Listings and profile. Expired, suspended, or revoked certificates must be removed or updated immediately.</p>
+                        <p class="mb-4"><strong>5.3 Verification.</strong> We may verify certification claims through certification bodies or public registries. Listings with unverifiable or fraudulent certification claims may be removed without notice.</p>
+                        <p class="mb-4"><strong>5.4 No Endorsement.</strong> Display of certification information on the Platform does not constitute endorsement or guarantee by Bharat Organic Mart. We are not a certification body.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">6. Product Listings and Buyer Requirements</h2>
+                        <p class="mb-4"><strong>6.1 Listings.</strong> Sellers (farmers, FPOs, processors, suppliers, traders, exporters) may post Listings for organic products including crops, processed foods, seeds, inputs, and services. Listings must include accurate product descriptions, quantities, pricing indications, certification details, and origin information.</p>
+                        <p class="mb-4"><strong>6.2 Buyer Requirements (RFQs).</strong> Buyers (importers, wholesalers, processors, retailers) may post requirements specifying product needs, quantities, quality standards, certification requirements, delivery terms, and timelines.</p>
+                        <p class="mb-4"><strong>6.3 Accuracy.</strong> All Listings and Requirements must be accurate, current, and not misleading. Outdated or fulfilled Listings/Requirements must be updated or removed promptly.</p>
+                        <p class="mb-4"><strong>6.4 Prohibited Listings.</strong> Non-organic products, prohibited substances, genetically modified organisms (unless permitted under applicable organic standards), and items violating Indian law are prohibited.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">7. Enquiries and Business Transactions</h2>
+                        <p class="mb-4"><strong>7.1 Platform Role.</strong> Bharat Organic Mart is a marketplace intermediary. We facilitate connections between buyers and sellers but are not a party to any transaction, contract, or agreement between Users.</p>
+                        <p class="mb-4"><strong>7.2 Enquiries.</strong> Users may send Enquiries through the Platform. You are responsible for the content of your Enquiries and responses. We do not guarantee responses or outcomes.</p>
+                        <p class="mb-4"><strong>7.3 Transactions.</strong> All commercial terms (price, quantity, quality, delivery, payment, logistics, certificates, insurance, disputes) are negotiated and agreed solely between the transacting parties. We do not process payments, handle logistics, or guarantee performance.</p>
+                        <p class="mb-4"><strong>7.3 Good Faith.</strong> Users must conduct Enquiries and negotiations in good faith. Spam, fraudulent enquiries, and bad-faith negotiations are prohibited.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">8. Platform's Role as Marketplace Intermediary</h2>
+                        <p class="mb-4">Bharat Organic Mart is an online marketplace intermediary under the Information Technology Act, 2000, and applicable rules. We provide a platform for Users to connect, list products, post requirements, and communicate. We do not:</p>
+                        <ul class="list-disc pl-6 space-y-2 mb-4">
+                            <li>Buy, sell, or take possession of any products</li>
+                            <li>Set prices, quantities, or commercial terms</li>
+                            <li>Process payments or handle funds</li>
+                            <li>Arrange logistics, shipping, or customs clearance</li>
+                            <li>Issue certificates of origin, phytosanitary certificates, or transaction certificates</li>
+                            <li>Guarantee the performance, quality, or delivery of any transaction</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">9. Prohibited Activities and Misleading Claims</h2>
+                        <p class="mb-4">You agree not to engage in any of the following on the Platform:</p>
+                        <ul class="list-disc pl-6 space-y-2 mb-4">
+                            <li>Making false or unverifiable organic certification claims</li>
+                            <li>Misrepresenting product origin, quality, quantity, or certification status</li>
+                            <li>Using deceptive pricing, bait-and-switch tactics, or hidden charges</li>
+                            <li>Posting duplicate, spam, or irrelevant Listings/Requirements</li>
+                            <li>Harvesting User data for unauthorized purposes</li>
+                            <li>Attempting to bypass Platform fees or take transactions off-platform to avoid fees (if applicable)</li>
+                            <li>Defaming, harassing, or threatening other Users</li>
+                            <li>Violating any applicable Indian law, including the Food Safety and Standards Act, 2006, the Agricultural Produce (Grading and Marking) Act, 1937, and the Consumer Protection Act, 2019</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">10. Listing Moderation and Account Suspension</h2>
+                        <p class="mb-4"><strong>10.1 Moderation.</strong> We reserve the right to review, edit, remove, or reject any Listing, Requirement, Enquiry, or profile content that violates these Terms or appears misleading, inaccurate, or incomplete.</p>
+                        <p class="mb-4"><strong>10.2 Suspension.</strong> We may suspend or terminate your Account and access to the Platform for: (a) repeated violations of these Terms; (b) fraudulent or illegal activity; (c) non-response to verification requests; (d) prolonged inactivity; (d) court or government orders.</p>
+                        <p class="mb-4"><strong>10.3 Appeal.</strong> You may appeal a suspension or termination by contacting us at the grievance contact below. We will review appeals in good faith but are not obligated to reinstate access.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">11. Limitation of Liability</h2>
+                        <p class="mb-4">TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW:</p>
+                        <ul class="list-disc pl-6 space-y-2 mb-4">
+                            <li>Bharat Organic Mart and its directors, officers, employees, and affiliates shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, business opportunities, or goodwill.</li>
+                            <li>Our total aggregate liability for any claims arising from or related to these Terms or the Platform shall not exceed the greater of (a) fees paid by you to us in the 12 months preceding the claim, or (b) ₹10,000.</li>
+                            <li>We are not liable for any transactions, disputes, or losses arising between Users, including non-delivery, quality disputes, payment defaults, or certification disputes.</li>
+                            <li>We do not warrant that the Platform will be uninterrupted, error-free, or free from viruses.</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">12. Intellectual Property</h2>
+                        <p class="mb-4"><strong>12.1 Platform IP.</strong> All content, design, code, trademarks, logos, and intellectual property of the Platform (excluding User Content) are owned by or licensed to Bharat Organic Mart.</p>
+                        <p class="mb-4"><strong>12.2 User Content License.</strong> By posting content on the Platform, you grant us a worldwide, non-exclusive, royalty-free, sublicensable license to use, display, reproduce, and distribute your content for the purpose of operating and promoting the Platform.</p>
+                        <p class="mb-4"><strong>12.3 User Representations.</strong> You represent that you own or have rights to all content you post and that it does not infringe any third-party intellectual property rights.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">13. Changes to Terms</h2>
+                        <p class="mb-4">We may modify these Terms at any time. Material changes will be communicated via email or Platform notification at least 30 days before taking effect. Continued use of the Platform after changes take effect constitutes acceptance of the revised Terms.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">14. Governing Law and Dispute Resolution</h2>
+                        <p class="mb-4">These Terms shall be governed by and construed in accordance with the laws of India. Any disputes arising from these Terms or the Platform shall be subject to the exclusive jurisdiction of the courts in [City/State to be confirmed], India.</p>
+                        <p class="mb-4">Before initiating formal proceedings, parties agree to attempt good-faith negotiation for 30 days, followed by mediation if necessary.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">15. Contact and Grievance Information</h2>
+                        <p class="mb-4">For questions, grievances, or notices regarding these Terms or the Platform:</p>
+                        <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 mb-4">
+                            <p class="font-semibold mb-2">Bharat Organic Mart</p>
+                            <p>[Company Legal Name to be Confirmed]</p>
+                            <p>[Registered Office Address to be Confirmed]</p>
+                            <p>Email: <a href="mailto:legal@bharatorganicmart.com" class="text-organic hover:underline">legal@bharatorganicmart.com</a></p>
+                            <p>Grievance Officer: [Name to be Confirmed]</p>
+                            <p>Grievance Email: <a href="mailto:grievance@bharatorganicmart.com" class="text-organic hover:underline">grievance@bharatorganicmart.com</a></p>
+                        </div>
+                        <p class="text-sm text-gray-500"><em>Note: Company legal details, registered office address, and grievance officer details are to be confirmed and updated before publication.</em></p>
+                    </section>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Load auth header
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (window.headerManager) {
+                await headerManager.init();
+            }
+        });
+    </script>
+
+    <footer class="bg-white border-t py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-6 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 BHARAT ORGANIC MART. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        function toggleMobileNav() {
+            const nav = document.getElementById('mainNav');
+            nav.classList.toggle('hidden');
+        }
+
+        (function () {
+            var groups = document.querySelectorAll('.group');
+            var closeTimer = null;
+            var CLOSE_DELAY = 200;
+
+            function clearTimer() {
+                if (closeTimer) {
+                    clearTimeout(closeTimer);
+                    closeTimer = null;
+                }
+            }
+
+            function openMenu(group) {
+                clearTimer();
+                groups.forEach(function (g) {
+                    g.classList.remove('is-open');
+                    var m = g.querySelector('.mega-menu');
+                    if (m) m.style.display = 'none';
+                });
+                group.classList.add('is-open');
+                var menu = group.querySelector('.mega-menu');
+                if (menu) menu.style.display = 'block';
+            }
+
+            function closeMenu(group) {
+                clearTimer();
+                group.classList.remove('is-open');
+                var menu = group.querySelector('.mega-menu');
+                if (menu) menu.style.display = 'none';
+            }
+
+            groups.forEach(function (group) {
+                var trigger = group.querySelector('button, a');
+                var menu = group.querySelector('.mega-menu');
+
+                group.addEventListener('pointerenter', function () {
+                    clearTimer();
+                    openMenu(group);
+                });
+
+                group.addEventListener('pointerleave', function () {
+                    clearTimer();
+                    closeTimer = setTimeout(function () {
+                        closeMenu(group);
+                    }, CLOSE_DELAY);
+                });
+            });
+
+            document.getElementById('mainNav').addEventListener('pointerenter', function () {
+                clearTimer();
+            });
+        })();
+    </script>
+</body>
+</html>

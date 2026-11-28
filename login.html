@@ -26,15 +26,15 @@
     <!-- 1. HEADER -->
     <header class="bg-white py-4 border-b">
         <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-            <!-- Left: Logo -->
-            <div class="flex items-center justify-start w-full md:w-1/4">
-                <img src="Logo 1.png" alt="BHARAT ORGANIC MART Logo" class="h-14 w-auto object-contain">
-            </div>
-            <!-- Center: Title -->
-            <div class="w-full md:w-2/4 text-center">
-                <h1 class="text-2xl md:text-3xl font-bold text-organic leading-tight uppercase tracking-tight">BHARAT ORGANIC MART</h1>
-                <p class="text-xs md:text-sm text-gray-500 uppercase tracking-widest mt-1">INDIA'S ORGANIC SUPPLY MARKETPLACE</p>
-            </div>
+            <!-- Left: Clickable Logo -->
+            <a href="index.html" class="flex items-center justify-start w-full md:w-1/4" aria-label="Go to Homepage">
+                <img src="Logo 1.png" alt="BHARAT ORGANIC MART Logo" class="h-14 w-auto object-contain transition-transform hover:scale-105">
+            </a>
+            <!-- Center: Clickable Brand Name & Tagline -->
+            <a href="index.html" class="w-full md:w-2/4 text-center group" aria-label="Go to Homepage">
+                <h1 class="text-2xl md:text-3xl font-bold text-organic leading-tight uppercase tracking-tight group-hover:text-organic/80 transition-colors">BHARAT ORGANIC MART</h1>
+                <p class="text-xs md:text-sm text-gray-500 uppercase tracking-widest mt-1 group-hover:text-organic/60 transition-colors">INDIA'S ORGANIC SUPPLY MARKETPLACE</p>
+            </a>
             <!-- Right: Auth Buttons Container (managed by AuthHeaderManager) -->
             <div id="auth-buttons" class="hidden md:flex items-center justify-end gap-3 w-1/4">
               <!-- Auth buttons will be injected here by AuthHeaderManager -->
@@ -53,31 +53,31 @@
         </button>
     </div>
 
-    <div class="flex-grow">
-        <div class="max-w-4xl mx-auto px-6 py-12">
+    <div class="flex-grow flex items-center justify-center py-8">
+        <div class="max-w-md w-full px-4">
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
 
                 <!-- Tab Navigation -->
-                <div class="grid grid-cols-2 border-b">
-                    <button id="tabLogin" onclick="switchTab('login')" class="tab-btn py-5 text-center text-sm font-bold text-organic bg-white border-b-2 border-organic">Login</button>
-                    <button id="tabRegister" onclick="switchTab('register')" class="tab-btn py-5 text-center text-sm font-bold text-gray-500 hover:text-gray-900 transition bg-gray-50">Register</button>
+                <div class="grid grid-cols-2 border-b border-gray-200">
+                    <button id="tabLogin" onclick="switchTab('login')" class="tab-btn py-5 text-center text-sm font-bold text-organic bg-white border-b-2 border-organic focus:outline-none focus:ring-2 focus:ring-organic focus:ring-offset-2">Login</button>
+                    <button id="tabRegister" onclick="switchTab('register')" class="tab-btn py-5 text-center text-sm font-bold text-gray-500 hover:text-organic hover:bg-gray-50 transition bg-white border-b-2 border-transparent focus:outline-none focus:ring-2 focus:ring-organic focus:ring-offset-2">Register</button>
                 </div>
 
                 <!-- Login Form (Password) -->
-                <div id="loginForm" class="p-8 space-y-6">
+                <div id="loginForm" class="p-8 space-y-5">
                     <div class="text-center">
-                        <h2 class="text-2xl font-bold text-gray-900 mb-2">Welcome back</h2>
+                        <h2 class="text-xl font-bold text-gray-900 mb-1">Welcome back</h2>
                         <p class="text-gray-500 text-sm">Sign in with your email and password</p>
                     </div>
 
-                    <form id="formLogin" onsubmit="handleLogin(event)" class="space-y-5">
-                        <div class="space-y-2">
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Email Address</label>
+                    <form id="formLogin" onsubmit="handleLogin(event)" class="space-y-4">
+                        <div class="space-y-1.5">
+                            <label class="block text-xs font-bold text-gray-500 uppercase">Email Address</label>
                             <input type="email" id="loginEmail" placeholder="you@example.com" required
                                 class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20">
                         </div>
-                        <div class="space-y-2">
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Password</label>
+                        <div class="space-y-1.5">
+                            <label class="block text-xs font-bold text-gray-500 uppercase">Password</label>
                             <input type="password" id="loginPassword" placeholder="••••••••" required
                                 class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20">
                         </div>
@@ -118,44 +118,52 @@
                 </div>
 
                 <!-- Register Form -->
-                <div id="registerForm" class="hidden p-8 space-y-6">
+                <div id="registerForm" class="hidden p-8 space-y-5">
                     <div class="text-center">
-                        <h2 class="text-2xl font-bold text-gray-900 mb-2">Join the marketplace</h2>
-                        <p class="text-gray-500 text-sm">Create your free organic supplier account</p>
+                        <h2 class="text-xl font-bold text-gray-900 mb-1">Join the marketplace</h2>
+                        <p class="text-gray-500 text-sm">Create your free account to join India's organic B2B marketplace.</p>
                     </div>
 
-                    <form id="formRegister" onsubmit="handleRegister(event)" class="space-y-5">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                            <div class="space-y-2">
-                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Full Name</label>
+                    <form id="formRegister" onsubmit="handleRegister(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">Full Name</label>
                                 <input type="text" id="regName" placeholder="Rajesh Kumar" required
                                     class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20">
                             </div>
-                            <div class="space-y-2">
-                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Email Address</label>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold text-gray-500 uppercase">Email Address</label>
                                 <input type="email" id="regEmail" placeholder="you@example.com" required
                                     class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20">
                             </div>
                         </div>
-                        <div class="space-y-2">
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Password</label>
-                            <input type="password" id="regPassword" placeholder="••••••••" required
-                                class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20">
+                        <div class="space-y-1.5 relative">
+                            <label class="block text-xs font-bold text-gray-500 uppercase">Password</label>
+                            <div class="relative">
+                                <input type="password" id="regPassword" placeholder="••••••••" required
+                                    class="w-full border rounded-lg px-4 py-3 text-sm pr-12 focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20">
+                                <button type="button" onclick="togglePasswordVisibility('regPassword', 'toggleRegPasswordIcon')" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-organic transition-colors" aria-label="Toggle password visibility">
+                                    <i id="toggleRegPasswordIcon" class="fas fa-eye"></i>
+                                </button>
+                            </div>
                         </div>
-                        <div class="space-y-2">
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Account Type</label>
-                            <select id="regAccountType" class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20">
+                        <div class="space-y-1.5">
+                            <label class="block text-xs font-bold text-gray-500 uppercase">Account Type</label>
+                            <select id="regAccountType" required class="w-full border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-organic focus:ring-2 focus:ring-organic/20">
+                                <option value="">Select Account Type</option>
                                 <option value="farmer">Individual Farmer</option>
-                                <option value="group">Grower Group / FPO</option>
+                                <option value="fpo">FPO</option>
+                                <option value="ics_group">ICS Group</option>
                                 <option value="processor">Processor / Manufacturer</option>
-                                <option value="trader">Trader / Supplier</option>
-                                <option value="buyer">Buyer / Importer</option>
+                                <option value="supplier">Supplier / Trader</option>
+                                <option value="buyer">Buyer</option>
+                                <option value="importer">Importer / Exporter</option>
                             </select>
                         </div>
                         <div class="flex items-center gap-2">
                             <input type="checkbox" id="regTerms" required class="rounded text-organic focus:ring-organic">
                             <label for="regTerms" class="text-sm text-gray-600">
-                                I agree to the <a href="#" class="text-organic font-medium hover:underline">Terms of Service</a>
+                                I agree to the <a href="terms.html" class="text-organic font-medium hover:underline">Terms of Service</a> and <a href="privacy.html" class="text-organic font-medium hover:underline">Privacy Policy</a>.
                             </label>
                         </div>
                         <button type="submit" id="btnRegister" class="w-full bg-organic text-white py-3.5 rounded-lg font-bold text-sm hover:shadow-lg hover:shadow-organic/30 transition">
@@ -200,27 +208,7 @@
                     </button>
                 </div>
 
-                <div class="px-8 my-6 relative">
-                <div class="px-8 my-6 relative">
-                    <div class="absolute inset-0 flex items-center">
-                        <span class="w-full border-t border-gray-200"></span>
-                    </div>
-                    <span class="relative text-xs font-bold text-gray-400 uppercase px-3 bg-white">Or continue with</span>
-                </div>
-
-                <!-- Social Login -->
-                <div class="px-8 pb-8 space-y-4">
-                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider px-3">Coming soon</p>
-                    <button class="w-full flex items-center justify-center gap-3 py-3 border border-gray-200 rounded-lg text-gray-400 font-medium text-sm hover:bg-gray-50 transition flex-col md:flex-row" disabled>
-                        <i class="fab fa-google text-gray-300"></i>
-                        <span>Continue with Google</span>
-                    </button>
-                    <button class="w-full flex items-center justify-center gap-3 py-3 border border-gray-200 rounded-lg text-gray-400 font-medium text-sm hover:bg-gray-50 transition flex-col md:flex-row" disabled>
-                        <i class="fab fa-facebook text-gray-300"></i>
-                        <span>Continue with Facebook</span>
-                    </button>
-                </div>
-
+                
             </div>
         </div>
     </div>
@@ -281,6 +269,23 @@
 
         // Initialize tab from URL on load
         document.addEventListener('DOMContentLoaded', initTabFromURL);
+
+        // ========================================================================
+        // Password visibility toggle
+        // ========================================================================
+        function togglePasswordVisibility(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
 
         // ========================================================================
         // Form helpers

@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | BHARAT ORGANIC MART</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/auth.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --organic-green: #2D5A27; --organic-dark: #1E401D; --grey-green: #6B7280; }
+        .bg-organic { background-color: var(--organic-green); }
+        .text-organic { color: var(--organic-green); }
+        .border-organic { border-color: var(--organic-green); }
+        .hover-organic:hover { background-color: var(--organic-dark); }
+
+        /* Mega menu styles from index.html */
+        body { overflow-x: hidden; }
+        nav { position: relative; }
+        .mega-menu {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: calc(100% - 1px);
+            width: 100vw;
+            max-width: 100%;
+            box-sizing: border-box;
+            background: white;
+            border-bottom: 4px solid var(--organic-green);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding-top: 15px;
+            padding-bottom: 30px;
+        }
+        .group.is-open > button {
+            color: var(--organic-green) !important;
+            border-bottom-color: var(--organic-green) !important;
+        }
+        .group:hover .mega-menu { display: block; }
+        .group:hover > button {
+            color: var(--organic-green) !important;
+            border-bottom-color: var(--organic-green) !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-900">
+
+    <!-- 1. HEADER -->
+    <header class="bg-white py-4 border-b">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <!-- Left: Logo -->
+            <a href="index.html" class="flex items-center justify-start w-full md:w-1/4" aria-label="Go to Homepage">
+                <img src="Logo 1.png" alt="BHARAT ORGANIC MART Logo" class="h-14 w-auto object-contain">
+            </a>
+            <!-- Center: Title -->
+            <div class="w-full md:w-2/4 text-center">
+                <h1 class="text-2xl md:text-3xl font-bold text-organic leading-tight uppercase tracking-tight">BHARAT ORGANIC MART</h1>
+                <p class="text-xs md:text-sm text-gray-500 uppercase tracking-widest mt-1">INDIA'S ORGANIC SUPPLY MARKETPLACE</p>
+            </div>
+            <!-- Right: Auth Buttons Container -->
+            <div id="auth-buttons" class="hidden md:flex items-center justify-end gap-3 w-1/4">
+              <!-- Auth buttons will be injected here by AuthHeaderManager -->
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Toggle Button -->
+    <div class="md:hidden bg-white px-6 py-3 border-b flex justify-between items-center">
+        <span class="text-xs font-bold uppercase text-organic">Menu</span>
+        <div id="auth-buttons-mobile" class="flex items-center gap-2">
+          <!-- Mobile auth buttons will be injected here by AuthHeaderManager -->
+        </div>
+        <button onclick="toggleMobileNav()" class="text-gray-700 focus:outline-none ml-2">
+            <i class="fas fa-bars text-xl"></i>
+        </button>
+    </div>
+
+    <!-- 2. NAV -->
+    <nav id="mainNav" class="hidden md:block bg-white border-b shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-center md:space-x-6 py-2 md:py-4">
+            <!-- HOME -->
+            <a href="index.html" class="w-full md:w-auto text-center text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2">Home</a>
+
+            <!-- A. FIND ORGANIC PARTNERS -->
+            <div class="group w-full md:w-auto text-center">
+                <button class="w-full md:w-auto text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center justify-center gap-1">Find Organic Partners <i class="fas fa-chevron-down text-[10px]"></i></button>
+                <div class="mega-menu text-left">
+                    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div>
+                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Farmers & Producers</h4>
+                            <ul class="space-y-3 text-sm">
+                                <li><a href="directory/index.html?type=Individual%20Farmers" class="text-gray-600 hover:text-organic block py-0.5">1. Individual Farmers</a></li>
+                                <li><a href="directory/index.html?type=Grower%20Groups" class="text-gray-600 hover:text-organic block py-0.5">2. Grower Groups</a></li>
+                                <li><a href="directory/index.html?type=FPOs%20%26%20Cooperatives" class="text-gray-600 hover:text-organic block py-0.5">3. FPOs & Cooperatives</a></li>
+                                <li><a href="directory/index.html?type=Contract%20Farming" class="text-gray-600 hover:text-organic block py-0.5">4. Contract Farming</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Businesses</h4>
+                            <ul class="space-y-3 text-sm">
+                                <li><a href="directory/index.html?type=Processors%20%26%20Manufacturers" class="text-gray-600 hover:text-organic block py-0.5">1. Processors & Manufacturers</a></li>
+                                <li><a href="directory/index.html?type=Traders" class="text-gray-600 hover:text-organic block py-0.5">2. Traders</a></li>
+                                <li><a href="directory/index.html?type=Exporters" class="text-gray-600 hover:text-organic block py-0.5">3. Exporters</a></li>
+                                <li><a href="directory/index.html?type=Organic%20Suppliers" class="text-gray-600 hover:text-organic block py-0.5">4. Organic Suppliers</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Certification Bodies</h4>
+                            <ul class="space-y-3 text-sm">
+                                <li><a href="certification/npop-certification-bodies.html" class="text-gray-600 hover:text-organic block py-0.5">1. NPOP Certification Bodies</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">2. USDA Accredited Certifiers</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="max-w-7xl mx-auto px-6 border-t mt-8 pt-4 text-right">
+                        <a href="directory/index.html?type=all" class="text-xs font-bold text-organic hover:underline">Explore All Farmers & Producers &rarr;</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- B. MARKETPLACE -->
+            <div class="group w-full md:w-auto text-center">
+                <button class="w-full md:w-auto text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center justify-center gap-1">Marketplace <i class="fas fa-chevron-down text-[10px]"></i></button>
+                <div class="mega-menu text-left">
+                    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Buy & Sell</h4>
+                            <ul class="space-y-3 text-sm">
+                                <li><a href="directory/index.html?type=all" class="text-gray-600 hover:text-organic block py-0.5">1. Browse Organic Products</a></li>
+                                <li><a href="directory/index.html?type=Organic%20Suppliers" class="text-gray-600 hover:text-organic block py-0.5">2. Supplier Listings</a></li>
+                                <li><a href="rfq-post.html" class="text-gray-600 hover:text-organic block py-0.5">3. Buyer Requirements (RFQs)</a></li>
+                                <li><a href="post-listing.html" class="text-gray-600 hover:text-organic block py-0.5">4. Post Your Products</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Trade Network</h4>
+                            <ul class="space-y-3 text-sm">
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">1. Domestic Buyers</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">2. International Buyers</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">3. Trade Enquiries</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="max-w-7xl mx-auto px-6 border-t mt-8 pt-4 text-right">
+                        <a href="#" class="text-xs font-bold text-organic hover:underline">Explore All Marketplace Categories &rarr;</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- C. CERTIFICATION -->
+            <div class="group w-full md:w-auto text-center">
+                <button class="w-full md:w-auto text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center justify-center gap-1">Certification <i class="fas fa-chevron-down text-[10px]"></i></button>
+                <div class="mega-menu text-left">
+                    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Certification Database</h4>
+                            <ul class="space-y-3 text-sm">
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">1. NPOP Directory</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">2. USDA NOP Directory</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">3. PGS-India Resources</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">4. Certification Status Search</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Certification Support</h4>
+                            <ul class="space-y-3 text-sm">
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">1. How to Get Certified</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">2. ICS & Grower Group Certification</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">3. Certification Documents</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">4. Scope & Certificate Guidance</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="max-w-7xl mx-auto px-6 border-t mt-8 pt-4 text-right">
+                        <a href="#" class="text-xs font-bold text-organic hover:underline">Explore Certification Resources &rarr;</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- D. LEARNING CENTRE -->
+            <div class="group w-full md:w-auto text-center">
+                <button class="w-full md:w-auto text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center justify-center gap-1">Learning Centre <i class="fas fa-chevron-down text-[10px]"></i></button>
+                <div class="mega-menu text-left">
+                    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div>
+                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Organic Farming</h4>
+                            <ul class="space-y-3 text-sm">
+                                <li><a href="learning-centre/how-to-get-organic-certification-in-india.html" class="text-gray-600 hover:text-organic block py-0.5">1. How to Become an Organic Farmer</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">2. Organic Farming Methods</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">3. Organic Fertilizers</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">4. Pest Management</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">5. Organic Seeds & Inputs</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Organic Farm Management</h4>
+                            <ul class="space-y-3 text-sm">
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">1. Soil Health & Management</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">2. Crop Rotation & Diversification</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">3. Organic Farm Planning</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">4. Conversion to Organic Farming</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Business & Processing</h4>
+                            <ul class="space-y-3 text-sm">
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">1. Organic Processing Guides</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">2. Storage & Handling</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">3. Traceability & Recordkeeping</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">4. Organic Export Guide</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">5. Packaging & Labelling Requirements</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="max-w-7xl mx-auto px-6 border-t mt-8 pt-4 text-right">
+                        <a href="#" class="text-xs font-bold text-organic hover:underline">Visit Learning Centre &rarr;</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- E. SERVICES -->
+            <div class="group w-full md:w-auto text-center">
+                <button class="w-full md:w-auto text-sm font-bold uppercase text-gray-700 hover:text-organic border-b-2 border-transparent hover:border-organic transition py-2 flex items-center justify-center gap-1">Services <i class="fas fa-chevron-down text-[10px]"></i></button>
+                <div class="mega-menu text-left">
+                    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Professional Services</h4>
+                            <ul class="space-y-3 text-sm">
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">1. Certification Consultants</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">2. Testing Laboratories</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">3. Inspection Services</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">4. Organic Experts</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-organic uppercase mb-4 text-xs tracking-wider border-b pb-2">Supply Chain</h4>
+                            <ul class="space-y-3 text-sm">
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">1. Logistics Partners</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">2. Packaging Suppliers</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">3. Organic Inputs & Seeds Suppliers</a></li>
+                                <li><a href="#" class="text-gray-600 hover:text-organic block py-0.5">4. Processing Facilities</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="max-w-7xl mx-auto px-6 border-t mt-8 pt-4 text-right">
+                        <a href="#" class="text-xs font-bold text-organic hover:underline">Explore All Services &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Toggle Button -->
+    <div class="md:hidden bg-white px-6 py-3 border-b flex justify-between items-center">
+        <span class="text-xs font-bold uppercase text-organic">Menu</span>
+        <div id="auth-buttons-mobile" class="flex items-center gap-2">
+          <!-- Mobile auth buttons will be injected here by AuthHeaderManager -->
+        </div>
+        <button onclick="toggleMobileNav()" class="text-gray-700 focus:outline-none ml-2">
+            <i class="fas fa-bars text-xl"></i>
+        </button>
+    </div>
+
+    <main>
+        <section class="bg-white py-12 md:py-20">
+            <div class="max-w-4xl mx-auto px-6">
+                <!-- Breadcrumb -->
+                <nav class="mb-8" aria-label="Breadcrumb">
+                    <ol class="flex items-center gap-2 text-sm text-gray-500">
+                        <li><a href="index.html" class="hover:text-organic transition-colors">Home</a></li>
+                        <li><i class="fas fa-chevron-right text-[10px]"></i></li>
+                        <li class="text-gray-900 font-medium">Privacy Policy</li>
+                    </ol>
+                </nav>
+
+                <!-- Page Header -->
+                <header class="mb-12">
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Privacy Policy</h1>
+                    <p class="text-lg text-gray-600 max-w-3xl">Last updated: November 2026</p>
+                </header>
+
+                <div class="prose prose-lg max-w-none text-gray-700 space-y-10">
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">1. Introduction</h2>
+                        <p>Bharat Organic Mart ("Platform", "we", "us", "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our Platform. By using the Platform, you agree to the collection and use of information in accordance with this Privacy Policy.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">2. Information We Collect</h2>
+                        <p class="mb-4">We collect information that you provide directly to us and information that is automatically collected when you use the Platform.</p>
+                        <h3 class="text-xl font-semibold text-organic mb-3">2.1 Information You Provide</h3>
+                        <ul class="list-disc pl-6 space-y-2 mb-4">
+                            <li><strong>Account Registration:</strong> Name, email address, phone number, password (hashed), account type (Individual Farmer, FPO, ICS Group, Processor/Manufacturer, Supplier/Trader, Buyer, Importer/Exporter), business/organization name.</li>
+                            <li><strong>Profile Information:</strong> Business/organization name, contact person, address (city, state, postal code), website, business description, products/services offered, production capacity, export markets.</li>
+                            <li><strong>Certification Documents:</strong> Organic certification certificates, certificate numbers, certification body names, scope of certification, validity periods, certificate copies (uploaded voluntarily).</li>
+                            <li><strong>Listings and Requirements:</strong> Product/service details, descriptions, quantities, pricing, certification details, origin, location, images, specifications.</li>
+                            <li><strong>Enquiries and Communications:</strong> Messages sent through the Platform, enquiry details, quotations, responses, contact preferences.</li>
+                            <li><strong>Payment and Transaction Data:</strong> (If applicable) Transaction history, payment method details (processed by third-party providers, not stored by us).</li>
+                        </ul>
+                        <h3 class="text-xl font-semibold text-organic mb-3">2.2 Information Collected Automatically</h3>
+                        <ul class="list-disc pl-6 space-y-2 mb-4">
+                            <li><strong>Usage Data:</strong> Pages visited, features used, time spent, clicks, search queries, filters applied.</li>
+                            <li><strong>Device and Browser Information:</strong> IP address, browser type, operating system, device type, screen resolution, referrer URL.</li>
+                            <li><strong>Cookies and Similar Technologies:</strong> Session cookies, authentication tokens, preference cookies, analytics cookies (see Section 11).</li>
+                            <li><strong>Log Data:</strong> Access timestamps, request/response metadata, error logs, security events.</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">3. How We Use Your Information</h2>
+                        <ul class="list-disc pl-6 space-y-3 mb-4">
+                            <li><strong>Provide and Operate the Platform:</strong> Create and manage your account, authenticate you, provide Platform features, process listings and enquiries.</li>
+                            <li><strong>Facilitate Connections:</strong> Match buyers with sellers, display listings and requirements, enable enquiries and quotations.</li>
+                            <li><strong>Communicate with You:</strong> Send account notifications, security alerts, platform updates, enquiry notifications, marketing communications (with consent).</li>
+                            <li><strong>Verification and Compliance:</strong> Verify identity, business registration, and organic certification; comply with legal obligations.</li>
+                            <li><strong>Improve the Platform:</strong> Analyze usage patterns, fix bugs, develop new features, personalize experience.</li>
+                            <li><strong>Security and Fraud Prevention:</strong> Detect fraud, unauthorized access, spam, abuse; enforce Terms of Service.</li>
+                            <li><strong>Legal Compliance:</strong> Comply with applicable laws, respond to legal requests, enforce Terms of Service.</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">4. How We Share Your Information</h2>
+                        <p class="mb-4">We do not sell your personal information. We share information only as described below:</p>
+                        <ul class="list-disc pl-6 space-y-3 mb-4">
+                            <li><strong>With Other Users (Platform Functionality):</strong> Your business name, contact person, location, listings, and requirements are visible to other Users as part of Platform functionality (enquiries, listings, requirements). Certification details you choose to display are visible to other Users.</li>
+                            <li><strong>With Service Providers:</strong> We may share data with third-party service providers who perform services on our behalf (hosting, analytics, email delivery, authentication, payment processing). They are contractually obligated to protect your data.</li>
+                            <li><strong>For Legal and Safety Reasons:</strong> We may disclose information when required by law, court order, government request, or to protect rights, property, or safety of Users or the public.</li>
+                            <li><strong>Business Transfers:</strong> In the event of a merger, acquisition, or sale of assets, your information may be transferred as part of the business.</li>
+                            <li><strong>With Your Consent:</strong> We may share information for marketing or other purposes with your explicit consent.</li>
+                        </ul>
+                        <p class="mb-4">We do not sell personal data to third parties for their marketing purposes.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">5. Data Storage, Security, and Retention</h2>
+                        <h3 class="text-xl font-semibold text-organic mb-3">5.1 Data Storage</h3>
+                        <p class="mb-4">Data is stored on secure cloud infrastructure (Supabase/PostgreSQL) with servers located in [Region to be confirmed]. Backups are encrypted and stored securely.</p>
+                        <h3 class="text-xl font-semibold text-organic mb-3">5.2 Security Measures</h3>
+                        <ul class="list-disc pl-6 space-y-2 mb-4">
+                            <li>Encryption in transit (TLS 1.2+) and at rest (AES-256)</li>
+                            <li>Row Level Security (RLS) policies on database tables</li>
+                            <li>Supabase authentication with JWT tokens, secure password hashing (bcrypt)</li>
+                            <li>Regular security monitoring, vulnerability scanning, and penetration testing</li>
+                            <li>Access controls: principle of least privilege, role-based access</li>
+                        </ul>
+                        <h3 class="text-xl font-semibold text-organic mb-3">5.3 Data Retention</h3>
+                        <ul class="list-disc pl-6 space-y-2 mb-4">
+                            <li>Account data: Retained while account is active; deleted within 30 days of account deletion request.</li>
+                            <li>Transaction/enquiry records: Retained for 7 years for legal/compliance purposes.</li>
+                            <li>Analytics/log data: Retained for 24 months (aggregated/anonymized where possible).</li>
+                            <li>Certification documents: Retained while account is active; deleted on account deletion.</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">6. Your Rights (Under Applicable Data Protection Laws)</h2>
+                        <p class="mb-4">Depending on your location and applicable law (including the Digital Personal Data Protection Act, 2023 in India), you may have the following rights regarding your personal data:</p>
+                        <ul class="list-disc pl-6 space-y-3 mb-4">
+                            <li><strong>Access:</strong> Request a copy of your personal data.</li>
+                            <li><strong>Rectification:</strong> Request correction of inaccurate or incomplete data.</li>
+                            <li><strong>Erasure:</strong> Request deletion of your data (subject to legal retention requirements).</li>
+                            <li><strong>Portability:</strong> Receive your data in a structured, commonly used, machine-readable format.</li>
+                            <li><strong>Restriction:</strong> Request restriction of processing in certain circumstances.</li>
+                            <li><strong>Objection:</strong> Object to processing for direct marketing or legitimate interests.</li>
+                            <li><strong>Withdraw Consent:</strong> Withdraw consent for processing based on consent (where applicable).</li>
+                            <li><strong>Complaint:</strong> Lodge a complaint with a supervisory authority (e.g., Data Protection Board of India).</li>
+                        </ul>
+                        <p class="mb-4">To exercise these rights, contact us at <a href="mailto:privacy@bharatorganicmart.com" class="text-organic hover:underline">privacy@bharatorganicmart.com</a>. We will respond within the timeframes required by applicable law. Identity verification may be required.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">6. Certification Documents and Sensitive Data</h2>
+                        <p class="mb-4">Organic certification documents (certificates, scopes, validity periods, certificate copies) are treated as sensitive business information. We:</p>
+                        <ul class="list-disc pl-6 space-y-2 mb-4">
+                            <li>Store certificates securely with encryption at rest</li>
+                            <li>Display certification details only as you choose (per Listing/profile settings)</li>
+                            <li>Do not share certificate copies with other Users without your consent</li>
+                            <li>Use certificate data only for verification and Platform functionality</li>
+                            <li>Delete certificates upon your request or account deletion</li>
+                        </ul>
+                        <p class="mb-4">We do not share certification documents with third parties except as required for Platform functionality (e.g., verification with certification bodies) or by law.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">7. International Data Transfers</h2>
+                        <p class="mb-4">Your data may be processed in countries outside India where our service providers operate. We ensure appropriate safeguards (Standard Contractual Clauses, adequacy decisions, or other lawful mechanisms) for such transfers in compliance with applicable law.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">8. Children's Privacy</h2>
+                        <p class="mb-4">The Platform is not directed to individuals under 18 years of age. We do not knowingly collect personal data from children. If we become aware that we have collected data from a child, we will delete it promptly.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">9. Third-Party Links</h2>
+                        <p class="mb-4">The Platform may contain links to third-party websites (certification bodies, government portals, logistics providers). We are not responsible for the privacy practices of third parties. We encourage you to review their privacy policies.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">10. Cookies and Similar Technologies</h2>
+                        <h3 class="text-xl font-semibold text-organic mb-3">10.1 Types of Cookies</h2>
+                        <ul class="list-disc pl-6 space-y-2 mb-4">
+                            <li><strong>Essential Cookies:</strong> Required for authentication, session management, security, and core Platform functionality. Cannot be disabled.</li>
+                            <li><strong>Preference Cookies:</strong> Remember your preferences (language, region, display settings).</li>
+                            <li><strong>Analytics Cookies:</strong> Help us understand usage patterns (pages visited, time spent, features used) to improve the Platform.</li>
+                            <li><strong>Marketing Cookies:</strong> (If enabled) Used to deliver relevant communications about Platform features and updates.</li>
+                        </ul>
+                        <h3 class="text-xl font-semibold text-organic mb-3">10.2 Cookie Management</h2>
+                        <p class="mb-4">You can manage cookies through your browser settings. Disabling essential cookies may impair Platform functionality. Analytics and marketing cookies can be declined via our cookie banner (when implemented) or browser settings.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">11. Changes to This Privacy Policy</h2>
+                        <p class="mb-4">We may update this Privacy Policy to reflect changes in our practices, technology, or legal requirements. Material changes will be communicated via email or Platform notification at least 30 days before taking effect. The "Last updated" date at the top of this page will be updated.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">12. Contact Us</h2>
+                        <p class="mb-4">For privacy-related questions, requests, or concerns:</p>
+                        <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 mb-4">
+                            <p class="font-semibold mb-2">Bharat Organic Mart</p>
+                            <p>[Company Legal Name to be Confirmed]</p>
+                            <p>[Registered Office Address to be Confirmed]</p>
+                            <p>Privacy Email: <a href="mailto:privacy@bharatorganicmart.com" class="text-organic hover:underline">privacy@bharatorganicmart.com</a></p>
+                            <p>Data Protection Officer: [Name to be Confirmed]</p>
+                            <p>DPO Email: <a href="mailto:dpo@bharatorganicmart.com" class="text-organic hover:underline">dpo@bharatorganicmart.com</a></p>
+                        </div>
+                        <p class="text-sm text-gray-500"><em>Note: Company legal details, registered office address, and Data Protection Officer details are to be confirmed and updated before publication.</em></p>
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold text-organic mb-4">12. Grievance Redressal</h2>
+                        <p class="mb-4">In accordance with the Digital Personal Data Protection Act, 2023 (India), we have appointed a Grievance Officer:</p>
+                        <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 mb-4">
+                            <p class="font-semibold mb-2">Grievance Officer</p>
+                            <p>[Name to be Confirmed]</p>
+                            <p>Email: <a href="mailto:grievance@bharatorganicmart.com" class="text-organic hover:underline">grievance@bharatorganicmart.com</a></p>
+                            <p>Response Timeline: We will acknowledge receipt within 72 hours and provide a substantive response within 30 days, as required by applicable law.</p>
+                        </div>
+                        <p class="text-sm text-gray-500"><em>Note: Grievance Officer details and company legal details are to be confirmed and updated before publication.</em></p>
+                    </section>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Load auth header
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (window.headerManager) {
+                await headerManager.init();
+            }
+        });
+    </script>
+
+    <footer class="bg-white border-t py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-6 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 BHARAT ORGANIC MART. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        function toggleMobileNav() {
+            const nav = document.getElementById('mainNav');
+            nav.classList.toggle('hidden');
+        }
+
+        (function () {
+            var groups = document.querySelectorAll('.group');
+            var closeTimer = null;
+            var CLOSE_DELAY = 200;
+
+            function clearTimer() {
+                if (closeTimer) {
+                    clearTimeout(closeTimer);
+                    closeTimer = null;
+                }
+            }
+
+            function openMenu(group) {
+                clearTimer();
+                groups.forEach(function (g) {
+                    g.classList.remove('is-open');
+                    var m = g.querySelector('.mega-menu');
+                    if (m) m.style.display = 'none';
+                });
+                group.classList.add('is-open');
+                var menu = group.querySelector('.mega-menu');
+                if (menu) menu.style.display = 'block';
+            }
+
+            function closeMenu(group) {
+                clearTimer();
+                group.classList.remove('is-open');
+                var menu = group.querySelector('.mega-menu');
+                if (menu) menu.style.display = 'none';
+            }
+
+            groups.forEach(function (group) {
+                var trigger = group.querySelector('button, a');
+                var menu = group.querySelector('.mega-menu');
+
+                group.addEventListener('pointerenter', function () {
+                    clearTimer();
+                    openMenu(group);
+                });
+
+                group.addEventListener('pointerleave', function () {
+                    clearTimer();
+                    closeTimer = setTimeout(function () {
+                        closeMenu(group);
+                    }, CLOSE_DELAY);
+                });
+            });
+
+            document.getElementById('mainNav').addEventListener('pointerenter', function () {
+                clearTimer();
+            });
+        })();
+    </script>
+</body>
+</html>
